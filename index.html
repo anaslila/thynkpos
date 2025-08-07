@@ -1,607 +1,724 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<website>
-  <metadata>
-    <name>Thynk POS</name>
-    <version>0.5</version>
-    <creator>Anas Lila Software</creator>
-    <description>Professional Hotel Management POS System</description>
-    <font>Inter</font>
-    <logo>https://www.canva.com/design/DAGvYPE5J44/MwSJDspBjC6JD_j4ZvBwrA/edit</logo>
-    <favicon>https://www.canva.com/design/DAGvYY3lktU/_zsMsCIIT-PmPZdAV8JWiQ/edit</favicon>
-    <tagline>Lifetime Free Hotel POS Solution</tagline>
-  </metadata>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thynk POS - Professional Hotel Management System</title>
+    <link rel="icon" type="image/x-icon" href="https://www.canva.com/design/DAGvYY3lktU/_zsMsCIIT-PmPZdAV8JWiQ/edit?utm_content=DAGvYY3lktU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <pages>
-    <!-- HOME PAGE -->
-    <page id="home">
-      <header>
-        <logo src="logo_url"/>
-        <navigation>
-          <nav_item href="#features">Features</nav_item>
-          <nav_item href="#pricing">Pricing</nav_item>
-          <nav_item href="#contact">Contact</nav_item>
-          <nav_item href="#login" class="cta">Login</nav_item>
-          <nav_item href="#register" class="cta-primary">Get Started</nav_item>
-        </navigation>
-      </header>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #1f2937;
+            overflow-x: hidden;
+        }
 
-      <hero_section>
-        <title>Complete Hotel POS Management System</title>
-        <subtitle>Manage your menu, tables, and billing all in one professional platform</subtitle>
-        <features_highlight>
-          <feature icon="menu">Menu Management</feature>
-          <feature icon="table">Table Management</feature>
-          <feature icon="billing">Smart Billing</feature>
-          <feature icon="invoice">Professional Invoicing</feature>
-        </features_highlight>
-        <cta_buttons>
-          <button class="primary">Start Free Forever</button>
-          <button class="secondary">Watch Demo</button>
-        </cta_buttons>
-      </hero_section>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-      <features_overview>
-        <section_title>Everything You Need to Run Your Hotel</section_title>
-        <feature_grid>
-          <feature_card>
-            <icon>restaurant_menu</icon>
-            <title>Menu Management</title>
-            <description>Create and customize your menu with images, descriptions, and pricing</description>
-          </feature_card>
-          <feature_card>
-            <icon>table_restaurant</icon>
-            <title>Table Management</title>
-            <description>Efficiently manage table bookings, status, and customer orders</description>
-          </feature_card>
-          <feature_card>
-            <icon>receipt_long</icon>
-            <title>Smart Billing</title>
-            <description>Generate professional bills with tax calculations and multiple payment options</description>
-          </feature_card>
-          <feature_card>
-            <icon>print</icon>
-            <title>Print & Share</title>
-            <description>Print receipts instantly or share digital copies with customers</description>
-          </feature_card>
-          <feature_card>
-            <icon>analytics</icon>
-            <title>Sales Analytics</title>
-            <description>Track your revenue, popular items, and business performance</description>
-          </feature_card>
-          <feature_card>
-            <icon>inventory</icon>
-            <title>Inventory Control</title>
-            <description>Monitor stock levels and get alerts for low inventory items</description>
-          </feature_card>
-        </feature_grid>
-      </features_overview>
+        /* Header Styles */
+        .header {
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
 
-      <pricing_section>
-        <section_title>Simple, Transparent Pricing</section_title>
-        <pricing_card class="featured">
-          <plan_name>Lifetime Free</plan_name>
-          <price>₹0</price>
-          <billing_cycle>Forever</billing_cycle>
-          <features_list>
-            <feature>Unlimited Menu Items</feature>
-            <feature>Unlimited Tables</feature>
-            <feature>Professional Invoicing</feature>
-            <feature>Print & Share Bills</feature>
-            <feature>Basic Analytics</feature>
-            <feature>24/7 Support</feature>
-          </features_list>
-          <cta_button>Get Started Now</cta_button>
-        </pricing_card>
-      </pricing_section>
-    </page>
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+        }
 
-    <!-- DASHBOARD -->
-    <page id="dashboard">
-      <sidebar>
-        <logo_mini/>
-        <navigation>
-          <nav_item icon="dashboard" href="#overview">Overview</nav_item>
-          <nav_item icon="restaurant_menu" href="#menu">Menu Management</nav_item>
-          <nav_item icon="table_restaurant" href="#tables">Tables</nav_item>
-          <nav_item icon="receipt" href="#billing">Billing</nav_item>
-          <nav_item icon="inventory_2" href="#inventory">Inventory</nav_item>
-          <nav_item icon="analytics" href="#reports">Reports</nav_item>
-          <nav_item icon="settings" href="#settings">Settings</nav_item>
-        </navigation>
-      </sidebar>
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-      <main_content>
-        <dashboard_overview>
-          <stats_cards>
-            <stat_card>
-              <icon>currency_rupee</icon>
-              <value>₹12,450</value>
-              <label>Today's Revenue</label>
-              <change>+12.5%</change>
-            </stat_card>
-            <stat_card>
-              <icon>receipt_long</icon>
-              <value>47</value>
-              <label>Orders Today</label>
-              <change>+8.2%</change>
-            </stat_card>
-            <stat_card>
-              <icon>table_restaurant</icon>
-              <value>12/15</value>
-              <label>Tables Occupied</label>
-              <change>Active</change>
-            </stat_card>
-            <stat_card>
-              <icon>trending_up</icon>
-              <value>₹8,900</value>
-              <label>Average Order</label>
-              <change>+5.1%</change>
-            </stat_card>
-          </stats_cards>
-        </dashboard_overview>
-      </main_content>
-    </page>
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
 
-    <!-- MENU MANAGEMENT -->
-    <page id="menu_management">
-      <header>
-        <title>Menu Management</title>
-        <action_buttons>
-          <button icon="add" class="primary">Add New Item</button>
-          <button icon="upload">Import Menu</button>
-          <button icon="download">Export Menu</button>
-        </action_buttons>
-      </header>
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1f2937;
+        }
 
-      <menu_categories>
-        <category_tabs>
-          <tab active="true">All Items</tab>
-          <tab>Starters</tab>
-          <tab>Main Course</tab>
-          <tab>Beverages</tab>
-          <tab>Desserts</tab>
-        </category_tabs>
-      </menu_categories>
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
 
-      <menu_items_grid>
-        <menu_item>
-          <item_image src="placeholder"/>
-          <item_details>
-            <name>Butter Chicken</name>
-            <description>Creamy tomato-based curry with tender chicken pieces</description>
-            <price>₹320</price>
-            <category>Main Course</category>
-            <availability>Available</availability>
-          </item_details>
-          <actions>
-            <action icon="edit">Edit</action>
-            <action icon="visibility">View</action>
-            <action icon="delete">Delete</action>
-          </actions>
-        </menu_item>
-      </menu_items_grid>
+        .nav-links a {
+            text-decoration: none;
+            color: #6b7280;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
 
-      <add_item_modal>
-        <form>
-          <field>
-            <label>Item Name</label>
-            <input type="text" required="true"/>
-          </field>
-          <field>
-            <label>Description</label>
-            <textarea rows="3"/>
-          </field>
-          <field>
-            <label>Price</label>
-            <input type="number" prefix="₹"/>
-          </field>
-          <field>
-            <label>Category</label>
-            <select>
-              <option>Starters</option>
-              <option>Main Course</option>
-              <option>Beverages</option>
-              <option>Desserts</option>
-            </select>
-          </field>
-          <field>
-            <label>Image</label>
-            <file_upload accept="image/*"/>
-          </field>
-          <field>
-            <label>Availability</label>
-            <toggle default="true"/>
-          </field>
-        </form>
-      </add_item_modal>
-    </page>
+        .nav-links a:hover {
+            color: #3b82f6;
+        }
 
-    <!-- TABLE MANAGEMENT -->
-    <page id="table_management">
-      <header>
-        <title>Table Management</title>
-        <action_buttons>
-          <button icon="add_box" class="primary">Add Table</button>
-          <button icon="qr_code">Generate QR Codes</button>
-        </action_buttons>
-      </header>
+        .nav-cta {
+            display: flex;
+            gap: 1rem;
+        }
 
-      <tables_floor_plan>
-        <table id="table_1" status="occupied" seats="4">
-          <table_number>1</table_number>
-          <customer_info>
-            <name>John Doe</name>
-            <order_value>₹850</order_value>
-            <time_occupied>45 min</time_occupied>
-          </customer_info>
-          <actions>
-            <action icon="receipt">View Bill</action>
-            <action icon="edit">Edit Order</action>
-            <action icon="check_circle">Complete</action>
-          </actions>
-        </table>
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
 
-        <table id="table_2" status="available" seats="2">
-          <table_number>2</table_number>
-          <actions>
-            <action icon="person_add">Assign Customer</action>
-            <action icon="settings">Configure</action>
-          </actions>
-        </table>
+        .btn-secondary {
+            background: transparent;
+            color: #6b7280;
+            border: 2px solid #e5e7eb;
+        }
 
-        <table id="table_3" status="reserved" seats="6">
-          <table_number>3</table_number>
-          <reservation_info>
-            <customer>Smith Family</customer>
-            <time>7:30 PM</time>
-          </reservation_info>
-        </table>
-      </tables_floor_plan>
+        .btn-secondary:hover {
+            background: #f9fafb;
+            border-color: #d1d5db;
+        }
 
-      <table_status_legend>
-        <status color="green">Available</status>
-        <status color="red">Occupied</status>
-        <status color="orange">Reserved</status>
-        <status color="blue">Cleaning</status>
-      </table_status_legend>
-    </page>
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+            border: 2px solid #3b82f6;
+        }
 
-    <!-- BILLING SYSTEM -->
-    <page id="billing">
-      <billing_interface>
-        <order_section>
-          <table_selector>
-            <select placeholder="Select Table">
-              <option>Table 1</option>
-              <option>Table 2</option>
-              <option>Table 3</option>
-            </select>
-          </table_selector>
+        .btn-primary:hover {
+            background: #2563eb;
+            border-color: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
 
-          <menu_items_selector>
-            <search_bar placeholder="Search menu items..."/>
-            <categories_filter>
-              <filter active="true">All</filter>
-              <filter>Starters</filter>
-              <filter>Main Course</filter>
-              <filter>Beverages</filter>
-            </categories_filter>
-            <items_grid>
-              <menu_item onclick="add_to_order">
-                <name>Butter Chicken</name>
-                <price>₹320</price>
-                <image src="placeholder"/>
-              </menu_item>
-            </items_grid>
-          </menu_items_selector>
-        </order_section>
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 150px 0 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-        <order_summary>
-          <header>Order Summary - Table 1</header>
-          <order_items>
-            <item>
-              <name>Butter Chicken</name>
-              <quantity>2</quantity>
-              <unit_price>₹320</unit_price>
-              <total>₹640</total>
-              <actions>
-                <action icon="add">+</action>
-                <action icon="remove">-</action>
-                <action icon="delete">Remove</action>
-              </actions>
-            </item>
-          </order_items>
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
 
-          <order_totals>
-            <subtotal>₹640</subtotal>
-            <tax_details>
-              <cgst>₹32 (5%)</cgst>
-              <sgst>₹32 (5%)</sgst>
-            </tax_details>
-            <discount>₹0</discount>
-            <grand_total>₹704</grand_total>
-          </order_totals>
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
 
-          <payment_section>
-            <payment_methods>
-              <method icon="credit_card">Card</method>
-              <method icon="account_balance_wallet">Cash</method>
-              <method icon="phone_android">UPI</method>
-            </payment_methods>
-            <action_buttons>
-              <button icon="print" class="secondary">Print Bill</button>
-              <button icon="share" class="secondary">Share Bill</button>
-              <button icon="check_circle" class="primary">Complete Payment</button>
-            </action_buttons>
-          </payment_section>
-        </order_summary>
-      </billing_interface>
-    </page>
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
 
-    <!-- INVOICE SYSTEM -->
-    <page id="invoice_template">
-      <invoice_header>
-        <restaurant_details>
-          <logo src="user_logo"/>
-          <name>[Restaurant Name]</name>
-          <address>[Address]</address>
-          <contact>[Phone] | [Email]</contact>
-          <gst_number>GST: [GST Number]</gst_number>
-        </restaurant_details>
-        <invoice_details>
-          <invoice_number>INV-001</invoice_number>
-          <date>[Date]</date>
-          <table_number>Table: [Table No.]</table_number>
-        </invoice_details>
-      </invoice_header>
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-      <customer_details>
-        <customer_name>[Customer Name]</customer_name>
-        <customer_phone>[Phone Number]</customer_phone>
-      </customer_details>
+        .hero-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-      <items_table>
-        <table_header>
-          <column>Item</column>
-          <column>Qty</column>
-          <column>Rate</column>
-          <column>Amount</column>
-        </table_header>
-        <table_rows>
-          <row>
-            <cell>[Item Name]</cell>
-            <cell>[Quantity]</cell>
-            <cell>[Rate]</cell>
-            <cell>[Amount]</cell>
-          </row>
-        </table_rows>
-      </items_table>
+        .hero-feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
 
-      <invoice_totals>
-        <subtotal>[Subtotal]</subtotal>
-        <tax_breakdown>
-          <cgst>[CGST Amount]</cgst>
-          <sgst>[SGST Amount]</sgst>
-        </tax_breakdown>
-        <discount>[Discount]</discount>
-        <grand_total>[Grand Total]</grand_total>
-      </invoice_totals>
+        .hero-feature .material-icons {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
 
-      <invoice_footer>
-        <payment_method>Payment Method: [Method]</payment_method>
-        <thank_you_note>Thank you for dining with us!</thank_you_note>
-        <powered_by>Powered by Thynk POS v0.5 - Anas Lila Software</powered_by>
-      </invoice_footer>
-    </page>
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
 
-    <!-- REPORTS & ANALYTICS -->
-    <page id="reports">
-      <reports_dashboard>
-        <date_range_selector>
-          <preset>Today</preset>
-          <preset>This Week</preset>
-          <preset>This Month</preset>
-          <custom_range>Custom Range</custom_range>
-        </date_range_selector>
+        .btn-hero {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 50px;
+        }
 
-        <key_metrics>
-          <metric>
-            <icon>currency_rupee</icon>
-            <title>Total Revenue</title>
-            <value>₹45,250</value>
-            <change>+15.2%</change>
-          </metric>
-          <metric>
-            <icon>receipt_long</icon>
-            <title>Total Orders</title>
-            <value>187</value>
-            <change>+8.7%</change>
-          </metric>
-          <metric>
-            <icon>trending_up</icon>
-            <title>Average Order Value</title>
-            <value>₹242</value>
-            <change>+12.3%</change>
-          </metric>
-        </key_metrics>
+        .btn-white {
+            background: white;
+            color: #3b82f6;
+            border: 2px solid white;
+        }
 
-        <charts_section>
-          <chart type="line" title="Revenue Trend"/>
-          <chart type="bar" title="Popular Items"/>
-          <chart type="pie" title="Payment Methods"/>
-        </charts_section>
+        .btn-white:hover {
+            background: #f8fafc;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
 
-        <detailed_reports>
-          <report title="Item-wise Sales">
-            <export_options>
-              <button icon="download">Export PDF</button>
-              <button icon="download">Export Excel</button>
-            </export_options>
-          </report>
-        </detailed_reports>
-      </reports_dashboard>
-    </page>
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
 
-    <!-- SETTINGS -->
-    <page id="settings">
-      <settings_sections>
-        <section title="Restaurant Details">
-          <field label="Restaurant Name" type="text"/>
-          <field label="Address" type="textarea"/>
-          <field label="Phone Number" type="tel"/>
-          <field label="Email" type="email"/>
-          <field label="GST Number" type="text"/>
-          <field label="Logo" type="file"/>
-        </section>
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+        }
 
-        <section title="Tax Settings">
-          <field label="CGST Rate (%)" type="number"/>
-          <field label="SGST Rate (%)" type="number"/>
-          <field label="Service Charge (%)" type="number"/>
-        </section>
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background: #f8fafc;
+        }
 
-        <section title="Receipt Settings">
-          <field label="Print Header" type="toggle"/>
-          <field label="Print Footer" type="toggle"/>
-          <field label="Custom Footer Text" type="textarea"/>
-        </section>
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
 
-        <section title="System Settings">
-          <field label="Currency Symbol" type="text"/>
-          <field label="Date Format" type="select"/>
-          <field label="Time Format" type="select"/>
-        </section>
-      </settings_sections>
-    </page>
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
 
-    <!-- USER MANAGEMENT -->
-    <page id="user_management">
-      <users_table>
-        <table_header>
-          <column>Name</column>
-          <column>Role</column>
-          <column>Email</column>
-          <column>Status</column>
-          <column>Actions</column>
-        </table_header>
-        <user_row>
-          <cell>[User Name]</cell>
-          <cell>[Role]</cell>
-          <cell>[Email]</cell>
-          <cell>[Active/Inactive]</cell>
-          <cell>
-            <action icon="edit">Edit</action>
-            <action icon="delete">Delete</action>
-          </cell>
-        </user_row>
-      </users_table>
+        .section-title p {
+            font-size: 1.1rem;
+            color: #6b7280;
+            max-width: 600px;
+            margin: 0 auto;
+        }
 
-      <add_user_modal>
-        <form>
-          <field label="Full Name" type="text"/>
-          <field label="Email" type="email"/>
-          <field label="Role" type="select">
-            <option>Admin</option>
-            <option>Manager</option>
-            <option>Cashier</option>
-            <option>Waiter</option>
-          </field>
-          <field label="Password" type="password"/>
-          <field label="Permissions" type="checkboxes"/>
-        </form>
-      </add_user_modal>
-    </page>
-  </pages>
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
 
-  <!-- GLOBAL COMPONENTS -->
-  <components>
-    <notification_system>
-      <notification type="success">
-        <icon>check_circle</icon>
-        <message>[Success Message]</message>
-      </notification>
-      <notification type="error">
-        <icon>error</icon>
-        <message>[Error Message]</message>
-      </notification>
-      <notification type="warning">
-        <icon>warning</icon>
-        <message>[Warning Message]</message>
-      </notification>
-    </notification_system>
+        .feature-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
 
-    <loading_states>
-      <spinner/>
-      <skeleton_loader/>
-      <progress_bar/>
-    </loading_states>
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-color: #3b82f6;
+        }
 
-    <confirmation_dialogs>
-      <dialog type="delete_confirmation">
-        <icon>warning</icon>
-        <title>Confirm Deletion</title>
-        <message>Are you sure you want to delete this item? This action cannot be undone.</message>
-        <actions>
-          <button class="secondary">Cancel</button>
-          <button class="danger">Delete</button>
-        </actions>
-      </dialog>
-    </confirmation_dialogs>
-  </components>
+        .feature-icon {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
 
-  <!-- TECHNICAL SPECIFICATIONS -->
-  <technical_specs>
-    <responsive_design>
-      <breakpoint name="mobile">320px - 768px</breakpoint>
-      <breakpoint name="tablet">768px - 1024px</breakpoint>
-      <breakpoint name="desktop">1024px+</breakpoint>
-    </responsive_design>
+        .feature-icon .material-icons {
+            color: white;
+            font-size: 28px;
+        }
 
-    <performance_requirements>
-      <page_load_time>Less than 2 seconds</page_load_time>
-      <offline_capability>Basic functionality available offline</offline_capability>
-      <data_sync>Real-time synchronization when online</data_sync>
-    </performance_requirements>
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
 
-    <security_features>
-      <authentication>JWT-based authentication</authentication>
-      <authorization>Role-based access control</authorization>
-      <data_encryption>AES-256 encryption</data_encryption>
-      <backup_system>Automated daily backups</backup_system>
-    </security_features>
+        .feature-card p {
+            color: #6b7280;
+            line-height: 1.6;
+        }
 
-    <integration_capabilities>
-      <payment_gateways>Razorpay, PayU, Paytm</payment_gateways>
-      <printer_support>Thermal printer support</printer_support>
-      <barcode_scanner>Barcode/QR code scanner integration</barcode_scanner>
-      <export_formats>PDF, Excel, CSV</export_formats>
-    </integration_capabilities>
-  </technical_specs>
+        /* Pricing Section */
+        .pricing {
+            padding: 100px 0;
+            background: white;
+        }
 
-  <!-- FEATURES CHECKLIST -->
-  <features_implemented>
-    <core_features>
-      <feature completed="true">Menu Management with Images</feature>
-      <feature completed="true">Table Management System</feature>
-      <feature completed="true">Professional Billing System</feature>
-      <feature completed="true">Invoice Generation</feature>
-      <feature completed="true">Print & Share Bills</feature>
-      <feature completed="true">Multiple Payment Methods</feature>
-      <feature completed="true">Tax Calculations</feature>
-      <feature completed="true">User Management</feature>
-      <feature completed="true">Sales Reports</feature>
-      <feature completed="true">Inventory Tracking</feature>
-    </core_features>
+        .pricing-card {
+            max-width: 500px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-    <advanced_features>
-      <feature completed="true">QR Code Menu</feature>
-      <feature completed="true">Real-time Analytics</feature>
-      <feature completed="true">Customer Database</feature>
-      <feature completed="true">Discount Management</feature>
-      <feature completed="true">Multi-location Support</feature>
-      <feature completed="true">Data Export/Import</feature>
-      <feature completed="true">Offline Mode</feature>
-      <feature completed="true">Custom Branding</feature>
-    </advanced_features>
-  </features_implemented>
-</website>
+        .pricing-card::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: #fbbf24;
+            color: #1f2937;
+            padding: 0.5rem 3rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            transform: rotate(45deg);
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .billing-cycle {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .features-list li {
+            padding: 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .features-list li:last-child {
+            border-bottom: none;
+        }
+
+        .features-list .material-icons {
+            color: #10b981;
+            font-size: 20px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1f2937;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            text-align: center;
+        }
+
+        .footer-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            color: #9ca3af;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .creator-info {
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        .version-info {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-features {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .feature-card {
+                padding: 2rem;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Loading Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">
+                <img src="https://www.canva.com/design/DAGvYPE5J44/MwSJDspBjC6JD_j4ZvBwrA/edit?utm_content=DAGvYPE5J44&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" alt="Thynk POS Logo">
+                <span class="logo-text">Thynk POS</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-cta">
+                <a href="#login" class="btn btn-secondary">
+                    <span class="material-icons">login</span>
+                    Login
+                </a>
+                <a href="#register" class="btn btn-primary">
+                    <span class="material-icons">rocket_launch</span>
+                    Get Started
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content fade-in">
+                <h1>Complete Hotel POS Management System</h1>
+                <p>Manage your menu, tables, and billing all in one professional platform. Lifetime free with all premium features included.</p>
+                
+                <div class="hero-features">
+                    <div class="hero-feature">
+                        <span class="material-icons">restaurant_menu</span>
+                        <h3>Menu Management</h3>
+                    </div>
+                    <div class="hero-feature">
+                        <span class="material-icons">table_restaurant</span>
+                        <h3>Table Management</h3>
+                    </div>
+                    <div class="hero-feature">
+                        <span class="material-icons">receipt_long</span>
+                        <h3>Smart Billing</h3>
+                    </div>
+                    <div class="hero-feature">
+                        <span class="material-icons">print</span>
+                        <h3>Professional Invoicing</h3>
+                    </div>
+                </div>
+
+                <div class="hero-cta">
+                    <a href="#register" class="btn btn-white btn-hero">
+                        <span class="material-icons">play_arrow</span>
+                        Start Free Forever
+                    </a>
+                    <a href="#demo" class="btn btn-outline btn-hero">
+                        <span class="material-icons">play_circle_outline</span>
+                        Watch Demo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Everything You Need to Run Your Hotel</h2>
+                <p>Powerful features designed specifically for hotel and restaurant management, all in one comprehensive platform.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <span class="material-icons">restaurant_menu</span>
+                    </div>
+                    <h3>Menu Management</h3>
+                    <p>Create and customize your menu with high-quality images, detailed descriptions, and flexible pricing options. Organize items by categories and manage availability in real-time.</p>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <span class="material-icons">table_restaurant</span>
+                    </div>
+                    <h3>Table Management</h3>
+                    <p>Efficiently manage table bookings, track occupancy status, and assign orders to specific tables. Visual floor plan makes table management intuitive and fast.</p>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <span class="material-icons">receipt_long</span>
+                    </div>
+                    <h3>Smart Billing System</h3>
+                    <p>Generate professional bills with automatic tax calculations, discounts, and support for multiple payment methods including cash, card, and UPI.</p>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <span class="material-icons">print</span>
+                    </div>
+                    <h3>Print & Share Bills</h3>
+                    <p>Print receipts instantly with thermal printer support or share digital copies via WhatsApp, email, or SMS. Professional invoice templates included.</p>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <span class="material-icons">analytics</span>
+                    </div>
+                    <h3>Sales Analytics</h3>
+                    <p>Track your revenue, analyze popular items, and monitor business performance with detailed reports and real-time analytics dashboard.</p>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <span class="material-icons">inventory_2</span>
+                    </div>
+                    <h3>Inventory Control</h3>
+                    <p>Monitor stock levels, get low inventory alerts, and manage your supplies efficiently. Never run out of your popular items again.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Simple, Transparent Pricing</h2>
+                <p>No hidden fees, no monthly subscriptions. Get all premium features absolutely free, forever.</p>
+            </div>
+
+            <div class="pricing-card fade-in">
+                <div class="plan-name">Lifetime Free</div>
+                <div class="price">₹0</div>
+                <div class="billing-cycle">Forever & Always</div>
+                
+                <ul class="features-list">
+                    <li>
+                        <span class="material-icons">check_circle</span>
+                        Unlimited Menu Items
+                    </li>
+                    <li>
+                        <span class="material-icons">check_circle</span>
+                        Unlimited Tables & Orders
+                    </li>
+                    <li>
+                        <span class="material-icons">check_circle</span>
+                        Professional Invoicing
+                    </li>
+                    <li>
+                        <span class="material-icons">check_circle</span>
+                        Print & Share Bills
+                    </li>
+                    <li>
+                        <span class="material-icons">check_circle</span>
+                        Real-time Analytics
+                    </li>
+                    <li>
+                        <span class="material-icons">check_circle</span>
+                        Multi-user Access
+                    </li>
+                    <li>
+                        <span class="material-icons">check_circle</span>
+                        24/7 Support
+                    </li>
+                    <li>
+                        <span class="material-icons">check_circle</span>
+                        No Ads, No Popups
+                    </li>
+                </ul>
+
+                <a href="#register" class="btn btn-white btn-hero">
+                    <span class="material-icons">rocket_launch</span>
+                    Get Started Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content fade-in">
+                <div class="footer-brand">Thynk POS</div>
+                <p class="footer-text">
+                    Professional hotel management system designed to streamline your operations and boost your revenue. 
+                    Trusted by restaurants and hotels worldwide.
+                </p>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="creator-info">
+                    Created with ❤️ by Anas Lila Software
+                </div>
+                <div class="version-info">
+                    Thynk POS v0.5 | © 2024 All Rights Reserved
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = `${Array.from(entry.target.parentNode.children).indexOf(entry.target) * 0.1}s`;
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements that should fade in
+        document.querySelectorAll('.feature-card, .section-title, .pricing-card, .footer-content').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add loading state simulation
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '1';
+        });
+
+        // Mobile menu toggle (if needed in future)
+        const mobileMenuToggle = () => {
+            // Implementation for mobile menu
+        };
+    </script>
+</body>
+</html>
