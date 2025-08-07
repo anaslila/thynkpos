@@ -1,0 +1,32 @@
+{
+  "name": "Thynk POS - Hotel Management System",
+  "short_name": "Thynk POS",
+  "description": "Professional Hotel POS Management System",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://via.placeholder.com/192x192/3b82f6/ffffff?text=T",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://via.placeholder.com/512x512/3b82f6/ffffff?text=T",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "screenshots": [
+    {
+      "src": "https://via.placeholder.com/1280x720/3b82f6/ffffff?text=Thynk+POS",
+      "sizes": "1280x720",
+      "type": "image/png"
+    }
+  ]
+}
