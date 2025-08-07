@@ -4,10 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thynk POS - Professional Hotel Management System</title>
-    <link rel="icon" type="image/x-icon" href="https://www.canva.com/design/DAGvYY3lktU/_zsMsCIIT-PmPZdAV8JWiQ/edit?utm_content=DAGvYY3lktU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">
+    <link rel="icon" type="image/png" href="https://cdn.canva.com/images/logos/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Thynk POS">
+    <link rel="apple-touch-icon" href="https://via.placeholder.com/192x192/3b82f6/ffffff?text=T">
     <style>
         * {
             margin: 0;
@@ -37,6 +42,12 @@
             left: 0;
             right: 0;
             z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .header.scrolled {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
         }
 
         .nav {
@@ -54,7 +65,9 @@
 
         .logo img {
             height: 40px;
-            width: auto;
+            width: 40px;
+            border-radius: 8px;
+            object-fit: cover;
         }
 
         .logo-text {
@@ -70,15 +83,43 @@
             list-style: none;
         }
 
+        .nav-links.active {
+            display: flex;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background: white;
+            flex-direction: column;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
         .nav-links a {
             text-decoration: none;
             color: #6b7280;
             font-weight: 500;
             transition: color 0.3s ease;
+            position: relative;
         }
 
         .nav-links a:hover {
             color: #3b82f6;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #3b82f6;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
         }
 
         .nav-cta {
@@ -86,6 +127,34 @@
             gap: 1rem;
         }
 
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #1f2937;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        /* Button Styles */
         .btn {
             padding: 0.75rem 1.5rem;
             border: none;
@@ -98,6 +167,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: inherit;
+            font-size: 1rem;
         }
 
         .btn-secondary {
@@ -122,78 +192,6 @@
             border-color: #2563eb;
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 150px 0 100px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            margin-bottom: 3rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .hero-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .hero-feature {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1.5rem;
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .hero-feature .material-icons {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-
-        .hero-cta {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
         }
 
         .btn-hero {
@@ -225,6 +223,208 @@
             border-color: white;
         }
 
+        /* PWA Install Popup */
+        .pwa-install-popup {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 10000;
+            animation: slideUp 0.5s ease;
+        }
+
+        .pwa-install-popup.show {
+            display: block;
+        }
+
+        .pwa-popup-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .pwa-popup-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .pwa-popup-text {
+            flex: 1;
+        }
+
+        .pwa-popup-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .pwa-popup-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .pwa-popup-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .pwa-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .pwa-btn-install {
+            background: white;
+            color: #3b82f6;
+        }
+
+        .pwa-btn-install:hover {
+            background: #f1f5f9;
+        }
+
+        .pwa-btn-dismiss {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .pwa-btn-dismiss:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .pwa-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 4px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .pwa-close:hover {
+            opacity: 1;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 150px 0 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 3rem;
+            opacity: 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+
+        .hero-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeInUp 1s ease calc(0.7s + var(--delay)) forwards;
+        }
+
+        .hero-feature:nth-child(1) { --delay: 0.1s; }
+        .hero-feature:nth-child(2) { --delay: 0.2s; }
+        .hero-feature:nth-child(3) { --delay: 0.3s; }
+        .hero-feature:nth-child(4) { --delay: 0.4s; }
+
+        .hero-feature:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .hero-feature .material-icons {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .hero-feature h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.9s forwards;
+        }
+
         /* Features Section */
         .features {
             padding: 100px 0;
@@ -234,6 +434,11 @@
         .section-title {
             text-align: center;
             margin-bottom: 4rem;
+            opacity: 0;
+        }
+
+        .section-title.animate {
+            animation: fadeInUp 1s ease forwards;
         }
 
         .section-title h2 {
@@ -248,6 +453,7 @@
             color: #6b7280;
             max-width: 600px;
             margin: 0 auto;
+            line-height: 1.6;
         }
 
         .features-grid {
@@ -263,12 +469,37 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
             border: 1px solid #e5e7eb;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .feature-card.animate {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
             border-color: #3b82f6;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
         }
 
         .feature-icon {
@@ -280,6 +511,11 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
         }
 
         .feature-icon .material-icons {
@@ -315,6 +551,20 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .pricing-card.animate {
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 35px 60px rgba(0, 0, 0, 0.2);
         }
 
         .pricing-card::before {
@@ -328,6 +578,7 @@
             font-size: 0.8rem;
             font-weight: 700;
             transform: rotate(45deg);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .plan-name {
@@ -340,6 +591,7 @@
             font-size: 4rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .billing-cycle {
@@ -360,15 +612,30 @@
             align-items: center;
             gap: 0.75rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .features-list li:last-child {
             border-bottom: none;
         }
 
+        .features-list li:hover {
+            background: rgba(255, 255, 255, 0.05);
+            padding-left: 1rem;
+            border-radius: 8px;
+        }
+
         .features-list .material-icons {
             color: #10b981;
             font-size: 20px;
+            background: rgba(16, 185, 129, 0.2);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         /* Footer */
@@ -380,12 +647,18 @@
 
         .footer-content {
             text-align: center;
+            opacity: 0;
+        }
+
+        .footer-content.animate {
+            animation: fadeInUp 1s ease forwards;
         }
 
         .footer-brand {
             font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
+            color: #3b82f6;
         }
 
         .footer-text {
@@ -394,6 +667,7 @@
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
+            line-height: 1.6;
         }
 
         .footer-bottom {
@@ -410,11 +684,47 @@
         .creator-info {
             color: #9ca3af;
             font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .version-info {
             color: #6b7280;
             font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         /* Mobile Responsiveness */
@@ -423,17 +733,54 @@
                 display: none;
             }
 
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .nav {
+                padding: 1rem;
+            }
+
+            .hero {
+                padding: 120px 0 80px;
+            }
+
             .hero h1 {
                 font-size: 2.5rem;
             }
 
+            .hero p {
+                font-size: 1.1rem;
+                margin-bottom: 2rem;
+            }
+
             .hero-features {
                 grid-template-columns: 1fr;
+                gap: 1rem;
+                margin: 2rem 0;
+            }
+
+            .hero-feature {
+                padding: 1rem;
             }
 
             .hero-cta {
                 flex-direction: column;
                 align-items: center;
+            }
+
+            .btn-hero {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .features {
+                padding: 80px 0;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
             }
 
             .features-grid {
@@ -445,9 +792,59 @@
                 padding: 2rem;
             }
 
+            .pricing {
+                padding: 80px 0;
+            }
+
+            .pricing-card {
+                margin: 0 1rem;
+                padding: 2rem;
+            }
+
+            .price {
+                font-size: 3rem;
+            }
+
             .footer-bottom {
                 flex-direction: column;
                 text-align: center;
+            }
+
+            .pwa-install-popup {
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+            }
+
+            .pwa-popup-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .pwa-popup-buttons {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-title h2 {
+                font-size: 1.75rem;
+            }
+
+            .feature-card {
+                padding: 1.5rem;
+            }
+
+            .pricing-card {
+                padding: 1.5rem;
             }
         }
 
@@ -456,43 +853,70 @@
             scroll-behavior: smooth;
         }
 
-        /* Loading Animation */
-        .fade-in {
+        /* Loading State */
+        .loading {
             opacity: 0;
-            transform: translateY(30px);
-            animation: fadeIn 0.6s ease forwards;
+            pointer-events: none;
         }
 
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .loaded {
+            opacity: 1;
+            pointer-events: auto;
         }
     </style>
 </head>
 <body>
+    <!-- PWA Install Popup -->
+    <div id="pwaInstallPopup" class="pwa-install-popup">
+        <button class="pwa-close" onclick="dismissPWAPrompt()">
+            <span class="material-icons">close</span>
+        </button>
+        <div class="pwa-popup-content">
+            <div class="pwa-popup-icon">
+                <span class="material-icons">get_app</span>
+            </div>
+            <div class="pwa-popup-text">
+                <div class="pwa-popup-title">Install Thynk POS</div>
+                <div class="pwa-popup-subtitle">Get the full app experience on your device</div>
+            </div>
+        </div>
+        <div class="pwa-popup-buttons">
+            <button class="pwa-btn pwa-btn-install" onclick="installPWA()">
+                <span class="material-icons">download</span>
+                Install App
+            </button>
+            <button class="pwa-btn pwa-btn-dismiss" onclick="dismissPWAPrompt()">
+                Maybe Later
+            </button>
+        </div>
+    </div>
+
     <!-- Header -->
     <header class="header">
         <nav class="nav">
             <div class="logo">
-                <img src="https://www.canva.com/design/DAGvYPE5J44/MwSJDspBjC6JD_j4ZvBwrA/edit?utm_content=DAGvYPE5J44&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" alt="Thynk POS Logo">
+                <img src="https://via.placeholder.com/40x40/3b82f6/ffffff?text=T" alt="Thynk POS Logo" id="logoImg">
                 <span class="logo-text">Thynk POS</span>
             </div>
-            <ul class="nav-links">
-                <li><a href="#features">Features</a></li>
-                <li><a href="#pricing">Pricing</a></li>
-                <li><a href="#contact">Contact</a></li>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#features" onclick="scrollToSection('features')">Features</a></li>
+                <li><a href="#pricing" onclick="scrollToSection('pricing')">Pricing</a></li>
+                <li><a href="#contact" onclick="scrollToSection('contact')">Contact</a></li>
             </ul>
             <div class="nav-cta">
-                <a href="#login" class="btn btn-secondary">
+                <a href="#login" class="btn btn-secondary" onclick="showComingSoon()">
                     <span class="material-icons">login</span>
                     Login
                 </a>
-                <a href="#register" class="btn btn-primary">
+                <a href="#register" class="btn btn-primary" onclick="showGetStarted()">
                     <span class="material-icons">rocket_launch</span>
                     Get Started
                 </a>
+            </div>
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </nav>
     </header>
@@ -500,35 +924,35 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <div class="hero-content fade-in">
+            <div class="hero-content">
                 <h1>Complete Hotel POS Management System</h1>
                 <p>Manage your menu, tables, and billing all in one professional platform. Lifetime free with all premium features included.</p>
                 
                 <div class="hero-features">
-                    <div class="hero-feature">
+                    <div class="hero-feature" onclick="scrollToSection('features')">
                         <span class="material-icons">restaurant_menu</span>
                         <h3>Menu Management</h3>
                     </div>
-                    <div class="hero-feature">
+                    <div class="hero-feature" onclick="scrollToSection('features')">
                         <span class="material-icons">table_restaurant</span>
                         <h3>Table Management</h3>
                     </div>
-                    <div class="hero-feature">
+                    <div class="hero-feature" onclick="scrollToSection('features')">
                         <span class="material-icons">receipt_long</span>
                         <h3>Smart Billing</h3>
                     </div>
-                    <div class="hero-feature">
+                    <div class="hero-feature" onclick="scrollToSection('features')">
                         <span class="material-icons">print</span>
                         <h3>Professional Invoicing</h3>
                     </div>
                 </div>
 
                 <div class="hero-cta">
-                    <a href="#register" class="btn btn-white btn-hero">
+                    <a href="#register" class="btn btn-white btn-hero" onclick="showGetStarted()">
                         <span class="material-icons">play_arrow</span>
                         Start Free Forever
                     </a>
-                    <a href="#demo" class="btn btn-outline btn-hero">
+                    <a href="#demo" class="btn btn-outline btn-hero" onclick="showDemo()">
                         <span class="material-icons">play_circle_outline</span>
                         Watch Demo
                     </a>
@@ -540,13 +964,13 @@
     <!-- Features Section -->
     <section id="features" class="features">
         <div class="container">
-            <div class="section-title fade-in">
+            <div class="section-title">
                 <h2>Everything You Need to Run Your Hotel</h2>
                 <p>Powerful features designed specifically for hotel and restaurant management, all in one comprehensive platform.</p>
             </div>
             
             <div class="features-grid">
-                <div class="feature-card fade-in">
+                <div class="feature-card" onclick="showFeatureDetail('menu')">
                     <div class="feature-icon">
                         <span class="material-icons">restaurant_menu</span>
                     </div>
@@ -554,7 +978,7 @@
                     <p>Create and customize your menu with high-quality images, detailed descriptions, and flexible pricing options. Organize items by categories and manage availability in real-time.</p>
                 </div>
 
-                <div class="feature-card fade-in">
+                <div class="feature-card" onclick="showFeatureDetail('table')">
                     <div class="feature-icon">
                         <span class="material-icons">table_restaurant</span>
                     </div>
@@ -562,7 +986,7 @@
                     <p>Efficiently manage table bookings, track occupancy status, and assign orders to specific tables. Visual floor plan makes table management intuitive and fast.</p>
                 </div>
 
-                <div class="feature-card fade-in">
+                <div class="feature-card" onclick="showFeatureDetail('billing')">
                     <div class="feature-icon">
                         <span class="material-icons">receipt_long</span>
                     </div>
@@ -570,7 +994,7 @@
                     <p>Generate professional bills with automatic tax calculations, discounts, and support for multiple payment methods including cash, card, and UPI.</p>
                 </div>
 
-                <div class="feature-card fade-in">
+                <div class="feature-card" onclick="showFeatureDetail('print')">
                     <div class="feature-icon">
                         <span class="material-icons">print</span>
                     </div>
@@ -578,7 +1002,7 @@
                     <p>Print receipts instantly with thermal printer support or share digital copies via WhatsApp, email, or SMS. Professional invoice templates included.</p>
                 </div>
 
-                <div class="feature-card fade-in">
+                <div class="feature-card" onclick="showFeatureDetail('analytics')">
                     <div class="feature-icon">
                         <span class="material-icons">analytics</span>
                     </div>
@@ -586,7 +1010,7 @@
                     <p>Track your revenue, analyze popular items, and monitor business performance with detailed reports and real-time analytics dashboard.</p>
                 </div>
 
-                <div class="feature-card fade-in">
+                <div class="feature-card" onclick="showFeatureDetail('inventory')">
                     <div class="feature-icon">
                         <span class="material-icons">inventory_2</span>
                     </div>
@@ -600,52 +1024,52 @@
     <!-- Pricing Section -->
     <section id="pricing" class="pricing">
         <div class="container">
-            <div class="section-title fade-in">
+            <div class="section-title">
                 <h2>Simple, Transparent Pricing</h2>
                 <p>No hidden fees, no monthly subscriptions. Get all premium features absolutely free, forever.</p>
             </div>
 
-            <div class="pricing-card fade-in">
+            <div class="pricing-card" onclick="showGetStarted()">
                 <div class="plan-name">Lifetime Free</div>
                 <div class="price">₹0</div>
                 <div class="billing-cycle">Forever & Always</div>
                 
                 <ul class="features-list">
-                    <li>
+                    <li onclick="showFeatureDetail('unlimited')">
                         <span class="material-icons">check_circle</span>
                         Unlimited Menu Items
                     </li>
-                    <li>
+                    <li onclick="showFeatureDetail('tables')">
                         <span class="material-icons">check_circle</span>
                         Unlimited Tables & Orders
                     </li>
-                    <li>
+                    <li onclick="showFeatureDetail('invoicing')">
                         <span class="material-icons">check_circle</span>
                         Professional Invoicing
                     </li>
-                    <li>
+                    <li onclick="showFeatureDetail('bills')">
                         <span class="material-icons">check_circle</span>
                         Print & Share Bills
                     </li>
-                    <li>
+                    <li onclick="showFeatureDetail('analytics')">
                         <span class="material-icons">check_circle</span>
                         Real-time Analytics
                     </li>
-                    <li>
+                    <li onclick="showFeatureDetail('users')">
                         <span class="material-icons">check_circle</span>
                         Multi-user Access
                     </li>
-                    <li>
+                    <li onclick="showFeatureDetail('support')">
                         <span class="material-icons">check_circle</span>
                         24/7 Support
                     </li>
-                    <li>
+                    <li onclick="showFeatureDetail('ads')">
                         <span class="material-icons">check_circle</span>
                         No Ads, No Popups
                     </li>
                 </ul>
 
-                <a href="#register" class="btn btn-white btn-hero">
+                <a href="#register" class="btn btn-white btn-hero" onclick="showGetStarted()">
                     <span class="material-icons">rocket_launch</span>
                     Get Started Now
                 </a>
@@ -654,9 +1078,9 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer id="contact" class="footer">
         <div class="container">
-            <div class="footer-content fade-in">
+            <div class="footer-content">
                 <div class="footer-brand">Thynk POS</div>
                 <p class="footer-text">
                     Professional hotel management system designed to streamline your operations and boost your revenue. 
@@ -676,49 +1100,412 @@
     </footer>
 
     <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+        // PWA Install Variables
+        let deferredPrompt;
+        let isIOSDevice = false;
+        let isStandalone = false;
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            setupSmoothScrolling();
+            setupScrollAnimations();
+            setupNavigation();
+            setupPWAInstall();
+            setupInteractions();
+            loadLogo();
+            
+            // Mark body as loaded
+            document.body.classList.add('loaded');
+        }
+
+        // Load Logo Function
+        function loadLogo() {
+            const logoImg = document.getElementById('logoImg');
+            // Try to load the actual Canva logo, fallback to placeholder
+            const canvaLogoUrl = 'https://www.canva.com/design/DAGvYPE5J44/view';
+            
+            // Create a new image to test if Canva logo loads
+            const testImg = new Image();
+            testImg.onload = function() {
+                logoImg.src = canvaLogoUrl;
+            };
+            testImg.onerror = function() {
+                // Keep the placeholder logo
+                console.log('Using placeholder logo');
+            };
+            testImg.src = canvaLogoUrl;
+        }
+
+        // PWA Installation Setup
+        function setupPWAInstall() {
+            // Check if device is iOS
+            isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            
+            // Check if app is already installed
+            isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+                          window.navigator.standalone || 
+                          document.referrer.includes('android-app://');
+
+            if (isStandalone) {
+                return; // Don't show install prompt if already installed
+            }
+
+            // Listen for beforeinstallprompt event (Android)
+            window.addEventListener('beforeinstallprompt', (e) => {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+                deferredPrompt = e;
+                showPWAInstallPrompt();
             });
-        });
 
-        // Fade in animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
+            // For iOS devices, show manual install prompt
+            if (isIOSDevice && !isStandalone) {
+                setTimeout(() => {
+                    showIOSInstallPrompt();
+                }, 3000);
+            }
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animationDelay = `${Array.from(entry.target.parentNode.children).indexOf(entry.target) * 0.1}s`;
-                    entry.target.classList.add('fade-in');
+            // For other devices without beforeinstallprompt support
+            setTimeout(() => {
+                if (!deferredPrompt && !isIOSDevice && !isStandalone) {
+                    showGenericInstallPrompt();
                 }
+            }, 5000);
+        }
+
+        function showPWAInstallPrompt() {
+            const popup = document.getElementById('pwaInstallPopup');
+            popup.classList.add('show');
+        }
+
+        function showIOSInstallPrompt() {
+            const popup = document.getElementById('pwaInstallPopup');
+            const content = popup.querySelector('.pwa-popup-text');
+            content.innerHTML = `
+                <div class="pwa-popup-title">Add to Home Screen</div>
+                <div class="pwa-popup-subtitle">Tap Share button, then "Add to Home Screen"</div>
+            `;
+            const button = popup.querySelector('.pwa-btn-install');
+            button.innerHTML = '<span class="material-icons">ios_share</span> Instructions';
+            button.onclick = showIOSInstructions;
+            popup.classList.add('show');
+        }
+
+        function showGenericInstallPrompt() {
+            const popup = document.getElementById('pwaInstallPopup');
+            const content = popup.querySelector('.pwa-popup-text');
+            content.innerHTML = `
+                <div class="pwa-popup-title">Install Thynk POS</div>
+                <div class="pwa-popup-subtitle">Add this app to your home screen for better experience</div>
+            `;
+            popup.classList.add('show');
+        }
+
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the A2HS prompt');
+                        showNotification('App is being installed!', 'success');
+                    }
+                    deferredPrompt = null;
+                    dismissPWAPrompt();
+                });
+            } else if (isIOSDevice) {
+                showIOSInstructions();
+            } else {
+                showNotification('Please use your browser menu to install this app', 'info');
+                dismissPWAPrompt();
+            }
+        }
+
+        function showIOSInstructions() {
+            showNotification('Tap the Share button in Safari, then select "Add to Home Screen"', 'info', 8000);
+            dismissPWAPrompt();
+        }
+
+        function dismissPWAPrompt() {
+            const popup = document.getElementById('pwaInstallPopup');
+            popup.classList.remove('show');
+            
+            // Don't show again for this session
+            sessionStorage.setItem('pwaPromptDismissed', 'true');
+        }
+
+        // Navigation Functions
+        function setupNavigation() {
+            const header = document.querySelector('.header');
+            let lastScrollTop = 0;
+
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                if (scrollTop > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+
+                lastScrollTop = scrollTop;
             });
-        }, observerOptions);
+        }
 
-        // Observe all elements that should fade in
-        document.querySelectorAll('.feature-card, .section-title, .pricing-card, .footer-content').forEach(el => {
-            observer.observe(el);
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            
+            navLinks.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                const headerHeight = document.querySelector('.header').offsetHeight;
+                const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+                const offsetPosition = elementPosition - headerHeight;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+            
+            // Close mobile menu if open
+            const navLinks = document.getElementById('navLinks');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            navLinks.classList.remove('active');
+            toggle.classList.remove('active');
+        }
+
+        // Scroll Animations
+        function setupScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('animate');
+                        }, index * 100);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const animateElements = document.querySelectorAll(
+                '.feature-card, .section-title, .pricing-card, .footer-content'
+            );
+            
+            animateElements.forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Smooth Scrolling for all links
+        function setupSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    scrollToSection(targetId);
+                });
+            });
+        }
+
+        // Interactive Functions
+        function setupInteractions() {
+            // Add click feedback to interactive elements
+            document.querySelectorAll('.btn, .feature-card, .hero-feature, .pricing-card').forEach(element => {
+                element.addEventListener('click', function(e) {
+                    // Add ripple effect
+                    const ripple = document.createElement('div');
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.background = 'rgba(255, 255, 255, 0.3)';
+                    ripple.style.transform = 'scale(0)';
+                    ripple.style.animation = 'ripple 0.6s linear';
+                    ripple.style.pointerEvents = 'none';
+                    
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+                    ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+                    
+                    this.style.position = 'relative';
+                    this.style.overflow = 'hidden';
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+        }
+
+        // Action Functions
+        function showGetStarted() {
+            showNotification('🚀 Get Started feature coming soon! Stay tuned for the full POS system.', 'info', 5000);
+        }
+
+        function showDemo() {
+            showNotification('🎥 Demo video will be available soon! Check back for updates.', 'info', 5000);
+        }
+
+        function showComingSoon() {
+            showNotification('🔐 Login portal coming soon! Registration will be available shortly.', 'info', 5000);
+        }
+
+        function showFeatureDetail(feature) {
+            const messages = {
+                menu: '🍽️ Menu Management: Create beautiful digital menus with photos and descriptions!',
+                table: '🪑 Table Management: Track table status and manage reservations efficiently!',
+                billing: '🧾 Smart Billing: Generate professional invoices with tax calculations!',
+                print: '🖨️ Print & Share: Print receipts or share bills digitally with customers!',
+                analytics: '📊 Sales Analytics: Get insights into your business performance!',
+                inventory: '📦 Inventory Control: Never run out of stock with smart alerts!',
+                unlimited: '∞ No limits on menu items - add as many as you need!',
+                tables: '🪑 Manage unlimited tables and orders simultaneously!',
+                invoicing: '📄 Professional invoicing with your branding!',
+                bills: '📱 Share bills via WhatsApp, email, or print instantly!',
+                users: '👥 Multiple staff members can use the system!',
+                support: '🆘 Round-the-clock support for all your needs!',
+                ads: '🚫 Clean interface with no advertisements or popups!'
+            };
+            
+            showNotification(messages[feature] || '✨ This feature will make your business management easier!', 'info', 4000);
+        }
+
+        // Notification System
+        function showNotification(message, type = 'info', duration = 5000) {
+            // Remove existing notifications
+            document.querySelectorAll('.notification').forEach(n => n.remove());
+            
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            
+            const icon = getNotificationIcon(type);
+            notification.innerHTML = `
+                <span class="material-icons">${icon}</span>
+                <span class="notification-message">${message}</span>
+                <button class="notification-close" onclick="removeNotification(this.parentElement)">
+                    <span class="material-icons">close</span>
+                </button>
+            `;
+            
+            // Add notification styles
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: white;
+                padding: 1rem 1.5rem;
+                border-radius: 12px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                max-width: 400px;
+                z-index: 10000;
+                transform: translateX(100%);
+                opacity: 0;
+                transition: all 0.3s ease;
+                border-left: 4px solid ${getNotificationColor(type)};
+                font-family: Inter, sans-serif;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+                notification.style.opacity = '1';
+            }, 100);
+            
+            // Auto remove
+            setTimeout(() => {
+                removeNotification(notification);
+            }, duration);
+        }
+
+        function getNotificationIcon(type) {
+            switch (type) {
+                case 'success': return 'check_circle';
+                case 'error': return 'error';
+                case 'warning': return 'warning';
+                default: return 'info';
+            }
+        }
+
+        function getNotificationColor(type) {
+            switch (type) {
+                case 'success': return '#10b981';
+                case 'error': return '#ef4444';
+                case 'warning': return '#f59e0b';
+                default: return '#3b82f6';
+            }
+        }
+
+        function removeNotification(notification) {
+            if (notification && notification.parentNode) {
+                notification.style.transform = 'translateX(100%)';
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }
+        }
+
+        // Add ripple animation styles
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Service Worker Registration (for PWA)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                .then(registration => {
+                    console.log('SW registered: ', registration);
+                })
+                .catch(registrationError => {
+                    console.log('SW registration failed: ', registrationError);
+                });
+            });
+        }
+
+        // Track user engagement
+        let engagementStartTime = Date.now();
+        window.addEventListener('beforeunload', () => {
+            const engagementTime = Date.now() - engagementStartTime;
+            console.log(`User engagement time: ${engagementTime}ms`);
         });
 
-        // Add loading state simulation
-        window.addEventListener('load', () => {
-            document.body.style.opacity = '1';
+        // Handle online/offline status
+        window.addEventListener('online', () => {
+            showNotification('✅ Back online! All features are available.', 'success');
         });
 
-        // Mobile menu toggle (if needed in future)
-        const mobileMenuToggle = () => {
-            // Implementation for mobile menu
-        };
+        window.addEventListener('offline', () => {
+            showNotification('⚠️ You are offline. Some features may be limited.', 'warning');
+        });
     </script>
 </body>
 </html>
