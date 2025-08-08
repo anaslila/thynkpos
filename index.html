@@ -322,7 +322,7 @@
             color: var(--text-light);
         }
 
-        /* Enhanced Table Tiles with Different Colors for Table/Room and Status */
+        /* FIXED - Enhanced Table Tiles with Better Readability */
         .tiles-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -339,66 +339,77 @@
             cursor: pointer;
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
             display: flex;
             flex-direction: column;
             font-weight: 600;
+            /* FIXED - Better border and backdrop for readability */
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
-        /* Table Status Colors */
+        /* FIXED - Table Status Colors with Better Text Readability */
         .table-tile.table.available {
-            background: linear-gradient(135deg, 
-                rgba(16, 185, 129, 0.6),
-                rgba(5, 150, 105, 0.4),
-                rgba(16, 185, 129, 0.3)
-            );
-            box-shadow: 
-                inset 0 1px 0 rgba(255, 255, 255, 0.6),
-                0 8px 32px rgba(16, 185, 129, 0.3);
-            color: var(--white);
+            background: 
+                linear-gradient(135deg, 
+                    rgba(16, 185, 129, 0.15),
+                    rgba(5, 150, 105, 0.1)
+                ),
+                linear-gradient(145deg,
+                    rgba(255, 255, 255, 0.9),
+                    rgba(255, 255, 255, 0.7)
+                );
+            border-color: rgba(16, 185, 129, 0.3);
+            color: #065f46; /* Dark green text for contrast */
         }
 
         .table-tile.table.occupied {
-            background: linear-gradient(135deg, 
-                rgba(239, 68, 68, 0.6),
-                rgba(220, 38, 38, 0.4),
-                rgba(239, 68, 68, 0.3)
-            );
-            box-shadow: 
-                inset 0 1px 0 rgba(255, 255, 255, 0.6),
-                0 8px 32px rgba(239, 68, 68, 0.3);
-            color: var(--white);
+            background: 
+                linear-gradient(135deg, 
+                    rgba(239, 68, 68, 0.15),
+                    rgba(220, 38, 38, 0.1)
+                ),
+                linear-gradient(145deg,
+                    rgba(255, 255, 255, 0.9),
+                    rgba(255, 255, 255, 0.7)
+                );
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #991b1b; /* Dark red text for contrast */
         }
 
-        /* Room Status Colors */
         .table-tile.room.available {
-            background: linear-gradient(135deg, 
-                rgba(59, 130, 246, 0.6),
-                rgba(37, 99, 235, 0.4),
-                rgba(59, 130, 246, 0.3)
-            );
-            box-shadow: 
-                inset 0 1px 0 rgba(255, 255, 255, 0.6),
-                0 8px 32px rgba(59, 130, 246, 0.3);
-            color: var(--white);
+            background: 
+                linear-gradient(135deg, 
+                    rgba(59, 130, 246, 0.15),
+                    rgba(37, 99, 235, 0.1)
+                ),
+                linear-gradient(145deg,
+                    rgba(255, 255, 255, 0.9),
+                    rgba(255, 255, 255, 0.7)
+                );
+            border-color: rgba(59, 130, 246, 0.3);
+            color: #1e40af; /* Dark blue text for contrast */
         }
 
         .table-tile.room.occupied {
-            background: linear-gradient(135deg, 
-                rgba(245, 158, 11, 0.6),
-                rgba(217, 119, 6, 0.4),
-                rgba(245, 158, 11, 0.3)
-            );
-            box-shadow: 
-                inset 0 1px 0 rgba(255, 255, 255, 0.6),
-                0 8px 32px rgba(245, 158, 11, 0.3);
-            color: var(--white);
+            background: 
+                linear-gradient(135deg, 
+                    rgba(245, 158, 11, 0.15),
+                    rgba(217, 119, 6, 0.1)
+                ),
+                linear-gradient(145deg,
+                    rgba(255, 255, 255, 0.9),
+                    rgba(255, 255, 255, 0.7)
+                );
+            border-color: rgba(245, 158, 11, 0.3);
+            color: #92400e; /* Dark amber text for contrast */
         }
 
         .table-tile:hover {
             transform: translateY(-8px) scale(1.02);
-            backdrop-filter: blur(30px);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+            border-color: rgba(255, 255, 255, 1);
         }
 
         .table-tile.expanded {
@@ -409,52 +420,66 @@
             display: none;
         }
 
-        /* Tile Header (Always Visible) */
+        /* FIXED - Tile Header with Better Text Contrast */
         .tile-header {
             padding: 1.5rem;
             text-align: center;
             position: relative;
             z-index: 2;
+            /* FIXED - Text shadow for better readability */
+            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8);
         }
 
         .tile-number {
             font-size: 2.2rem;
             font-weight: 800;
             margin-bottom: 0.5rem;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
             color: inherit;
+            /* FIXED - Strong text shadow for number visibility */
+            text-shadow: 
+                0 1px 3px rgba(255, 255, 255, 0.9),
+                0 2px 6px rgba(0, 0, 0, 0.1);
         }
 
         .tile-info {
             font-size: 1rem;
-            opacity: 0.9;
             color: inherit;
+            opacity: 0.9;
+            font-weight: 700;
         }
 
         .tile-price {
             font-size: 0.85rem;
-            opacity: 0.8;
             margin-top: 0.25rem;
             color: inherit;
             font-weight: 700;
+            opacity: 0.8;
         }
 
         .checkin-status {
             font-size: 0.75rem;
             padding: 0.25rem 0.5rem;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.6);
             border-radius: 12px;
             margin-top: 0.5rem;
             display: inline-block;
+            color: inherit;
+            font-weight: 700;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
         }
 
-        /* Tile Details (Sliding Section) */
+        /* FIXED - Tile Details with Better Background */
         .tile-details {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.4s ease;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
+            background: 
+                linear-gradient(180deg,
+                    rgba(255, 255, 255, 0.95),
+                    rgba(255, 255, 255, 0.9)
+                );
+            backdrop-filter: blur(15px);
         }
 
         .tile-details.expanded {
@@ -463,15 +488,18 @@
 
         .details-content {
             padding: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            color: var(--dark);
         }
 
         .customer-info {
             text-align: center;
             margin-bottom: 1rem;
             padding: 0.5rem;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: var(--dark);
         }
 
         .menu-items {
@@ -484,10 +512,12 @@
             display: flex;
             justify-content: space-between;
             padding: 0.5rem;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 6px;
             margin-bottom: 0.25rem;
             font-size: 0.85rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: var(--dark);
         }
 
         .tile-actions {
@@ -1825,11 +1855,11 @@
                                 <ul style="list-style: none; padding: 0;">
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Detailed Customer History & Analytics
+                                        Automatic Room Checkout After Billing
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Advanced Search in Menu & History
+                                        Enhanced Readable Tile Design
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
@@ -1837,7 +1867,7 @@
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Fixed Multi-Item Billing System
+                                        Complete Offline Support with Smart Analytics
                                     </li>
                                 </ul>
                             </div>
@@ -1848,10 +1878,10 @@
         </div>
     </main>
 
-    <!-- Footer with Version Info -->
+    <!-- Footer with Updated Version Info -->
     <footer class="footer">
         <div class="version-info">
-            <span class="version-badge">v1.5 - Fixed</span>
+            <span class="version-badge">v1.75</span>
             <span class="creator-text">Created by Anas Lila</span>
         </div>
     </footer>
@@ -3184,7 +3214,7 @@
                                             </div>
                                         `).join('')}
                                     </div>
-                                ` : '<div style="text-align: center; color: inherit; opacity: 0.8; margin: 1rem 0;">No items added yet</div>'}
+                                ` : '<div style="text-align: center; color: var(--dark); opacity: 0.8; margin: 1rem 0;">No items added yet</div>'}
                                 
                                 <div class="tile-actions">
                                     ${table.type === 'Room' && !table.checkedIn ? `
@@ -3726,6 +3756,7 @@
             }
         }
 
+        // FIXED - Enhanced Bill Generation with Automatic Room Checkout
         function generateBillFromTableData(table) {
             // Calculate total including room price if it's a room
             let finalTotal = table.order.total;
@@ -3755,10 +3786,19 @@
                 RestaurantDB.customers.updateSpent(table.order.customerId, finalTotal);
             }
 
-            // Clear order but don't check out room automatically
-            RestaurantDB.tables.clearOrder(table.id, false); // false = not cancellation
+            // FIXED - Automatic Room Checkout After Bill Generation
+            if (table.type === 'Room' && table.checkedIn) {
+                // Automatically check out the room after billing
+                const result = RestaurantDB.tables.checkOut(table.id, false); // Don't generate another bill
+                if (result.success) {
+                    showNotification(`Bill generated & Room ${table.number} automatically checked-out!`);
+                }
+            } else {
+                // For tables, just clear the order
+                RestaurantDB.tables.clearOrder(table.id, false); // false = not cancellation
+                showNotification('Bill generated successfully!');
+            }
 
-            showNotification('Bill generated successfully!');
             displayBill(bill, table);
             loadTables();
             loadActiveOrders();
@@ -3827,6 +3867,12 @@
                 <div class="bill-total">
                     Total: ₹${bill.total.toFixed(2)}
                 </div>
+                
+                ${table.type === 'Room' ? `
+                    <div style="margin: 1rem 0; padding: 1rem; background: linear-gradient(135deg, var(--success), #059669); color: white; border-radius: 8px; text-align: center; font-weight: 600;">
+                        ✅ Room ${table.number} Automatically Checked-Out
+                    </div>
+                ` : ''}
                 
                 <div class="bill-actions">
                     <button class="btn btn-sm btn-primary" onclick="printBill(${bill.id})">
@@ -3971,7 +4017,7 @@ ${bill.roomCharge > 0 ? `\n🏨 Room Charge: ₹${bill.roomCharge.toFixed(2)}` :
 *Total: ₹${bill.total.toFixed(2)}*
 
 Thank you for your business! 🙏
-_Powered by Thynk POS v1.5 - Fixed Billing_
+_Powered by Thynk POS v1.75 - Auto Room Checkout_
             `;
 
             const phoneNumber = bill.customerPhone.replace(/[^0-9]/g, '');
@@ -4009,7 +4055,7 @@ Thank you for choosing us!
 Best regards,
 Your Restaurant Team
 
-Powered by Thynk POS v1.5 - Fixed Billing
+Powered by Thynk POS v1.75 - Auto Room Checkout
             `;
 
             const mailtoUrl = `mailto:${bill.customerEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -4058,7 +4104,7 @@ Powered by Thynk POS v1.5 - Fixed Billing
                     <p style="font-size: 18px;"><strong>Total: ₹${bill.total.toFixed(2)}</strong></p>
                     <hr>
                     <p style="text-align: center;">Thank you for your business!</p>
-                    <p style="text-align: center; font-size: 12px; margin-top: 20px;">Powered by Thynk POS v1.5 - Fixed Billing</p>
+                    <p style="text-align: center; font-size: 12px; margin-top: 20px;">Powered by Thynk POS v1.75 - Auto Room Checkout</p>
                 </div>
             `;
 
@@ -4086,7 +4132,7 @@ ${bill.roomCharge > 0 ? `\nRoom Charge: ₹${bill.roomCharge.toFixed(2)}` : ''}
 Total: ₹${bill.total.toFixed(2)}
 
 Thank you for your business!
-Powered by Thynk POS v1.5 - Fixed Billing
+Powered by Thynk POS v1.75 - Auto Room Checkout
             `;
 
             if (navigator.share) {
@@ -4119,7 +4165,7 @@ ${bill.roomCharge > 0 ? `\nRoom Charge: ₹${bill.roomCharge.toFixed(2)}` : ''}
 Total: ₹${bill.total.toFixed(2)}
 
 Thank you for your business!
-Powered by Thynk POS v1.5 - Fixed Billing
+Powered by Thynk POS v1.75 - Auto Room Checkout
             `)}`;
 
             const downloadLink = document.createElement('a');
@@ -4737,7 +4783,7 @@ Powered by Thynk POS v1.5 - Fixed Billing
         // Service Worker Registration for Offline Support
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register(URL.createObjectURL(new Blob([`
-                const CACHE = 'thynk-pos-v1.5-complete-fixed-billing';
+                const CACHE = 'thynk-pos-v1.75-auto-checkout-readable-tiles';
                 self.addEventListener('install', e => {
                     e.waitUntil(caches.open(CACHE).then(cache => cache.addAll(['/'])));
                 });
@@ -4745,8 +4791,9 @@ Powered by Thynk POS v1.5 - Fixed Billing
                     e.respondWith(caches.match(e.request).then(response => response || fetch(e.request)));
                 });
             `], {type: 'application/javascript'})))
-            .then(() => console.log('PWA Service Worker registered for complete fixed billing support'));
+            .then(() => console.log('PWA Service Worker registered for v1.75 with auto checkout & readable tiles'));
         }
     </script>
 </body>
 </html>
+
