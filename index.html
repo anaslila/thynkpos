@@ -53,7 +53,7 @@
 
         .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
 
-        /* Header - Clear visibility */
+        /* Header */
         .header {
             background: var(--white);
             box-shadow: var(--shadow);
@@ -228,7 +228,7 @@
         .tab-pane { display: none; animation: fadeIn 0.5s ease; }
         .tab-pane.active { display: block; }
 
-        /* Buttons with Icons */
+        /* Buttons */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -286,10 +286,10 @@
 
         .btn-sm { padding: 0.5rem 1rem; font-size: 0.875rem; }
 
-        /* Table Tiles - ONLY AREA WITH BLUR EFFECT */
+        /* Enhanced Table Tiles with Sliding Details */
         .tiles-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1.5rem;
             padding: 1rem 0;
             max-height: 600px;
@@ -298,7 +298,7 @@
 
         .table-tile {
             position: relative;
-            height: 180px;
+            min-height: 180px;
             border-radius: 20px;
             cursor: pointer;
             overflow: hidden;
@@ -307,13 +307,10 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
             font-weight: 600;
         }
 
-        /* Gradient Blur Backgrounds for Table Tiles ONLY */
+        /* Gradient Blur Backgrounds for Table Tiles */
         .table-tile.available {
             background: linear-gradient(135deg, 
                 rgba(255, 255, 255, 0.4),
@@ -351,46 +348,23 @@
         }
 
         .table-tile:hover {
-            transform: translateY(-12px) scale(1.02);
+            transform: translateY(-8px) scale(1.02);
             box-shadow: 
                 inset 0 1px 0 rgba(255, 255, 255, 0.8),
                 0 20px 60px rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(30px);
         }
 
-        .table-tile::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, 
-                rgba(255, 255, 255, 0.6) 0%, 
-                transparent 30%, 
-                transparent 70%,
-                rgba(255, 255, 255, 0.3) 100%
-            );
-            transform: translateX(-100%) rotate(45deg);
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 20px;
+        .table-tile.expanded {
+            min-height: 350px;
         }
 
-        .table-tile:hover::before {
-            transform: translateX(100%) rotate(45deg);
-        }
-
-        .table-tile::after {
-            content: '';
-            position: absolute;
-            inset: 1px;
-            border-radius: 19px;
-            background: linear-gradient(135deg, 
-                rgba(255, 255, 255, 0.2) 0%,
-                transparent 50%,
-                rgba(255, 255, 255, 0.1) 100%
-            );
-            pointer-events: none;
+        /* Tile Header (Always Visible) */
+        .tile-header {
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            z-index: 2;
         }
 
         .tile-number {
@@ -399,25 +373,68 @@
             margin-bottom: 0.5rem;
             text-shadow: 0 2px 8px rgba(0,0,0,0.3);
             color: var(--dark);
-            position: relative;
-            z-index: 2;
         }
 
         .tile-info {
             font-size: 1rem;
             opacity: 0.9;
             color: var(--dark);
-            position: relative;
-            z-index: 2;
         }
 
-        .tile-chairs {
+        .tile-price {
             font-size: 0.85rem;
             opacity: 0.8;
             margin-top: 0.25rem;
             color: var(--dark);
-            position: relative;
-            z-index: 2;
+            font-weight: 700;
+        }
+
+        /* Tile Details (Sliding Section) */
+        .tile-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .tile-details.expanded {
+            max-height: 400px;
+        }
+
+        .details-content {
+            padding: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .customer-info {
+            text-align: center;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+        }
+
+        .menu-items {
+            max-height: 120px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            margin-bottom: 0.25rem;
+            font-size: 0.85rem;
+        }
+
+        .tile-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .tile-remove-btn {
@@ -452,7 +469,7 @@
             transform: scale(1.1);
         }
 
-        /* Modal */
+        /* Modal Styles */
         .modal {
             position: fixed;
             top: 0;
@@ -490,6 +507,7 @@
             color: var(--dark);
         }
 
+        /* Big Form Inputs for New Table Creation */
         .form-section {
             background: var(--light);
             padding: 2rem;
@@ -529,10 +547,86 @@
             color: var(--dark);
         }
 
+        /* Big inputs for new table creation */
+        .form-input.big {
+            padding: 1.5rem 1.25rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* Small inputs for editing in tile details */
+        .form-input.small {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.9rem;
+        }
+
         .form-input:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Bill Display Modal */
+        .bill-display {
+            max-width: 400px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .bill-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .bill-items {
+            margin: 1.5rem 0;
+        }
+
+        .bill-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .bill-total {
+            text-align: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--border);
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .bill-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        /* QR Code Container */
+        .qr-container {
+            text-align: center;
+            padding: 2rem;
+            background: var(--light);
+            border-radius: var(--border-radius);
+            margin: 2rem 0;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 1rem;
+            border: 4px solid var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
         }
 
         /* Cards */
@@ -571,74 +665,6 @@
         }
 
         .card:hover::before { transform: scaleX(1); }
-
-        /* Order Items List */
-        .order-items {
-            background: var(--light);
-            border-radius: var(--border-radius);
-            padding: 1rem;
-            margin: 1rem 0;
-        }
-
-        .order-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem;
-            background: var(--white);
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
-            border: 1px solid var(--border);
-        }
-
-        .order-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .item-details {
-            flex: 1;
-        }
-
-        .item-name {
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .item-price {
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-
-        .quantity-controls {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .quantity-btn {
-            width: 30px;
-            height: 30px;
-            border: none;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .quantity-btn:hover {
-            background: var(--primary-dark);
-        }
-
-        .quantity-display {
-            min-width: 40px;
-            text-align: center;
-            font-weight: 600;
-            color: var(--dark);
-        }
 
         /* Controls */
         .controls {
@@ -766,9 +792,10 @@
 
             .tab { justify-content: flex-start; }
             .stats { grid-template-columns: repeat(2, 1fr); }
-            .tiles-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+            .tiles-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
             .controls { flex-direction: column; align-items: stretch; }
             .payment-buttons { grid-template-columns: 1fr; }
+            .bill-actions { grid-template-columns: 1fr; }
         }
 
         /* Animations */
@@ -836,7 +863,7 @@
                 <!-- App Header -->
                 <div class="app-header">
                     <div class="app-title">Thynk POS - Complete Hotel Management</div>
-                    <div class="app-subtitle">Fully Editable • Multiple Items Per Table • Offline Support</div>
+                    <div class="app-subtitle">All-in-One Control for Hotels That Don't Compromise.</div>
                 </div>
 
                 <!-- Statistics -->
@@ -912,7 +939,7 @@
                             </div>
                         </div>
 
-                        <!-- Table Tiles Grid (ONLY AREA WITH BLUR EFFECTS) -->
+                        <!-- Enhanced Table Tiles Grid with Sliding Details -->
                         <div id="tilesGrid" class="tiles-grid">
                             <div class="empty-state">
                                 <div class="empty-icon">🏨</div>
@@ -987,36 +1014,35 @@
                         </div>
                     </div>
 
-                    <!-- Billing Software Tab -->
+                    <!-- Enhanced Billing Software Tab -->
                     <div class="tab-pane" id="billing-tab">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                            <h2>Interactive Billing Software</h2>
+                            <h2>Enhanced Billing Software</h2>
                             <button class="btn btn-primary" onclick="showNewBillForm()">
                                 <span class="material-icons-outlined">add</span>
                                 Add Items to Order
                             </button>
                         </div>
 
-                        <!-- Add Items to Order Form -->
+                        <!-- Enhanced Billing Form (Table First, then Customer) -->
                         <div class="form-section" id="billForm" style="display: none;">
                             <h3 style="margin-bottom: 1.5rem;">Add Items to Table Order</h3>
                             <div class="form-grid">
                                 <div class="form-group">
-                                    <label class="form-label">Customer Name *</label>
-                                    <select class="form-input" id="billCustomerSelect">
-                                        <option value="">Select Customer</option>
-                                        <option value="new">+ Add New Customer</option>
-                                    </select>
-                                </div>
-                                <div class="form-group" id="newCustomerName" style="display: none;">
-                                    <label class="form-label">New Customer Name *</label>
-                                    <input type="text" class="form-input" id="billCustomerName" placeholder="Enter customer name">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Table/Room *</label>
-                                    <select class="form-input" id="billTableSelect">
+                                    <label class="form-label">Table/Room FIRST *</label>
+                                    <select class="form-input" id="billTableSelect" onchange="loadCustomerForTable()">
                                         <option value="">Select Table/Room</option>
                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Customer Name</label>
+                                    <select class="form-input" id="billCustomerSelect">
+                                        <option value="">Customer will load automatically</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" id="newCustomerInput" style="display: none;">
+                                    <label class="form-label">New Customer Name *</label>
+                                    <input type="text" class="form-input" id="billCustomerName" placeholder="Enter customer name">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Menu Item *</label>
@@ -1028,15 +1054,15 @@
                                     <label class="form-label">Quantity *</label>
                                     <input type="number" class="form-input" id="billQuantity" placeholder="Quantity" min="1" value="1">
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-label">Tax (%)</label>
-                                    <input type="number" class="form-input" id="billTax" placeholder="Tax percentage" value="18">
-                                </div>
                             </div>
                             <div style="display: flex; gap: 1rem;">
-                                <button class="btn btn-success" onclick="addItemToOrder()">
+                                <button class="btn btn-success" onclick="addItemToTableOrder()">
                                     <span class="material-icons-outlined">add_shopping_cart</span>
                                     Add Item to Order
+                                </button>
+                                <button class="btn btn-primary" onclick="generateBillFromForm()">
+                                    <span class="material-icons-outlined">receipt</span>
+                                    Generate Bill
                                 </button>
                                 <button class="btn btn-danger" onclick="hideBillForm()">
                                     <span class="material-icons-outlined">close</span>
@@ -1135,16 +1161,35 @@
                                 </div>
                             </div>
 
-                            <!-- Payment Buttons -->
+                            <!-- Enhanced Payment Buttons -->
                             <div class="payment-buttons">
-                                <a href="#" class="payment-btn gpay-btn" onclick="redirectToGooglePay()" target="_blank">
+                                <button class="payment-btn gpay-btn" onclick="redirectToGooglePay()">
                                     <span>💳</span>
                                     Pay with Google Pay
-                                </a>
-                                <a href="#" class="payment-btn upi-btn" onclick="redirectToUPI()" target="_blank">
+                                </button>
+                                <button class="payment-btn upi-btn" onclick="redirectToUPI()">
                                     <span>📱</span>
                                     Pay with UPI Apps
-                                </a>
+                                </button>
+                                <button class="btn btn-info" onclick="generatePaymentQR()" style="width: 100%;">
+                                    <span class="material-icons-outlined">qr_code</span>
+                                    Generate QR Code
+                                </button>
+                            </div>
+
+                            <!-- QR Code Display -->
+                            <div class="qr-container" id="qrContainer" style="display: none;">
+                                <h3>Scan QR Code to Pay</h3>
+                                <img class="qr-code" id="qrCodeImage" alt="UPI Payment QR Code">
+                                <p style="color: var(--text-light); margin-bottom: 1rem;">
+                                    Scan with any UPI app (Google Pay, PhonePe, Paytm, etc.)
+                                </p>
+                                <p style="font-weight: 600; color: var(--primary);">
+                                    Payment Amount: <span id="qrAmount">₹999</span>
+                                </p>
+                                <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 1rem;">
+                                    Payment to: anaslila@icici
+                                </p>
                             </div>
 
                             <!-- Features List -->
@@ -1153,19 +1198,19 @@
                                 <ul style="list-style: none; padding: 0;">
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Fully Editable Customer Management
+                                        All-in-One Control for Hotels That Don't Compromise
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Multiple Items Per Table Orders
+                                        Enhanced Billing with Table-First Selection
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Complete Offline Support
+                                        Sliding Table Details with Menu Integration
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        500 Interactive Table/Room Tiles
+                                        Complete Offline Support with Bill Sharing
                                     </li>
                                 </ul>
                             </div>
@@ -1176,28 +1221,32 @@
         </div>
     </main>
 
-    <!-- Add/Edit Table Modal -->
+    <!-- Add/Edit Table Modal (Big Inputs for New, Small for Edit) -->
     <div class="modal" id="tableModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title" id="modalTitle">Add New Table/Room</h3>
             </div>
-            <div class="form-section">
-                <div class="form-grid">
+            <div class="form-section" id="tableFormSection">
+                <div class="form-grid" id="tableFormGrid">
                     <div class="form-group">
                         <label class="form-label">Number *</label>
-                        <input type="number" class="form-input" id="tableNumber" placeholder="Table/Room Number" min="1">
+                        <input type="number" class="form-input big" id="tableNumber" placeholder="Table/Room Number" min="1">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Type *</label>
-                        <select class="form-input" id="tableType">
+                        <select class="form-input big" id="tableType" onchange="togglePriceField()">
                             <option value="Table">🍽️ Table</option>
                             <option value="Room">🏨 Room</option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="chairsGroup">
                         <label class="form-label">Number of Chairs *</label>
-                        <input type="number" class="form-input" id="tableChairs" placeholder="Number of chairs" min="1" max="20" value="4">
+                        <input type="number" class="form-input big" id="tableChairs" placeholder="Number of chairs" min="1" max="20" value="4">
+                    </div>
+                    <div class="form-group" id="priceGroup" style="display: none;">
+                        <label class="form-label">Room Price (₹) *</label>
+                        <input type="number" class="form-input big" id="roomPrice" placeholder="Room price per night" min="0">
                     </div>
                 </div>
                 <div style="display: flex; gap: 1rem; margin-top: 2rem;">
@@ -1214,30 +1263,17 @@
         </div>
     </div>
 
-    <!-- Table Order Management Modal -->
-    <div class="modal" id="orderModal">
+    <!-- Bill Display Modal -->
+    <div class="modal" id="billModal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="orderModalTitle">Manage Table Order</h3>
-            </div>
-            <div id="orderItemsList" class="order-items">
-                <!-- Order items will be populated here -->
-            </div>
-            <div style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: center;">
-                <button class="btn btn-success" onclick="generateFinalBill()">
-                    <span class="material-icons-outlined">receipt</span>
-                    Generate Final Bill
-                </button>
-                <button class="btn btn-danger" onclick="closeOrderModal()">
-                    <span class="material-icons-outlined">close</span>
-                    Close
-                </button>
+            <div class="bill-display" id="billDisplay">
+                <!-- Bill content will be populated here -->
             </div>
         </div>
     </div>
 
     <script>
-        // Enhanced Restaurant Database System with Full Editing Support
+        // Enhanced Restaurant Database System
         const RestaurantDB = {
             tables: {
                 save: (table) => {
@@ -1250,7 +1286,8 @@
                         id: Date.now(),
                         number: table.number,
                         type: table.type,
-                        chairs: table.chairs,
+                        chairs: table.chairs || 0,
+                        price: table.price || 0,
                         status: 'available',
                         order: {
                             customerId: null,
@@ -1283,19 +1320,17 @@
                     const tables = RestaurantDB.tables.getAll().filter(table => table.id !== parseInt(id));
                     localStorage.setItem('thynk_tables', JSON.stringify(tables));
                 },
-                addItemToOrder: (tableId, item) => {
+                addItemToOrder: (tableId, item, customerInfo) => {
                     const tables = RestaurantDB.tables.getAll();
                     const tableIndex = tables.findIndex(t => t.id === parseInt(tableId));
                     if (tableIndex !== -1) {
                         const existingItemIndex = tables[tableIndex].order.items.findIndex(i => i.menuId === item.menuId);
                         if (existingItemIndex !== -1) {
-                            // Update quantity if item already exists
                             tables[tableIndex].order.items[existingItemIndex].quantity += item.quantity;
                             tables[tableIndex].order.items[existingItemIndex].total = 
                                 tables[tableIndex].order.items[existingItemIndex].quantity * 
                                 tables[tableIndex].order.items[existingItemIndex].price;
                         } else {
-                            // Add new item
                             tables[tableIndex].order.items.push({
                                 id: Date.now(),
                                 menuId: item.menuId,
@@ -1306,48 +1341,13 @@
                             });
                         }
                         
-                        // Update table status and recalculate total
                         tables[tableIndex].status = 'occupied';
+                        tables[tableIndex].order.customerId = customerInfo.customerId;
+                        tables[tableIndex].order.customerName = customerInfo.customerName;
                         tables[tableIndex].order.total = tables[tableIndex].order.items.reduce((sum, i) => sum + i.total, 0);
                         
                         localStorage.setItem('thynk_tables', JSON.stringify(tables));
                         return true;
-                    }
-                    return false;
-                },
-                updateItemQuantity: (tableId, itemId, quantity) => {
-                    const tables = RestaurantDB.tables.getAll();
-                    const tableIndex = tables.findIndex(t => t.id === parseInt(tableId));
-                    if (tableIndex !== -1) {
-                        const itemIndex = tables[tableIndex].order.items.findIndex(i => i.id === parseInt(itemId));
-                        if (itemIndex !== -1) {
-                            if (quantity <= 0) {
-                                // Remove item if quantity is 0 or less
-                                tables[tableIndex].order.items.splice(itemIndex, 1);
-                            } else {
-                                tables[tableIndex].order.items[itemIndex].quantity = quantity;
-                                tables[tableIndex].order.items[itemIndex].total = 
-                                    tables[tableIndex].order.items[itemIndex].quantity * 
-                                    tables[tableIndex].order.items[itemIndex].price;
-                            }
-                            
-                            // Recalculate total
-                            tables[tableIndex].order.total = tables[tableIndex].order.items.reduce((sum, i) => sum + i.total, 0);
-                            
-                            // If no items left, mark table as available
-                            if (tables[tableIndex].order.items.length === 0) {
-                                tables[tableIndex].status = 'available';
-                                tables[tableIndex].order = {
-                                    customerId: null,
-                                    customerName: '',
-                                    items: [],
-                                    total: 0
-                                };
-                            }
-                            
-                            localStorage.setItem('thynk_tables', JSON.stringify(tables));
-                            return true;
-                        }
                     }
                     return false;
                 }
@@ -1431,7 +1431,7 @@
                     };
                     bills.push(newBill);
                     localStorage.setItem('thynk_bills', JSON.stringify(bills));
-                    return bills.length;
+                    return newBill;
                 },
                 getAll: () => JSON.parse(localStorage.getItem('thynk_bills') || '[]')
             }
@@ -1443,6 +1443,7 @@
         let editingCustomerId = null;
         let currentOrderTableId = null;
         let discountApplied = false;
+        let expandedTileId = null;
 
         // Tab switching
         function switchTab(tabName) {
@@ -1462,44 +1463,106 @@
             updateStats();
         }
 
-        // Table Management Functions
+        // Enhanced Table Management Functions
         function addNewTable() {
             editingTableId = null;
             document.getElementById('modalTitle').textContent = 'Add New Table/Room';
+            
+            // Make inputs big for new table creation
+            document.querySelectorAll('#tableFormGrid .form-input').forEach(input => {
+                input.className = 'form-input big';
+            });
+            
+            // Make form section non-slidable for new table
+            document.getElementById('tableFormSection').style.overflowY = 'visible';
+            document.getElementById('tableFormSection').style.maxHeight = 'none';
+            
             document.getElementById('tableNumber').value = '';
             document.getElementById('tableType').value = 'Table';
             document.getElementById('tableChairs').value = '4';
+            document.getElementById('roomPrice').value = '';
+            togglePriceField();
             document.getElementById('tableModal').classList.add('show');
         }
 
-        function editTable(id) {
+        function togglePriceField() {
+            const type = document.getElementById('tableType').value;
+            const chairsGroup = document.getElementById('chairsGroup');
+            const priceGroup = document.getElementById('priceGroup');
+            
+            if (type === 'Room') {
+                chairsGroup.style.display = 'none';
+                priceGroup.style.display = 'block';
+            } else {
+                chairsGroup.style.display = 'block';
+                priceGroup.style.display = 'none';
+            }
+        }
+
+        function editTableInTile(id) {
             const tables = RestaurantDB.tables.getAll();
             const table = tables.find(t => t.id === id);
             if (!table) return;
 
             editingTableId = id;
             document.getElementById('modalTitle').textContent = 'Edit Table/Room';
+            
+            // Make inputs small for editing
+            document.querySelectorAll('#tableFormGrid .form-input').forEach(input => {
+                input.className = 'form-input small';
+            });
+            
+            // Make form section slidable for editing
+            document.getElementById('tableFormSection').style.overflowY = 'auto';
+            document.getElementById('tableFormSection').style.maxHeight = '400px';
+            
             document.getElementById('tableNumber').value = table.number;
             document.getElementById('tableType').value = table.type;
-            document.getElementById('tableChairs').value = table.chairs;
+            if (table.type === 'Room') {
+                document.getElementById('roomPrice').value = table.price;
+            } else {
+                document.getElementById('tableChairs').value = table.chairs;
+            }
+            togglePriceField();
             document.getElementById('tableModal').classList.add('show');
         }
 
         function saveTable() {
             const number = document.getElementById('tableNumber').value.trim();
             const type = document.getElementById('tableType').value;
-            const chairs = document.getElementById('tableChairs').value.trim();
+            const chairs = type === 'Table' ? document.getElementById('tableChairs').value.trim() : 0;
+            const price = type === 'Room' ? document.getElementById('roomPrice').value.trim() : 0;
 
-            if (!number || !chairs) {
-                showNotification('Please fill in all required fields', 'error');
+            if (!number) {
+                showNotification('Please enter table/room number', 'error');
+                return;
+            }
+
+            if (type === 'Table' && !chairs) {
+                showNotification('Please enter number of chairs', 'error');
+                return;
+            }
+
+            if (type === 'Room' && !price) {
+                showNotification('Please enter room price', 'error');
                 return;
             }
 
             if (editingTableId) {
-                RestaurantDB.tables.update(editingTableId, { number: parseInt(number), type, chairs: parseInt(chairs) });
+                RestaurantDB.tables.update(editingTableId, { 
+                    number: parseInt(number), 
+                    type, 
+                    chairs: parseInt(chairs) || 0,
+                    price: parseFloat(price) || 0
+                });
                 showNotification(`${type} ${number} updated successfully!`);
             } else {
-                const result = RestaurantDB.tables.save({ number: parseInt(number), type, chairs: parseInt(chairs) });
+                const result = RestaurantDB.tables.save({ 
+                    number: parseInt(number), 
+                    type, 
+                    chairs: parseInt(chairs) || 0,
+                    price: parseFloat(price) || 0
+                });
                 if (result) {
                     showNotification(`${type} ${number} added successfully!`);
                 }
@@ -1531,6 +1594,7 @@
             }
         }
 
+        // Enhanced Table Loading with Sliding Details
         function loadTables() {
             const tables = RestaurantDB.tables.getAll();
             const container = document.getElementById('tilesGrid');
@@ -1549,107 +1613,275 @@
                 return;
             }
 
-            container.innerHTML = tables.map(table => `
-                <div class="table-tile ${table.status}" onclick="handleTableClick(${table.id})">
-                    <button class="tile-remove-btn" onclick="deleteTable(${table.id}, event)" title="Remove ${table.type} ${table.number}">
-                        <span class="material-icons-outlined" style="font-size: 14px;">close</span>
-                    </button>
-                    
-                    <div class="tile-number">${table.type === 'Room' ? 'R' : 'T'}${table.number}</div>
-                    <div class="tile-info">${table.type}</div>
-                    <div class="tile-chairs">${table.chairs} ${table.chairs === 1 ? 'Chair' : 'Chairs'}</div>
-                    ${table.order.items.length > 0 ? `<div class="tile-chairs">${table.order.items.length} Items - ₹${table.order.total.toFixed(2)}</div>` : ''}
-                </div>
-            `).join('');
-        }
+            container.innerHTML = tables.map(table => {
+                const isExpanded = expandedTileId === table.id;
+                const orderItems = table.order.items || [];
+                const customerName = table.order.customerName || 'No customer';
+                
+                return `
+                    <div class="table-tile ${table.status} ${isExpanded ? 'expanded' : ''}" onclick="toggleTileDetails(${table.id})" id="tile-${table.id}">
+                        <button class="tile-remove-btn" onclick="deleteTable(${table.id}, event)" title="Remove ${table.type} ${table.number}">
+                            <span class="material-icons-outlined" style="font-size: 14px;">close</span>
+                        </button>
+                        
+                        <!-- Always Visible Header -->
+                        <div class="tile-header">
+                            <div class="tile-number">${table.type === 'Room' ? 'R' : 'T'}${table.number}</div>
+                            <div class="tile-info">${table.type}</div>
+                            <div class="tile-price">
+                                ${table.type === 'Room' ? 
+                                    `₹${table.price}/night` : 
+                                    `${table.chairs} ${table.chairs === 1 ? 'Chair' : 'Chairs'}`
+                                }
+                            </div>
+                            ${orderItems.length > 0 ? `<div class="tile-price" style="color: var(--success); font-weight: 800;">₹${table.order.total.toFixed(2)}</div>` : ''}
+                        </div>
 
-        function handleTableClick(tableId) {
-            const tables = RestaurantDB.tables.getAll();
-            const table = tables.find(t => t.id === tableId);
-            if (!table) return;
-
-            if (table.status === 'available') {
-                editTable(tableId);
-            } else if (table.status === 'occupied') {
-                openOrderModal(tableId);
-            }
-        }
-
-        // Order Management Functions
-        function openOrderModal(tableId) {
-            currentOrderTableId = tableId;
-            const tables = RestaurantDB.tables.getAll();
-            const table = tables.find(t => t.id === tableId);
-            
-            if (!table) return;
-
-            document.getElementById('orderModalTitle').textContent = `Manage Order - ${table.type} ${table.number}`;
-            loadOrderItems();
-            document.getElementById('orderModal').classList.add('show');
-        }
-
-        function loadOrderItems() {
-            const tables = RestaurantDB.tables.getAll();
-            const table = tables.find(t => t.id === currentOrderTableId);
-            const container = document.getElementById('orderItemsList');
-            
-            if (!table || table.order.items.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">🍽️</div>
-                        <h3>No Items in Order</h3>
-                        <p>Add items from the billing section</p>
+                        <!-- Sliding Details Section -->
+                        <div class="tile-details ${isExpanded ? 'expanded' : ''}">
+                            <div class="details-content">
+                                <div class="customer-info">
+                                    <strong>Customer:</strong> ${customerName}
+                                </div>
+                                
+                                ${orderItems.length > 0 ? `
+                                    <div class="menu-items">
+                                        ${orderItems.map(item => `
+                                            <div class="menu-item">
+                                                <span>${item.name} x${item.quantity}</span>
+                                                <span>₹${item.total.toFixed(2)}</span>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                ` : '<div style="text-align: center; color: var(--text-light); margin: 1rem 0;">No items added yet</div>'}
+                                
+                                <div class="tile-actions">
+                                    <button class="btn btn-sm btn-primary" onclick="addMenuToTable(${table.id}, event)">
+                                        <span class="material-icons-outlined">add</span>
+                                        Add Menu
+                                    </button>
+                                    <button class="btn btn-sm btn-warning" onclick="editTableInTile(${table.id})" ${!isExpanded ? 'style="display: none;"' : ''}>
+                                        <span class="material-icons-outlined">edit</span>
+                                        Edit
+                                    </button>
+                                    ${orderItems.length > 0 ? `
+                                        <button class="btn btn-sm btn-success" onclick="generateBillForTable(${table.id}, event)">
+                                            <span class="material-icons-outlined">receipt</span>
+                                            Generate Bill
+                                        </button>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 `;
-                return;
+            }).join('');
+        }
+
+        function toggleTileDetails(tableId) {
+            if (expandedTileId === tableId) {
+                expandedTileId = null;
+            } else {
+                expandedTileId = tableId;
             }
-
-            container.innerHTML = table.order.items.map(item => `
-                <div class="order-item">
-                    <div class="item-details">
-                        <div class="item-name">${item.name}</div>
-                        <div class="item-price">₹${item.price.toFixed(2)} each • Total: ₹${item.total.toFixed(2)}</div>
-                    </div>
-                    <div class="quantity-controls">
-                        <button class="quantity-btn" onclick="updateItemQuantity(${item.id}, ${item.quantity - 1})">
-                            <span class="material-icons-outlined" style="font-size: 16px;">remove</span>
-                        </button>
-                        <div class="quantity-display">${item.quantity}</div>
-                        <button class="quantity-btn" onclick="updateItemQuantity(${item.id}, ${item.quantity + 1})">
-                            <span class="material-icons-outlined" style="font-size: 16px;">add</span>
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-
-            // Show total
-            container.innerHTML += `
-                <div style="margin-top: 1rem; padding: 1rem; background: var(--primary); color: white; border-radius: 8px; text-align: center; font-weight: 600; font-size: 1.2rem;">
-                    Order Total: ₹${table.order.total.toFixed(2)}
-                </div>
-            `;
+            loadTables();
         }
 
-        function updateItemQuantity(itemId, newQuantity) {
-            RestaurantDB.tables.updateItemQuantity(currentOrderTableId, itemId, newQuantity);
-            loadOrderItems();
-            loadTables(); // Refresh table tiles
-            loadActiveOrders(); // Refresh active orders in billing
-            updateStats();
+        function addMenuToTable(tableId, event) {
+            event.stopPropagation();
+            switchTab('billing');
+            setTimeout(() => {
+                showNewBillForm();
+                document.getElementById('billTableSelect').value = tableId;
+                loadCustomerForTable();
+            }, 300);
         }
 
-        function generateFinalBill() {
+        function generateBillForTable(tableId, event) {
+            event.stopPropagation();
             const tables = RestaurantDB.tables.getAll();
-            const table = tables.find(t => t.id === currentOrderTableId);
+            const table = tables.find(t => t.id === tableId);
             
             if (!table || table.order.items.length === 0) {
                 showNotification('No items in order to bill', 'error');
                 return;
             }
 
+            generateBillFromTableData(table);
+        }
+
+        // Enhanced Billing Software Functions
+        function showNewBillForm() {
+            document.getElementById('billForm').style.display = 'block';
+            loadBillingDropdowns();
+        }
+
+        function hideBillForm() {
+            document.getElementById('billForm').style.display = 'none';
+            clearBillForm();
+        }
+
+        function clearBillForm() {
+            document.getElementById('billTableSelect').value = '';
+            document.getElementById('billCustomerSelect').innerHTML = '<option value="">Customer will load automatically</option>';
+            document.getElementById('billCustomerName').value = '';
+            document.getElementById('billMenuSelect').value = '';
+            document.getElementById('billQuantity').value = '1';
+            document.getElementById('newCustomerInput').style.display = 'none';
+        }
+
+        function loadBillingDropdowns() {
+            loadTableDropdownForBilling();
+            loadMenuDropdown();
+        }
+
+        function loadTableDropdownForBilling() {
+            const tables = RestaurantDB.tables.getAll();
+            const select = document.getElementById('billTableSelect');
+            
+            select.innerHTML = '<option value="">Select Table/Room FIRST</option>';
+            tables.forEach(table => {
+                const statusText = table.status === 'occupied' ? ' (OCCUPIED)' : ' (AVAILABLE)';
+                const itemCount = table.order.items.length > 0 ? ` - ${table.order.items.length} items` : '';
+                select.innerHTML += `<option value="${table.id}">${table.type} ${table.number}${statusText}${itemCount}</option>`;
+            });
+        }
+
+        function loadCustomerForTable() {
+            const tableId = document.getElementById('billTableSelect').value;
+            const customerSelect = document.getElementById('billCustomerSelect');
+            
+            if (!tableId) {
+                customerSelect.innerHTML = '<option value="">Customer will load automatically</option>';
+                return;
+            }
+
+            const tables = RestaurantDB.tables.getAll();
+            const table = tables.find(t => t.id == tableId);
+            const customers = RestaurantDB.customers.getAll();
+            
+            customerSelect.innerHTML = '<option value="">Select Customer</option><option value="new">+ Add New Customer</option>';
+            
+            customers.forEach(customer => {
+                customerSelect.innerHTML += `<option value="${customer.id}">${customer.name} (${customer.totalOrders} orders)</option>`;
+            });
+
+            // If table is occupied, load the existing customer
+            if (table && table.status === 'occupied' && table.order.customerId) {
+                customerSelect.value = table.order.customerId;
+            }
+
+            // Handle new customer input
+            customerSelect.addEventListener('change', function() {
+                const newCustomerInput = document.getElementById('newCustomerInput');
+                if (this.value === 'new') {
+                    newCustomerInput.style.display = 'block';
+                    document.getElementById('billCustomerName').focus();
+                } else {
+                    newCustomerInput.style.display = 'none';
+                }
+            });
+        }
+
+        function loadMenuDropdown() {
+            const menuItems = RestaurantDB.menu.getAll();
+            const select = document.getElementById('billMenuSelect');
+            
+            select.innerHTML = '<option value="">Select Menu Item</option>';
+            menuItems.forEach(item => {
+                select.innerHTML += `<option value="${item.id}" data-price="${item.price}">${item.name} - ₹${item.price}</option>`;
+            });
+        }
+
+        function addItemToTableOrder() {
+            const tableId = document.getElementById('billTableSelect').value;
+            const customerSelect = document.getElementById('billCustomerSelect').value;
+            const customerName = customerSelect === 'new' ? document.getElementById('billCustomerName').value.trim() : '';
+            const menuSelect = document.getElementById('billMenuSelect');
+            const selectedMenuItem = menuSelect.options[menuSelect.selectedIndex];
+            const quantity = parseInt(document.getElementById('billQuantity').value);
+
+            if (!tableId) {
+                showNotification('Please select a table/room first', 'error');
+                return;
+            }
+
+            if (!customerSelect) {
+                showNotification('Please select a customer', 'error');
+                return;
+            }
+
+            if (customerSelect === 'new' && !customerName) {
+                showNotification('Please enter customer name', 'error');
+                return;
+            }
+
+            if (!selectedMenuItem.value || !quantity) {
+                showNotification('Please select menu item and quantity', 'error');
+                return;
+            }
+
+            let finalCustomerName = customerName;
+            let finalCustomerId = customerSelect;
+
+            // Add new customer if needed
+            if (customerSelect === 'new') {
+                RestaurantDB.customers.save({ name: customerName, phone: '', email: '', address: '' });
+                const customers = RestaurantDB.customers.getAll();
+                const newCustomer = customers[customers.length - 1];
+                finalCustomerId = newCustomer.id;
+                finalCustomerName = customerName;
+            } else {
+                const customers = RestaurantDB.customers.getAll();
+                const customer = customers.find(c => c.id == customerSelect);
+                finalCustomerName = customer ? customer.name : 'Unknown';
+            }
+
+            const price = parseFloat(selectedMenuItem.dataset.price);
+
+            // Add item to table order
+            const success = RestaurantDB.tables.addItemToOrder(tableId, {
+                menuId: parseInt(selectedMenuItem.value),
+                name: selectedMenuItem.textContent.split(' - ')[0],
+                price,
+                quantity
+            }, {
+                customerId: finalCustomerId,
+                customerName: finalCustomerName
+            });
+
+            if (success) {
+                showNotification(`${quantity}x ${selectedMenuItem.textContent.split(' - ')[0]} added to table order!`);
+                clearBillForm();
+                loadTables();
+                loadActiveOrders();
+                updateStats();
+            }
+        }
+
+        function generateBillFromForm() {
+            const tableId = document.getElementById('billTableSelect').value;
+            
+            if (!tableId) {
+                showNotification('Please select a table first', 'error');
+                return;
+            }
+
+            const tables = RestaurantDB.tables.getAll();
+            const table = tables.find(t => t.id == tableId);
+            
+            if (!table || table.order.items.length === 0) {
+                showNotification('Please add items to the order first', 'error');
+                return;
+            }
+
+            generateBillFromTableData(table);
+        }
+
+        function generateBillFromTableData(table) {
             // Generate bill
-            RestaurantDB.bills.save({
-                tableId: currentOrderTableId,
+            const bill = RestaurantDB.bills.save({
+                tableId: table.id,
                 tableNumber: `${table.type} ${table.number}`,
                 customerId: table.order.customerId,
                 customerName: table.order.customerName,
@@ -1663,7 +1895,7 @@
             }
 
             // Clear table order
-            RestaurantDB.tables.update(currentOrderTableId, {
+            RestaurantDB.tables.update(table.id, {
                 status: 'available',
                 order: {
                     customerId: null,
@@ -1673,16 +1905,193 @@
                 }
             });
 
-            showNotification('Final bill generated successfully!');
-            closeOrderModal();
+            showNotification('Bill generated successfully!');
+            displayBill(bill);
             loadTables();
             loadActiveOrders();
             updateStats();
         }
 
-        function closeOrderModal() {
-            document.getElementById('orderModal').classList.remove('show');
-            currentOrderTableId = null;
+        function displayBill(bill) {
+            const billDisplay = document.getElementById('billDisplay');
+            
+            billDisplay.innerHTML = `
+                <div class="bill-header">
+                    <h2>THYNK POS</h2>
+                    <p>Bill #${bill.id.toString().slice(-6)}</p>
+                    <p>${new Date(bill.date).toLocaleString()}</p>
+                </div>
+                
+                <div>
+                    <p><strong>Customer:</strong> ${bill.customerName}</p>
+                    <p><strong>Table:</strong> ${bill.tableNumber}</p>
+                </div>
+                
+                <div class="bill-items">
+                    ${bill.items.map(item => `
+                        <div class="bill-item">
+                            <span>${item.name} x${item.quantity}</span>
+                            <span>₹${item.total.toFixed(2)}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="bill-total">
+                    Total: ₹${bill.total.toFixed(2)}
+                </div>
+                
+                <div class="bill-actions">
+                    <button class="btn btn-primary" onclick="printBill(${bill.id})">
+                        <span class="material-icons-outlined">print</span>
+                        Print Bill
+                    </button>
+                    <button class="btn btn-success" onclick="shareBill(${bill.id})">
+                        <span class="material-icons-outlined">share</span>
+                        Share Bill
+                    </button>
+                    <button class="btn btn-info" onclick="downloadBillImage(${bill.id})">
+                        <span class="material-icons-outlined">download</span>
+                        Download
+                    </button>
+                    <button class="btn btn-danger" onclick="closeBillModal()">
+                        <span class="material-icons-outlined">close</span>
+                        Close
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('billModal').classList.add('show');
+        }
+
+        function printBill(billId) {
+            const bills = RestaurantDB.bills.getAll();
+            const bill = bills.find(b => b.id === billId);
+            if (!bill) return;
+
+            const printContent = `
+                <div style="max-width: 400px; margin: 0 auto; font-family: monospace;">
+                    <h2 style="text-align: center;">THYNK POS</h2>
+                    <p style="text-align: center;">Hotel Management System</p>
+                    <hr>
+                    <p><strong>Bill #:</strong> ${bill.id.toString().slice(-6)}</p>
+                    <p><strong>Date:</strong> ${new Date(bill.date).toLocaleString()}</p>
+                    <p><strong>Customer:</strong> ${bill.customerName}</p>
+                    <p><strong>Table:</strong> ${bill.tableNumber}</p>
+                    <hr>
+                    ${bill.items.map(item => `
+                        <p>${item.name} x${item.quantity} = ₹${item.total.toFixed(2)}</p>
+                    `).join('')}
+                    <hr>
+                    <p style="font-size: 18px;"><strong>Total: ₹${bill.total.toFixed(2)}</strong></p>
+                    <hr>
+                    <p style="text-align: center;">Thank you for your business!</p>
+                </div>
+            `;
+
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(printContent);
+            printWindow.print();
+            showNotification('Bill sent to printer!');
+        }
+
+        function shareBill(billId) {
+            const bills = RestaurantDB.bills.getAll();
+            const bill = bills.find(b => b.id === billId);
+            if (!bill) return;
+
+            const billText = `
+THYNK POS - Bill #${bill.id.toString().slice(-6)}
+Date: ${new Date(bill.date).toLocaleString()}
+Customer: ${bill.customerName}
+Table: ${bill.tableNumber}
+
+Items:
+${bill.items.map(item => `${item.name} x${item.quantity} = ₹${item.total.toFixed(2)}`).join('\n')}
+
+Total: ₹${bill.total.toFixed(2)}
+
+Thank you for your business!
+            `;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: `Bill #${bill.id.toString().slice(-6)}`,
+                    text: billText
+                });
+            } else {
+                navigator.clipboard.writeText(billText);
+                showNotification('Bill copied to clipboard!');
+            }
+        }
+
+        function downloadBillImage(billId) {
+            // Create a simple text-based image download
+            const bills = RestaurantDB.bills.getAll();
+            const bill = bills.find(b => b.id === billId);
+            if (!bill) return;
+
+            const billData = `data:text/plain;charset=utf-8,${encodeURIComponent(`
+THYNK POS - Bill #${bill.id.toString().slice(-6)}
+Date: ${new Date(bill.date).toLocaleString()}
+Customer: ${bill.customerName}
+Table: ${bill.tableNumber}
+
+Items:
+${bill.items.map(item => `${item.name} x${item.quantity} = ₹${item.total.toFixed(2)}`).join('\n')}
+
+Total: ₹${bill.total.toFixed(2)}
+
+Thank you for your business!
+            `)}`;
+
+            const downloadLink = document.createElement('a');
+            downloadLink.href = billData;
+            downloadLink.download = `bill-${bill.id}.txt`;
+            downloadLink.click();
+            showNotification('Bill downloaded!');
+        }
+
+        function closeBillModal() {
+            document.getElementById('billModal').classList.remove('show');
+        }
+
+        function loadActiveOrders() {
+            const tables = RestaurantDB.tables.getAll().filter(t => t.status === 'occupied' && t.order.items.length > 0);
+            const container = document.getElementById('activeOrders');
+            
+            if (tables.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🛒</div>
+                        <h3>No Active Orders</h3>
+                        <p>Add items to tables to see active orders here</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = tables.map(table => `
+                <div class="card">
+                    <h3>${table.type} ${table.number} - ${table.order.customerName}</h3>
+                    <div style="max-height: 150px; overflow-y: auto; margin: 1rem 0;">
+                        ${table.order.items.map(item => `
+                            <div style="display: flex; justify-content: space-between; padding: 0.25rem 0; border-bottom: 1px solid var(--light);">
+                                <span>${item.name} x${item.quantity}</span>
+                                <span>₹${item.total.toFixed(2)}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div style="margin-top: 1rem; padding: 1rem; background: var(--success); color: white; border-radius: 8px; text-align: center; font-weight: 600;">
+                        Order Total: ₹${table.order.total.toFixed(2)}
+                    </div>
+                    <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+                        <button class="btn btn-sm btn-success" onclick="generateBillFromTableData(${JSON.stringify(table).replace(/"/g, '&quot;')})">
+                            <span class="material-icons-outlined">receipt</span>
+                            Generate Bill
+                        </button>
+                    </div>
+                </div>
+            `).join('');
         }
 
         // Menu Management Functions
@@ -1775,7 +2184,6 @@
             
             // Change save button to update
             document.querySelector('#menuForm .btn-success').onclick = () => updateMenuItem(id);
-            document.querySelector('#menuForm .btn-success span').textContent = 'update';
             document.querySelector('#menuForm .btn-success').innerHTML = '<span class="material-icons-outlined">update</span> Update Menu Item';
             
             showAddMenuForm();
@@ -1812,184 +2220,6 @@
                 loadBillingDropdowns();
                 updateStats();
             }
-        }
-
-        // Billing Software Functions
-        function showNewBillForm() {
-            document.getElementById('billForm').style.display = 'block';
-            loadBillingDropdowns();
-        }
-
-        function hideBillForm() {
-            document.getElementById('billForm').style.display = 'none';
-            clearBillForm();
-        }
-
-        function clearBillForm() {
-            document.getElementById('billCustomerSelect').value = '';
-            document.getElementById('billCustomerName').value = '';
-            document.getElementById('billTableSelect').value = '';
-            document.getElementById('billMenuSelect').value = '';
-            document.getElementById('billQuantity').value = '1';
-            document.getElementById('billTax').value = '18';
-            document.getElementById('newCustomerName').style.display = 'none';
-        }
-
-        function loadBillingDropdowns() {
-            loadCustomerDropdown();
-            loadTableDropdown();
-            loadMenuDropdown();
-        }
-
-        function loadCustomerDropdown() {
-            const customers = RestaurantDB.customers.getAll();
-            const select = document.getElementById('billCustomerSelect');
-            
-            select.innerHTML = `
-                <option value="">Select Customer</option>
-                <option value="new">+ Add New Customer</option>
-            `;
-            
-            customers.forEach(customer => {
-                select.innerHTML += `<option value="${customer.id}">${customer.name} (${customer.totalOrders} orders)</option>`;
-            });
-        }
-
-        function loadTableDropdown() {
-            const tables = RestaurantDB.tables.getAll();
-            const select = document.getElementById('billTableSelect');
-            
-            select.innerHTML = '<option value="">Select Table/Room</option>';
-            tables.forEach(table => {
-                select.innerHTML += `<option value="${table.id}">${table.type} ${table.number} (${table.chairs} chairs) - ${table.status.toUpperCase()}</option>`;
-            });
-        }
-
-        function loadMenuDropdown() {
-            const menuItems = RestaurantDB.menu.getAll();
-            const select = document.getElementById('billMenuSelect');
-            
-            select.innerHTML = '<option value="">Select Menu Item</option>';
-            menuItems.forEach(item => {
-                select.innerHTML += `<option value="${item.id}" data-price="${item.price}">${item.name} - ₹${item.price}</option>`;
-            });
-        }
-
-        function addItemToOrder() {
-            const customerSelect = document.getElementById('billCustomerSelect').value;
-            const customerName = customerSelect === 'new' ? document.getElementById('billCustomerName').value.trim() : '';
-            const tableId = document.getElementById('billTableSelect').value;
-            const menuSelect = document.getElementById('billMenuSelect');
-            const selectedMenuItem = menuSelect.options[menuSelect.selectedIndex];
-            const quantity = parseInt(document.getElementById('billQuantity').value);
-
-            if (!customerSelect) {
-                showNotification('Please select a customer', 'error');
-                return;
-            }
-
-            if (customerSelect === 'new' && !customerName) {
-                showNotification('Please enter customer name', 'error');
-                return;
-            }
-
-            if (!tableId || !selectedMenuItem.value || !quantity) {
-                showNotification('Please fill in all required fields', 'error');
-                return;
-            }
-
-            let finalCustomerName = customerName;
-            let finalCustomerId = customerSelect;
-
-            // Add new customer if needed
-            if (customerSelect === 'new') {
-                RestaurantDB.customers.save({ name: customerName, phone: '', email: '', address: '' });
-                const customers = RestaurantDB.customers.getAll();
-                const newCustomer = customers[customers.length - 1];
-                finalCustomerId = newCustomer.id;
-                finalCustomerName = customerName;
-            } else {
-                const customers = RestaurantDB.customers.getAll();
-                const customer = customers.find(c => c.id == customerSelect);
-                finalCustomerName = customer ? customer.name : 'Unknown';
-            }
-
-            const price = parseFloat(selectedMenuItem.dataset.price);
-
-            // Add item to table order
-            const success = RestaurantDB.tables.addItemToOrder(tableId, {
-                menuId: parseInt(selectedMenuItem.value),
-                name: selectedMenuItem.textContent.split(' - ')[0],
-                price,
-                quantity
-            });
-
-            if (success) {
-                // Update table with customer info
-                RestaurantDB.tables.update(tableId, {
-                    order: {
-                        ...RestaurantDB.tables.getAll().find(t => t.id == tableId).order,
-                        customerId: finalCustomerId,
-                        customerName: finalCustomerName
-                    }
-                });
-
-                showNotification(`${quantity}x ${selectedMenuItem.textContent.split(' - ')[0]} added to order!`);
-                hideBillForm();
-                loadTables();
-                loadActiveOrders();
-                updateStats();
-            }
-        }
-
-        function loadActiveOrders() {
-            const tables = RestaurantDB.tables.getAll().filter(t => t.status === 'occupied' && t.order.items.length > 0);
-            const container = document.getElementById('activeOrders');
-            
-            if (tables.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">🛒</div>
-                        <h3>No Active Orders</h3>
-                        <p>Add items to tables to see active orders here</p>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = tables.map(table => `
-                <div class="card">
-                    <h3>${table.type} ${table.number} - ${table.order.customerName}</h3>
-                    <div class="order-items">
-                        ${table.order.items.map(item => `
-                            <div class="order-item">
-                                <div class="item-details">
-                                    <div class="item-name">${item.name}</div>
-                                    <div class="item-price">₹${item.price.toFixed(2)} x ${item.quantity} = ₹${item.total.toFixed(2)}</div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                    <div style="margin-top: 1rem; padding: 1rem; background: var(--success); color: white; border-radius: 8px; text-align: center; font-weight: 600;">
-                        Order Total: ₹${table.order.total.toFixed(2)}
-                    </div>
-                    <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
-                        <button class="btn btn-sm btn-primary" onclick="openOrderModal(${table.id})">
-                            <span class="material-icons-outlined">edit</span>
-                            Edit Order
-                        </button>
-                        <button class="btn btn-sm btn-success" onclick="generateFinalBillDirect(${table.id})">
-                            <span class="material-icons-outlined">receipt</span>
-                            Generate Bill
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function generateFinalBillDirect(tableId) {
-            currentOrderTableId = tableId;
-            generateFinalBill();
         }
 
         // Customer Management Functions
@@ -2093,24 +2323,12 @@
             switchTab('billing');
             setTimeout(() => {
                 showNewBillForm();
-                document.getElementById('billCustomerSelect').value = customerId;
+                loadCustomerForTable();
+                setTimeout(() => {
+                    document.getElementById('billCustomerSelect').value = customerId;
+                }, 100);
             }, 300);
         }
-
-        // Customer dropdown event listener
-        document.addEventListener('DOMContentLoaded', function() {
-            document.addEventListener('change', function(e) {
-                if (e.target.id === 'billCustomerSelect') {
-                    const newCustomerDiv = document.getElementById('newCustomerName');
-                    if (e.target.value === 'new') {
-                        newCustomerDiv.style.display = 'block';
-                        document.getElementById('billCustomerName').focus();
-                    } else {
-                        newCustomerDiv.style.display = 'none';
-                    }
-                }
-            });
-        });
 
         // Subscription Functions
         function showSubscriptionTab() {
@@ -2138,12 +2356,36 @@
 
         function redirectToGooglePay() {
             const amount = discountApplied ? 499 : 999;
-            window.open(`https://pay.google.com/gp/p/ui/pay?pa=anaslila@icici&pn=Thynk%20POS&am=${amount}&cu=INR&tn=Thynk%20POS%20Lifetime%20Subscription`, '_blank');
+            // Corrected Google Pay URL format
+            const gpayUrl = `https://pay.google.com/pay?pa=anaslila@icici&pn=Thynk%20POS%20Subscription&am=${amount}&cu=INR&tn=Thynk%20POS%20Lifetime%20Access`;
+            window.open(gpayUrl, '_blank');
+            showNotification('Redirecting to Google Pay...');
         }
 
         function redirectToUPI() {
             const amount = discountApplied ? 499 : 999;
-            window.open(`upi://pay?pa=anaslila@icici&pn=Thynk%20POS&am=${amount}&cu=INR&tn=Thynk%20POS%20Lifetime%20Subscription`, '_blank');
+            // Standard UPI URL format
+            const upiUrl = `upi://pay?pa=anaslila@icici&pn=Thynk%20POS%20Subscription&am=${amount}&cu=INR&tn=Thynk%20POS%20Lifetime%20Access`;
+            window.open(upiUrl, '_blank');
+            showNotification('Opening UPI apps...');
+        }
+
+        function generatePaymentQR() {
+            const amount = discountApplied ? 499 : 999;
+            const qrContainer = document.getElementById('qrContainer');
+            const qrCodeImage = document.getElementById('qrCodeImage');
+            const qrAmountElement = document.getElementById('qrAmount');
+            
+            qrAmountElement.textContent = `₹${amount}`;
+            
+            // Using QR Server API for UPI QR generation
+            const upiString = `upi://pay?pa=anaslila@icici&pn=Thynk%20POS%20Subscription&am=${amount}&cu=INR&tn=Thynk%20POS%20Lifetime%20Access`;
+            const qrURL = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiString)}`;
+            
+            qrCodeImage.src = qrURL;
+            qrContainer.style.display = 'block';
+            
+            showNotification('QR Code generated! Scan to pay with any UPI app');
         }
 
         // Statistics Update
@@ -2184,7 +2426,7 @@
         // Service Worker Registration for Offline Support
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register(URL.createObjectURL(new Blob([`
-                const CACHE = 'thynk-pos-v8.0';
+                const CACHE = 'thynk-pos-v9.0';
                 self.addEventListener('install', e => {
                     e.waitUntil(caches.open(CACHE).then(cache => cache.addAll(['/'])));
                 });
