@@ -291,6 +291,37 @@
 
         .btn-sm { padding: 0.5rem 1rem; font-size: 0.875rem; }
 
+        /* Table/Room Search Filter */
+        .search-filter {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--white);
+            color: var(--dark);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-light);
+        }
+
         /* Enhanced Table Tiles with Different Colors for Table/Room and Status */
         .tiles-grid {
             display: grid;
@@ -372,6 +403,10 @@
 
         .table-tile.expanded {
             min-height: 450px;
+        }
+
+        .table-tile.hidden {
+            display: none;
         }
 
         /* Tile Header (Always Visible) */
@@ -554,6 +589,50 @@
             font-size: 0.85rem;
             color: var(--text-light);
             margin-top: 0.25rem;
+        }
+
+        /* Bulk Import Section */
+        .bulk-import-section {
+            background: var(--info);
+            color: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+        }
+
+        .bulk-import-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .bulk-import-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-input-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--white);
+            color: var(--info);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .file-input-label:hover {
+            background: var(--light);
+            transform: translateY(-2px);
         }
 
         /* Modal Styles */
@@ -1073,6 +1152,7 @@
             .bill-actions { grid-template-columns: 1fr; }
             .version-info { flex-direction: column; gap: 0.5rem; }
             .type-buttons { grid-template-columns: 1fr; }
+            .bulk-import-actions { flex-direction: column; align-items: stretch; }
         }
 
         /* Animations */
@@ -1220,7 +1300,12 @@
                             </div>
                         </div>
 
-                        <!-- Enhanced Table Tiles Grid with Different Colors -->
+                        <!-- Searchable Table/Room Filter -->
+                        <div class="search-filter">
+                            <input type="text" class="search-input" id="tableSearchInput" placeholder="🔍 Search tables/rooms by number, type, status, or customer name..." onkeyup="filterTables()">
+                        </div>
+
+                        <!-- Enhanced Table Tiles Grid with Search Filter -->
                         <div id="tilesGrid" class="tiles-grid">
                             <div class="empty-state">
                                 <div class="empty-icon">🏨</div>
@@ -1241,6 +1326,25 @@
                                 <span class="material-icons-outlined">add</span>
                                 Add Menu Item
                             </button>
+                        </div>
+
+                        <!-- Bulk Import Section for Menu -->
+                        <div class="bulk-import-section">
+                            <div class="bulk-import-header">
+                                <h3>📥 Bulk Import Menu Items</h3>
+                                <div class="bulk-import-actions">
+                                    <button class="btn" onclick="downloadMenuTemplate()" style="background: var(--white); color: var(--info);">
+                                        <span class="material-icons-outlined">download</span>
+                                        Download Template
+                                    </button>
+                                    <label for="menuFileInput" class="file-input-label">
+                                        <span class="material-icons-outlined">upload_file</span>
+                                        Import Excel File
+                                    </label>
+                                    <input type="file" id="menuFileInput" class="file-input" accept=".xlsx,.xls,.csv" onchange="importMenuFromExcel(event)">
+                                </div>
+                            </div>
+                            <p style="opacity: 0.9; font-size: 0.9rem;">Download the template, fill it with your menu items, and upload to add multiple items at once!</p>
                         </div>
 
                         <!-- Add Menu Form -->
@@ -1290,12 +1394,12 @@
                             <div class="empty-state">
                                 <div class="empty-icon">🍽️</div>
                                 <h3>No Menu Items Yet</h3>
-                                <p>Add menu items for your restaurant</p>
+                                <p>Add menu items for your restaurant or use bulk import</p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Enhanced Billing Software Tab with Searchable Customer -->
+                    <!-- Enhanced Billing Software Tab -->
                     <div class="tab-pane" id="billing-tab">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                             <h2>Enhanced Billing Software</h2>
@@ -1308,14 +1412,14 @@
                         <!-- Check-in Alert for Rooms -->
                         <div class="checkin-alert" id="checkinAlert" style="display: none;">
                             <h3>Room Check-in Required</h3>
-                            <p>Please check-in to the selected room before adding menu items.</p>
+                            <p>Please check-in to the selected room.</p>
                             <button class="btn" onclick="performRoomCheckin()" style="background: var(--white); color: var(--info); margin-top: 1rem;">
                                 <span class="material-icons-outlined">login</span>
                                 Check-in to Room
                             </button>
                         </div>
 
-                        <!-- Enhanced Billing Form with Searchable Customer -->
+                        <!-- Simplified Billing Form -->
                         <div class="form-section" id="billForm" style="display: none;">
                             <h3 style="margin-bottom: 1.5rem;">Add Items to Order</h3>
                             <div class="form-grid">
@@ -1344,11 +1448,17 @@
                                     <input type="number" class="form-input" id="billQuantity" placeholder="Quantity" min="1" value="1">
                                 </div>
                             </div>
-                            <div style="display: flex; gap: 1rem;">
+                            <div style="display: flex; gap: 1rem;" id="simplifiedActions">
                                 <button class="btn btn-success" onclick="addItemToTableOrder()">
                                     <span class="material-icons-outlined">add_shopping_cart</span>
-                                    Add Item to Order
+                                    Add Item
                                 </button>
+                                <button class="btn btn-danger" onclick="hideBillForm()">
+                                    <span class="material-icons-outlined">close</span>
+                                    Close
+                                </button>
+                            </div>
+                            <div style="display: none; gap: 1rem; margin-top: 1rem;" id="expandedActions">
                                 <button class="btn btn-primary" onclick="generateBillFromForm()">
                                     <span class="material-icons-outlined">receipt</span>
                                     Generate Bill
@@ -1356,10 +1466,6 @@
                                 <button class="btn btn-warning" onclick="deleteOrderWithoutBill()">
                                     <span class="material-icons-outlined">cancel</span>
                                     Cancel Order
-                                </button>
-                                <button class="btn btn-danger" onclick="hideBillForm()">
-                                    <span class="material-icons-outlined">close</span>
-                                    Close
                                 </button>
                             </div>
                         </div>
@@ -1382,6 +1488,25 @@
                                 <span class="material-icons-outlined">person_add</span>
                                 Add New Customer
                             </button>
+                        </div>
+
+                        <!-- Bulk Import Section for Customers -->
+                        <div class="bulk-import-section">
+                            <div class="bulk-import-header">
+                                <h3>📥 Bulk Import Customers</h3>
+                                <div class="bulk-import-actions">
+                                    <button class="btn" onclick="downloadCustomerTemplate()" style="background: var(--white); color: var(--info);">
+                                        <span class="material-icons-outlined">download</span>
+                                        Download Template
+                                    </button>
+                                    <label for="customerFileInput" class="file-input-label">
+                                        <span class="material-icons-outlined">upload_file</span>
+                                        Import Excel File
+                                    </label>
+                                    <input type="file" id="customerFileInput" class="file-input" accept=".xlsx,.xls,.csv" onchange="importCustomersFromExcel(event)">
+                                </div>
+                            </div>
+                            <p style="opacity: 0.9; font-size: 0.9rem;">Download the template, fill it with customer details, and upload to add multiple customers at once!</p>
                         </div>
 
                         <!-- Add/Edit Customer Form -->
@@ -1422,7 +1547,7 @@
                             <div class="empty-state">
                                 <div class="empty-icon">👥</div>
                                 <h3>No Customers Added Yet</h3>
-                                <p>Add customers to build your database</p>
+                                <p>Add customers manually or use bulk import</p>
                             </div>
                         </div>
                     </div>
@@ -1511,19 +1636,19 @@
                                 <ul style="list-style: none; padding: 0;">
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Searchable Customer Management
+                                        Searchable Tables/Rooms with Instant Filtering
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Complete History & Reports Tracking
+                                        Bulk Excel Import for Menu & Customers
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Advanced Check-in/Check-out with Bill Sharing
+                                        Simplified Billing Flow with Smart Controls
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Complete Offline Support with Smart Controls
+                                        Complete Offline Support with Advanced Features
                                     </li>
                                 </ul>
                             </div>
@@ -1542,7 +1667,7 @@
         </div>
     </footer>
 
-    <!-- Enhanced Add/Edit Table Modal with Type First Selection -->
+    <!-- Enhanced Add/Edit Table Modal -->
     <div class="modal" id="tableModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1597,7 +1722,7 @@
         </div>
     </div>
 
-    <!-- Enhanced Bill Display Modal with WhatsApp/Email Share -->
+    <!-- Enhanced Bill Display Modal -->
     <div class="modal" id="billModal">
         <div class="modal-content">
             <div class="bill-display" id="billDisplay">
@@ -1618,6 +1743,7 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
         // Enhanced Restaurant Database System with History Tracking
         const RestaurantDB = {
@@ -1922,6 +2048,39 @@
                     
                     return menu.length;
                 },
+                bulkSave: (items) => {
+                    const menu = JSON.parse(localStorage.getItem('thynk_menu') || '[]');
+                    let addedCount = 0;
+                    
+                    items.forEach(item => {
+                        if (item.name && item.price && item.category) {
+                            const newItem = {
+                                id: Date.now() + addedCount,
+                                name: item.name,
+                                price: parseFloat(item.price),
+                                category: item.category,
+                                description: item.description || '',
+                                created: new Date().toISOString()
+                            };
+                            menu.push(newItem);
+                            addedCount++;
+                        }
+                    });
+                    
+                    localStorage.setItem('thynk_menu', JSON.stringify(menu));
+                    
+                    // Add to history
+                    if (addedCount > 0) {
+                        RestaurantDB.history.add({
+                            type: 'menu_bulk_import',
+                            title: `${addedCount} Menu Items Imported`,
+                            details: `Bulk import from Excel file`,
+                            icon: 'upload_file'
+                        });
+                    }
+                    
+                    return addedCount;
+                },
                 getAll: () => JSON.parse(localStorage.getItem('thynk_menu') || '[]'),
                 update: (id, updates) => {
                     const menu = RestaurantDB.menu.getAll();
@@ -1986,6 +2145,41 @@
                     });
                     
                     return customers.length;
+                },
+                bulkSave: (customers) => {
+                    const existingCustomers = JSON.parse(localStorage.getItem('thynk_customers') || '[]');
+                    let addedCount = 0;
+                    
+                    customers.forEach(customer => {
+                        if (customer.name && customer.phone) {
+                            const newCustomer = {
+                                id: Date.now() + addedCount,
+                                name: customer.name,
+                                phone: customer.phone,
+                                email: customer.email || '',
+                                address: customer.address || '',
+                                created: new Date().toISOString(),
+                                totalOrders: 0,
+                                totalSpent: 0
+                            };
+                            existingCustomers.push(newCustomer);
+                            addedCount++;
+                        }
+                    });
+                    
+                    localStorage.setItem('thynk_customers', JSON.stringify(existingCustomers));
+                    
+                    // Add to history
+                    if (addedCount > 0) {
+                        RestaurantDB.history.add({
+                            type: 'customer_bulk_import',
+                            title: `${addedCount} Customers Imported`,
+                            details: `Bulk import from Excel file`,
+                            icon: 'upload_file'
+                        });
+                    }
+                    
+                    return addedCount;
                 },
                 getAll: () => JSON.parse(localStorage.getItem('thynk_customers') || '[]'),
                 search: (query) => {
@@ -2082,6 +2276,7 @@
         let discountApplied = false;
         let expandedTileId = null;
         let selectedCustomerData = null;
+        let hasItemsInOrder = false;
 
         // Tab switching
         function switchTab(tabName) {
@@ -2100,6 +2295,36 @@
             if (tabName === 'history') loadHistory();
             
             updateStats();
+        }
+
+        // Table Search Filter Function
+        function filterTables() {
+            const searchQuery = document.getElementById('tableSearchInput').value.toLowerCase();
+            const tables = RestaurantDB.tables.getAll();
+            
+            tables.forEach(table => {
+                const tile = document.getElementById(`tile-${table.id}`);
+                if (tile) {
+                    const shouldShow = 
+                        table.number.toString().includes(searchQuery) ||
+                        table.type.toLowerCase().includes(searchQuery) ||
+                        table.status.toLowerCase().includes(searchQuery) ||
+                        (table.order.customerName && table.order.customerName.toLowerCase().includes(searchQuery));
+                    
+                    if (shouldShow) {
+                        tile.classList.remove('hidden');
+                    } else {
+                        tile.classList.add('hidden');
+                    }
+                }
+            });
+
+            // Show/hide empty state based on visible tiles
+            const visibleTiles = document.querySelectorAll('.table-tile:not(.hidden)');
+            const emptyState = document.querySelector('#tilesGrid .empty-state');
+            if (emptyState) {
+                emptyState.style.display = visibleTiles.length === 0 ? 'block' : 'none';
+            }
         }
 
         // Enhanced Table Management Functions
@@ -2272,7 +2497,7 @@
             }
         }
 
-        // Enhanced Table Loading with Different Colors and Expanded Details
+        // Enhanced Table Loading with Search Filter
         function loadTables() {
             const tables = RestaurantDB.tables.getAll();
             const container = document.getElementById('tilesGrid');
@@ -2386,6 +2611,12 @@
                     </div>
                 `;
             }).join('');
+
+            // Apply current search filter
+            const searchQuery = document.getElementById('tableSearchInput').value;
+            if (searchQuery) {
+                filterTables();
+            }
         }
 
         function toggleTileDetails(tableId) {
@@ -2545,10 +2776,12 @@
             }
         }
 
-        // Enhanced Billing Software Functions with Searchable Customer
+        // Enhanced Billing Software Functions - Simplified Form
         function showNewBillForm() {
             document.getElementById('billForm').style.display = 'block';
             document.getElementById('checkinAlert').style.display = 'none';
+            hasItemsInOrder = false;
+            toggleBillFormActions();
             loadBillingDropdowns();
             setupCustomerSearch();
         }
@@ -2567,6 +2800,21 @@
             document.getElementById('billQuantity').value = '1';
             document.getElementById('customerSuggestions').style.display = 'none';
             selectedCustomerData = null;
+            hasItemsInOrder = false;
+            toggleBillFormActions();
+        }
+
+        function toggleBillFormActions() {
+            const simplifiedActions = document.getElementById('simplifiedActions');
+            const expandedActions = document.getElementById('expandedActions');
+            
+            if (hasItemsInOrder) {
+                simplifiedActions.style.display = 'none';
+                expandedActions.style.display = 'flex';
+            } else {
+                simplifiedActions.style.display = 'flex';
+                expandedActions.style.display = 'none';
+            }
         }
 
         function loadBillingDropdowns() {
@@ -2702,6 +2950,10 @@
                     name: table.order.customerName,
                     contact: ''
                 };
+                
+                // Check if table has items and toggle actions
+                hasItemsInOrder = table.order.items.length > 0;
+                toggleBillFormActions();
             }
         }
 
@@ -2773,9 +3025,14 @@
 
             if (success) {
                 showNotification(`${quantity}x ${selectedMenuItem.textContent.split(' - ')[0]} added to order!`);
-                // Don't clear form - allow adding more items
+                // Clear form selections but keep table and customer
                 document.getElementById('billMenuSelect').value = '';
                 document.getElementById('billQuantity').value = '1';
+                
+                // Update form state
+                hasItemsInOrder = true;
+                toggleBillFormActions();
+                
                 loadTables();
                 loadActiveOrders();
                 updateStats();
@@ -2803,7 +3060,6 @@
             generateBillFromTableData(table);
         }
 
-        // Delete Order Without Generating Bill
         function deleteOrderWithoutBill() {
             const tableId = document.getElementById('billTableSelect').value;
             
@@ -3302,6 +3558,141 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
             }
         }
 
+        // Bulk Excel Import Functions
+        
+        // Menu Template Download
+        function downloadMenuTemplate() {
+            const template = [
+                ['Item Name', 'Price', 'Category', 'Description'],
+                ['Butter Chicken', '320', 'Main Course', 'Creamy tomato-based chicken curry'],
+                ['Paneer Tikka', '280', 'Starters', 'Grilled cottage cheese with spices'],
+                ['Dal Makhani', '220', 'Dal', 'Rich black lentils in creamy gravy'],
+                ['Basmati Rice', '180', 'Rice', 'Fragrant long grain rice'],
+                ['Garlic Naan', '80', 'Bread', 'Leavened bread with garlic'],
+                ['Fresh Lime Soda', '60', 'Beverages', 'Refreshing lime drink'],
+                ['Gulab Jamun', '120', 'Desserts', 'Sweet milk dumplings in syrup']
+            ];
+            
+            const ws = XLSX.utils.aoa_to_sheet(template);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Menu Template');
+            
+            XLSX.writeFile(wb, 'Thynk_POS_Menu_Template.xlsx');
+            showNotification('Menu template downloaded! Fill it and import back.');
+        }
+
+        // Customer Template Download
+        function downloadCustomerTemplate() {
+            const template = [
+                ['Customer Name', 'Phone Number', 'Email Address', 'Address'],
+                ['John Doe', '9876543210', 'john@example.com', '123 Main Street, City'],
+                ['Jane Smith', '9876543211', 'jane@example.com', '456 Oak Avenue, City'],
+                ['Mike Johnson', '9876543212', 'mike@example.com', '789 Pine Road, City'],
+                ['Sarah Wilson', '9876543213', 'sarah@example.com', '321 Elm Street, City']
+            ];
+            
+            const ws = XLSX.utils.aoa_to_sheet(template);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Customer Template');
+            
+            XLSX.writeFile(wb, 'Thynk_POS_Customer_Template.xlsx');
+            showNotification('Customer template downloaded! Fill it and import back.');
+        }
+
+        // Menu Excel Import
+        function importMenuFromExcel(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const sheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[sheetName];
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                    
+                    // Skip header row and process data
+                    const menuItems = [];
+                    for (let i = 1; i < jsonData.length; i++) {
+                        const row = jsonData[i];
+                        if (row[0] && row[1] && row[2]) { // Name, Price, Category required
+                            menuItems.push({
+                                name: row[0],
+                                price: parseFloat(row[1]) || 0,
+                                category: row[2],
+                                description: row[3] || ''
+                            });
+                        }
+                    }
+                    
+                    if (menuItems.length > 0) {
+                        const addedCount = RestaurantDB.menu.bulkSave(menuItems);
+                        showNotification(`Successfully imported ${addedCount} menu items!`);
+                        loadMenuItems();
+                        loadBillingDropdowns();
+                        updateStats();
+                    } else {
+                        showNotification('No valid menu items found in the file', 'error');
+                    }
+                } catch (error) {
+                    showNotification('Error reading Excel file. Please check the format.', 'error');
+                }
+            };
+            reader.readAsArrayBuffer(file);
+            
+            // Reset file input
+            event.target.value = '';
+        }
+
+        // Customer Excel Import
+        function importCustomersFromExcel(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const sheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[sheetName];
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                    
+                    // Skip header row and process data
+                    const customers = [];
+                    for (let i = 1; i < jsonData.length; i++) {
+                        const row = jsonData[i];
+                        if (row[0] && row[1]) { // Name and Phone required
+                            customers.push({
+                                name: row[0],
+                                phone: row[1].toString(),
+                                email: row[2] || '',
+                                address: row[3] || ''
+                            });
+                        }
+                    }
+                    
+                    if (customers.length > 0) {
+                        const addedCount = RestaurantDB.customers.bulkSave(customers);
+                        showNotification(`Successfully imported ${addedCount} customers!`);
+                        loadCustomers();
+                        loadBillingDropdowns();
+                        updateStats();
+                    } else {
+                        showNotification('No valid customers found in the file', 'error');
+                    }
+                } catch (error) {
+                    showNotification('Error reading Excel file. Please check the format.', 'error');
+                }
+            };
+            reader.readAsArrayBuffer(file);
+            
+            // Reset file input
+            event.target.value = '';
+        }
+
         // Menu Management Functions
         function showAddMenuForm() {
             document.getElementById('menuForm').style.display = 'block';
@@ -3354,7 +3745,7 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
                     <div class="empty-state">
                         <div class="empty-icon">🍽️</div>
                         <h3>No Menu Items Yet</h3>
-                        <p>Add menu items for your restaurant</p>
+                        <p>Add menu items manually or use bulk import</p>
                     </div>
                 `;
                 return;
@@ -3499,7 +3890,7 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
                     <div class="empty-state">
                         <div class="empty-icon">👥</div>
                         <h3>No Customers Added Yet</h3>
-                        <p>Add customers to build your database</p>
+                        <p>Add customers manually or use bulk import</p>
                     </div>
                 `;
                 return;
@@ -3684,7 +4075,7 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
         // Service Worker Registration for Offline Support
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register(URL.createObjectURL(new Blob([`
-                const CACHE = 'thynk-pos-v1.5-complete-advanced';
+                const CACHE = 'thynk-pos-v1.5-final-complete';
                 self.addEventListener('install', e => {
                     e.waitUntil(caches.open(CACHE).then(cache => cache.addAll(['/'])));
                 });
@@ -3692,8 +4083,9 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
                     e.respondWith(caches.match(e.request).then(response => response || fetch(e.request)));
                 });
             `], {type: 'application/javascript'})))
-            .then(() => console.log('PWA Service Worker registered for offline support'));
+            .then(() => console.log('PWA Service Worker registered for complete offline support'));
         }
     </script>
 </body>
 </html>
+
