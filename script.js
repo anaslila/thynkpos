@@ -1172,3 +1172,65 @@ style.textContent = `
 document.head.appendChild(style);
 
 console.log('✅ Thynk POS JavaScript loaded successfully!');
+// Menu search functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const menuInput = document.getElementById('billMenuInput');
+    if (menuInput) {
+        menuInput.addEventListener('input', function() {
+            const query = this.value.trim();
+            const suggestions = document.getElementById('menuSuggestions');
+            
+            if (query.length >= 1) {
+                const menu = JSON.parse(localStorage.getItem('thynk_menu') || '[]');
+                const matches = menu.filter(item => 
+                    item.name.toLowerCase().includes(query.toLowerCase())
+                ).slice(0, 5);
+                
+                if (matches.length > 0) {
+                    suggestions.innerHTML = matches.map(item => 
+                        `<div onclick="selectDish('${item.name}', ${item.price})" style="padding:10px; cursor:pointer; border-bottom:1px solid #eee;">${item.name} - ₹${item.price}</div>`
+                    ).join('');
+                    suggestions.style.display = 'block';
+                } else {
+                    suggestions.style.display = 'none';
+                }
+            } else {
+                suggestions.style.display = 'none';
+            }
+        });
+
+        // Handle new dish entry
+        menuInput.addEventListener('blur', function() {
+            const dishName = this.value.trim();
+            const priceInput = document.getElementById('menuPriceInput');
+            
+            if (dishName && !priceInput.value) {
+                priceInput.readOnly = false;
+                priceInput.placeholder = 'Enter price for new dish';
+                
+                priceInput.addEventListener('change', function() {
+                    const price = parseFloat(this.value);
+                    if (price > 0) {
+                        // Save new dish
+                        const menu = JSON.parse(localStorage.getItem('thynk_menu') || '[]');
+                        menu.push({
+                            id: Date.now(),
+                            name: dishName,
+                            price: price
+                        });
+                        localStorage.setItem('thynk_menu', JSON.stringify(menu));
+                        alert('New dish "' + dishName + '" saved!');
+                    }
+                });
+            }
+        });
+    }
+});
+
+function selectDish(name, price) {
+    document.getElementById('billMenuInput').value = name;
+    document.getElementById('menuPriceInput').value = price;
+    document.getElementById('menuPriceInput').readOnly = true;
+    document.getElementById('menuSuggestions').style.display = 'none';
+}
+
