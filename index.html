@@ -284,9 +284,14 @@
             color: var(--white);
         }
 
+        .btn-info {
+            background: linear-gradient(135deg, var(--info), #0891b2);
+            color: var(--white);
+        }
+
         .btn-sm { padding: 0.5rem 1rem; font-size: 0.875rem; }
 
-        /* Enhanced Table Tiles with Sliding Details */
+        /* Enhanced Table Tiles with Different Colors for Table/Room and Status */
         .tiles-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -310,53 +315,63 @@
             font-weight: 600;
         }
 
-        /* Gradient Blur Backgrounds for Table Tiles */
-        .table-tile.available {
+        /* Table Status Colors */
+        .table-tile.table.available {
             background: linear-gradient(135deg, 
-                rgba(255, 255, 255, 0.4),
-                rgba(16, 185, 129, 0.3),
-                rgba(255, 255, 255, 0.2)
+                rgba(16, 185, 129, 0.6),
+                rgba(5, 150, 105, 0.4),
+                rgba(16, 185, 129, 0.3)
             );
             box-shadow: 
                 inset 0 1px 0 rgba(255, 255, 255, 0.6),
-                0 8px 32px rgba(16, 185, 129, 0.2);
-            color: var(--dark);
+                0 8px 32px rgba(16, 185, 129, 0.3);
+            color: var(--white);
         }
 
-        .table-tile.occupied {
+        .table-tile.table.occupied {
             background: linear-gradient(135deg, 
-                rgba(255, 255, 255, 0.4),
-                rgba(239, 68, 68, 0.3),
-                rgba(255, 255, 255, 0.2)
+                rgba(239, 68, 68, 0.6),
+                rgba(220, 38, 38, 0.4),
+                rgba(239, 68, 68, 0.3)
             );
             box-shadow: 
                 inset 0 1px 0 rgba(255, 255, 255, 0.6),
-                0 8px 32px rgba(239, 68, 68, 0.2);
-            color: var(--dark);
+                0 8px 32px rgba(239, 68, 68, 0.3);
+            color: var(--white);
         }
 
-        .table-tile.reserved {
+        /* Room Status Colors */
+        .table-tile.room.available {
             background: linear-gradient(135deg, 
-                rgba(255, 255, 255, 0.4),
-                rgba(245, 158, 11, 0.3),
-                rgba(255, 255, 255, 0.2)
+                rgba(59, 130, 246, 0.6),
+                rgba(37, 99, 235, 0.4),
+                rgba(59, 130, 246, 0.3)
             );
             box-shadow: 
                 inset 0 1px 0 rgba(255, 255, 255, 0.6),
-                0 8px 32px rgba(245, 158, 11, 0.2);
-            color: var(--dark);
+                0 8px 32px rgba(59, 130, 246, 0.3);
+            color: var(--white);
+        }
+
+        .table-tile.room.occupied {
+            background: linear-gradient(135deg, 
+                rgba(245, 158, 11, 0.6),
+                rgba(217, 119, 6, 0.4),
+                rgba(245, 158, 11, 0.3)
+            );
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                0 8px 32px rgba(245, 158, 11, 0.3);
+            color: var(--white);
         }
 
         .table-tile:hover {
             transform: translateY(-8px) scale(1.02);
-            box-shadow: 
-                inset 0 1px 0 rgba(255, 255, 255, 0.8),
-                0 20px 60px rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(30px);
         }
 
         .table-tile.expanded {
-            min-height: 350px;
+            min-height: 400px;
         }
 
         /* Tile Header (Always Visible) */
@@ -372,21 +387,30 @@
             font-weight: 800;
             margin-bottom: 0.5rem;
             text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            color: var(--dark);
+            color: inherit;
         }
 
         .tile-info {
             font-size: 1rem;
             opacity: 0.9;
-            color: var(--dark);
+            color: inherit;
         }
 
         .tile-price {
             font-size: 0.85rem;
             opacity: 0.8;
             margin-top: 0.25rem;
-            color: var(--dark);
+            color: inherit;
             font-weight: 700;
+        }
+
+        .checkin-status {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            margin-top: 0.5rem;
+            display: inline-block;
         }
 
         /* Tile Details (Sliding Section) */
@@ -399,7 +423,7 @@
         }
 
         .tile-details.expanded {
-            max-height: 400px;
+            max-height: 500px;
         }
 
         .details-content {
@@ -507,7 +531,7 @@
             color: var(--dark);
         }
 
-        /* Big Form Inputs for New Table Creation */
+        /* Form Sections */
         .form-section {
             background: var(--light);
             padding: 2rem;
@@ -554,7 +578,7 @@
             font-weight: 600;
         }
 
-        /* Small inputs for editing in tile details */
+        /* Small inputs for editing */
         .form-input.small {
             padding: 0.5rem 0.75rem;
             font-size: 0.9rem;
@@ -566,9 +590,67 @@
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
-        /* Enhanced Bill Display Modal */
+        /* Type Selector Section */
+        .type-selector {
+            background: var(--primary);
+            color: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .type-selector h3 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .type-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .type-btn {
+            padding: 1rem 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--border-radius);
+            background: transparent;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .type-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .type-btn.active {
+            background: var(--white);
+            color: var(--primary);
+            border-color: var(--white);
+        }
+
+        /* Check-in/Check-out Alert */
+        .checkin-alert {
+            background: linear-gradient(135deg, var(--info), #0891b2);
+            color: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        /* Enhanced Bill Display */
         .bill-display {
-            max-width: 400px;
+            max-width: 450px;
             margin: 0 auto;
             background: var(--white);
             border-radius: var(--border-radius);
@@ -620,9 +702,30 @@
 
         .bill-actions {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 1rem;
             margin-top: 2rem;
+        }
+
+        /* WhatsApp and Email Share Buttons */
+        .whatsapp-btn {
+            background: #25d366;
+            color: white;
+        }
+
+        .whatsapp-btn:hover {
+            background: #128c7e;
+            transform: translateY(-2px);
+        }
+
+        .email-btn {
+            background: #ea4335;
+            color: white;
+        }
+
+        .email-btn:hover {
+            background: #d33b2c;
+            transform: translateY(-2px);
         }
 
         /* QR Code Container */
@@ -842,6 +945,7 @@
             .payment-buttons { grid-template-columns: 1fr; }
             .bill-actions { grid-template-columns: 1fr; }
             .version-info { flex-direction: column; gap: 0.5rem; }
+            .type-buttons { grid-template-columns: 1fr; }
         }
 
         /* Animations */
@@ -985,7 +1089,7 @@
                             </div>
                         </div>
 
-                        <!-- Enhanced Table Tiles Grid with Sliding Details -->
+                        <!-- Enhanced Table Tiles Grid with Different Colors -->
                         <div id="tilesGrid" class="tiles-grid">
                             <div class="empty-state">
                                 <div class="empty-icon">🏨</div>
@@ -1070,9 +1174,19 @@
                             </button>
                         </div>
 
-                        <!-- Enhanced Billing Form (Table First, then Customer) -->
+                        <!-- Check-in Alert for Rooms -->
+                        <div class="checkin-alert" id="checkinAlert" style="display: none;">
+                            <h3>Room Check-in Required</h3>
+                            <p>Please check-in to the selected room before adding menu items.</p>
+                            <button class="btn" onclick="performRoomCheckin()" style="background: var(--white); color: var(--info); margin-top: 1rem;">
+                                <span class="material-icons-outlined">login</span>
+                                Check-in to Room
+                            </button>
+                        </div>
+
+                        <!-- Enhanced Billing Form -->
                         <div class="form-section" id="billForm" style="display: none;">
-                            <h3 style="margin-bottom: 1.5rem;">Add Items to Table Order</h3>
+                            <h3 style="margin-bottom: 1.5rem;">Add Items to Order</h3>
                             <div class="form-grid">
                                 <div class="form-group">
                                     <label class="form-label">Table/Room FIRST *</label>
@@ -1110,9 +1224,13 @@
                                     <span class="material-icons-outlined">receipt</span>
                                     Generate Bill
                                 </button>
+                                <button class="btn btn-warning" onclick="deleteOrderWithoutBill()">
+                                    <span class="material-icons-outlined">cancel</span>
+                                    Cancel Order
+                                </button>
                                 <button class="btn btn-danger" onclick="hideBillForm()">
                                     <span class="material-icons-outlined">close</span>
-                                    Cancel
+                                    Close
                                 </button>
                             </div>
                         </div>
@@ -1244,15 +1362,15 @@
                                 <ul style="list-style: none; padding: 0;">
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        All-in-One Control for Hotels That Don't Compromise
+                                        Room Check-in/Check-out Management
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Enhanced Billing with Room Price Integration
+                                        WhatsApp & Email Bill Sharing
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Bill Cancellation & Management Features
+                                        Order Cancellation Without Billing
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
@@ -1275,31 +1393,40 @@
         </div>
     </footer>
 
-    <!-- Add/Edit Table Modal (Big Inputs for New, Small for Edit) -->
+    <!-- Enhanced Add/Edit Table Modal with Type First Selection -->
     <div class="modal" id="tableModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title" id="modalTitle">Add New Table/Room</h3>
             </div>
-            <div class="form-section" id="tableFormSection">
+            
+            <!-- Type Selection First -->
+            <div class="type-selector" id="typeSelector">
+                <h3>First, Select Type</h3>
+                <div class="type-buttons">
+                    <button class="type-btn" id="tableTypeBtn" onclick="selectTableType('Table')">
+                        <span class="material-icons-outlined">table_restaurant</span>
+                        Table
+                    </button>
+                    <button class="type-btn" id="roomTypeBtn" onclick="selectTableType('Room')">
+                        <span class="material-icons-outlined">hotel</span>
+                        Room
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-section" id="tableFormSection" style="display: none;">
                 <div class="form-grid" id="tableFormGrid">
                     <div class="form-group">
                         <label class="form-label">Number *</label>
-                        <input type="number" class="form-input big" id="tableNumber" placeholder="Table/Room Number" min="1">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Type *</label>
-                        <select class="form-input big" id="tableType" onchange="togglePriceField()">
-                            <option value="Table">🍽️ Table</option>
-                            <option value="Room">🏨 Room</option>
-                        </select>
+                        <input type="number" class="form-input big" id="tableNumber" placeholder="Enter Number" min="1">
                     </div>
                     <div class="form-group" id="chairsGroup">
                         <label class="form-label">Number of Chairs *</label>
                         <input type="number" class="form-input big" id="tableChairs" placeholder="Number of chairs" min="1" max="20" value="4">
                     </div>
                     <div class="form-group" id="priceGroup" style="display: none;">
-                        <label class="form-label">Room Price (₹) *</label>
+                        <label class="form-label">Price per Night (₹) *</label>
                         <input type="number" class="form-input big" id="roomPrice" placeholder="Room price per night" min="0">
                     </div>
                 </div>
@@ -1307,6 +1434,10 @@
                     <button class="btn btn-success" onclick="saveTable()">
                         <span class="material-icons-outlined">save</span>
                         Save
+                    </button>
+                    <button class="btn btn-warning" onclick="goBackToTypeSelection()">
+                        <span class="material-icons-outlined">arrow_back</span>
+                        Back to Type
                     </button>
                     <button class="btn btn-danger" onclick="closeTableModal()">
                         <span class="material-icons-outlined">close</span>
@@ -1317,7 +1448,7 @@
         </div>
     </div>
 
-    <!-- Enhanced Bill Display Modal with Delete Option -->
+    <!-- Enhanced Bill Display Modal with WhatsApp/Email Share -->
     <div class="modal" id="billModal">
         <div class="modal-content">
             <div class="bill-display" id="billDisplay">
@@ -1327,7 +1458,7 @@
     </div>
 
     <script>
-        // Enhanced Restaurant Database System
+        // Enhanced Restaurant Database System with Check-in/Check-out
         const RestaurantDB = {
             tables: {
                 save: (table) => {
@@ -1343,6 +1474,9 @@
                         chairs: table.chairs || 0,
                         price: table.price || 0,
                         status: 'available',
+                        checkedIn: false,
+                        checkInDate: null,
+                        checkOutDate: null,
                         order: {
                             customerId: null,
                             customerName: '',
@@ -1374,18 +1508,57 @@
                     const tables = RestaurantDB.tables.getAll().filter(table => table.id !== parseInt(id));
                     localStorage.setItem('thynk_tables', JSON.stringify(tables));
                 },
+                checkIn: (id, customerInfo) => {
+                    const tables = RestaurantDB.tables.getAll();
+                    const index = tables.findIndex(table => table.id === parseInt(id));
+                    if (index !== -1 && tables[index].type === 'Room') {
+                        tables[index].checkedIn = true;
+                        tables[index].status = 'occupied';
+                        tables[index].checkInDate = new Date().toISOString();
+                        tables[index].order.customerId = customerInfo.customerId;
+                        tables[index].order.customerName = customerInfo.customerName;
+                        localStorage.setItem('thynk_tables', JSON.stringify(tables));
+                        return true;
+                    }
+                    return false;
+                },
+                checkOut: (id) => {
+                    const tables = RestaurantDB.tables.getAll();
+                    const index = tables.findIndex(table => table.id === parseInt(id));
+                    if (index !== -1 && tables[index].type === 'Room') {
+                        tables[index].checkedIn = false;
+                        tables[index].status = 'available';
+                        tables[index].checkOutDate = new Date().toISOString();
+                        tables[index].order = {
+                            customerId: null,
+                            customerName: '',
+                            items: [],
+                            total: 0
+                        };
+                        localStorage.setItem('thynk_tables', JSON.stringify(tables));
+                        return true;
+                    }
+                    return false;
+                },
                 addItemToOrder: (tableId, item, customerInfo) => {
                     const tables = RestaurantDB.tables.getAll();
                     const tableIndex = tables.findIndex(t => t.id === parseInt(tableId));
                     if (tableIndex !== -1) {
-                        const existingItemIndex = tables[tableIndex].order.items.findIndex(i => i.menuId === item.menuId);
+                        const table = tables[tableIndex];
+                        
+                        // For rooms, check if checked in
+                        if (table.type === 'Room' && !table.checkedIn) {
+                            return false; // Cannot add items to room without check-in
+                        }
+                        
+                        const existingItemIndex = table.order.items.findIndex(i => i.menuId === item.menuId);
                         if (existingItemIndex !== -1) {
-                            tables[tableIndex].order.items[existingItemIndex].quantity += item.quantity;
-                            tables[tableIndex].order.items[existingItemIndex].total = 
-                                tables[tableIndex].order.items[existingItemIndex].quantity * 
-                                tables[tableIndex].order.items[existingItemIndex].price;
+                            table.order.items[existingItemIndex].quantity += item.quantity;
+                            table.order.items[existingItemIndex].total = 
+                                table.order.items[existingItemIndex].quantity * 
+                                table.order.items[existingItemIndex].price;
                         } else {
-                            tables[tableIndex].order.items.push({
+                            table.order.items.push({
                                 id: Date.now(),
                                 menuId: item.menuId,
                                 name: item.name,
@@ -1395,10 +1568,41 @@
                             });
                         }
                         
-                        tables[tableIndex].status = 'occupied';
-                        tables[tableIndex].order.customerId = customerInfo.customerId;
-                        tables[tableIndex].order.customerName = customerInfo.customerName;
-                        tables[tableIndex].order.total = tables[tableIndex].order.items.reduce((sum, i) => sum + i.total, 0);
+                        table.status = 'occupied';
+                        table.order.customerId = customerInfo.customerId;
+                        table.order.customerName = customerInfo.customerName;
+                        table.order.total = table.order.items.reduce((sum, i) => sum + i.total, 0);
+                        
+                        localStorage.setItem('thynk_tables', JSON.stringify(tables));
+                        return true;
+                    }
+                    return false;
+                },
+                clearOrder: (tableId) => {
+                    const tables = RestaurantDB.tables.getAll();
+                    const tableIndex = tables.findIndex(t => t.id === parseInt(tableId));
+                    if (tableIndex !== -1) {
+                        const table = tables[tableIndex];
+                        
+                        // For rooms, only clear order if checked out
+                        if (table.type === 'Room') {
+                            table.order = {
+                                customerId: table.order.customerId, // Keep customer info for rooms
+                                customerName: table.order.customerName,
+                                items: [],
+                                total: 0
+                            };
+                            // Don't change status for rooms - they remain occupied until checkout
+                        } else {
+                            // For tables, clear everything
+                            table.status = 'available';
+                            table.order = {
+                                customerId: null,
+                                customerName: '',
+                                items: [],
+                                total: 0
+                            };
+                        }
                         
                         localStorage.setItem('thynk_tables', JSON.stringify(tables));
                         return true;
@@ -1500,7 +1704,9 @@
         let currentTab = 'tables';
         let editingTableId = null;
         let editingCustomerId = null;
+        let selectedTableType = null;
         let currentOrderTableId = null;
+        let selectedTableForCheckin = null;
         let discountApplied = false;
         let expandedTileId = null;
 
@@ -1522,30 +1728,53 @@
             updateStats();
         }
 
-        // Enhanced Table Management Functions
+        // Enhanced Table Management Functions with Type-First Selection
         function addNewTable() {
             editingTableId = null;
+            selectedTableType = null;
             document.getElementById('modalTitle').textContent = 'Add New Table/Room';
             
-            // Make inputs big for new table creation
+            // Show type selector first, hide form
+            document.getElementById('typeSelector').style.display = 'block';
+            document.getElementById('tableFormSection').style.display = 'none';
+            
+            // Reset type buttons
+            document.querySelectorAll('.type-btn').forEach(btn => btn.classList.remove('active'));
+            
+            // Clear form values
+            document.getElementById('tableNumber').value = '';
+            document.getElementById('tableChairs').value = '4';
+            document.getElementById('roomPrice').value = '';
+            
+            document.getElementById('tableModal').classList.add('show');
+        }
+
+        function selectTableType(type) {
+            selectedTableType = type;
+            
+            // Update type button states
+            document.querySelectorAll('.type-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(type.toLowerCase() + 'TypeBtn').classList.add('active');
+            
+            // Show form section
+            document.getElementById('typeSelector').style.display = 'none';
+            document.getElementById('tableFormSection').style.display = 'block';
+            
+            // Make inputs big for new creation
             document.querySelectorAll('#tableFormGrid .form-input').forEach(input => {
                 input.className = 'form-input big';
             });
             
-            // Make form section non-slidable for new table
-            document.getElementById('tableFormSection').style.overflowY = 'visible';
-            document.getElementById('tableFormSection').style.maxHeight = 'none';
+            // Show relevant fields
+            toggleFieldsForType(type);
             
-            document.getElementById('tableNumber').value = '';
-            document.getElementById('tableType').value = 'Table';
-            document.getElementById('tableChairs').value = '4';
-            document.getElementById('roomPrice').value = '';
-            togglePriceField();
-            document.getElementById('tableModal').classList.add('show');
+            // Set placeholder
+            const numberInput = document.getElementById('tableNumber');
+            numberInput.placeholder = `${type} Number`;
+            numberInput.focus();
         }
 
-        function togglePriceField() {
-            const type = document.getElementById('tableType').value;
+        function toggleFieldsForType(type) {
             const chairsGroup = document.getElementById('chairsGroup');
             const priceGroup = document.getElementById('priceGroup');
             
@@ -1558,72 +1787,86 @@
             }
         }
 
+        function goBackToTypeSelection() {
+            document.getElementById('typeSelector').style.display = 'block';
+            document.getElementById('tableFormSection').style.display = 'none';
+            selectedTableType = null;
+        }
+
         function editTableInTile(id) {
             const tables = RestaurantDB.tables.getAll();
             const table = tables.find(t => t.id === id);
             if (!table) return;
 
             editingTableId = id;
-            document.getElementById('modalTitle').textContent = 'Edit Table/Room';
+            selectedTableType = table.type;
+            document.getElementById('modalTitle').textContent = `Edit ${table.type} ${table.number}`;
+            
+            // Skip type selection for editing, go straight to form
+            document.getElementById('typeSelector').style.display = 'none';
+            document.getElementById('tableFormSection').style.display = 'block';
             
             // Make inputs small for editing
             document.querySelectorAll('#tableFormGrid .form-input').forEach(input => {
                 input.className = 'form-input small';
             });
             
-            // Make form section slidable for editing
-            document.getElementById('tableFormSection').style.overflowY = 'auto';
-            document.getElementById('tableFormSection').style.maxHeight = '400px';
-            
+            // Populate values
             document.getElementById('tableNumber').value = table.number;
-            document.getElementById('tableType').value = table.type;
+            document.getElementById('tableNumber').placeholder = `${table.type} Number`;
+            
             if (table.type === 'Room') {
                 document.getElementById('roomPrice').value = table.price;
             } else {
                 document.getElementById('tableChairs').value = table.chairs;
             }
-            togglePriceField();
+            
+            toggleFieldsForType(table.type);
             document.getElementById('tableModal').classList.add('show');
         }
 
         function saveTable() {
-            const number = document.getElementById('tableNumber').value.trim();
-            const type = document.getElementById('tableType').value;
-            const chairs = type === 'Table' ? document.getElementById('tableChairs').value.trim() : 0;
-            const price = type === 'Room' ? document.getElementById('roomPrice').value.trim() : 0;
-
-            if (!number) {
-                showNotification('Please enter table/room number', 'error');
+            if (!selectedTableType) {
+                showNotification('Please select table or room type first', 'error');
                 return;
             }
 
-            if (type === 'Table' && !chairs) {
+            const number = document.getElementById('tableNumber').value.trim();
+            const chairs = selectedTableType === 'Table' ? document.getElementById('tableChairs').value.trim() : 0;
+            const price = selectedTableType === 'Room' ? document.getElementById('roomPrice').value.trim() : 0;
+
+            if (!number) {
+                showNotification(`Please enter ${selectedTableType.toLowerCase()} number`, 'error');
+                return;
+            }
+
+            if (selectedTableType === 'Table' && !chairs) {
                 showNotification('Please enter number of chairs', 'error');
                 return;
             }
 
-            if (type === 'Room' && !price) {
-                showNotification('Please enter room price', 'error');
+            if (selectedTableType === 'Room' && !price) {
+                showNotification('Please enter room price per night', 'error');
                 return;
             }
 
             if (editingTableId) {
                 RestaurantDB.tables.update(editingTableId, { 
                     number: parseInt(number), 
-                    type, 
+                    type: selectedTableType, 
                     chairs: parseInt(chairs) || 0,
                     price: parseFloat(price) || 0
                 });
-                showNotification(`${type} ${number} updated successfully!`);
+                showNotification(`${selectedTableType} ${number} updated successfully!`);
             } else {
                 const result = RestaurantDB.tables.save({ 
                     number: parseInt(number), 
-                    type, 
+                    type: selectedTableType, 
                     chairs: parseInt(chairs) || 0,
                     price: parseFloat(price) || 0
                 });
                 if (result) {
-                    showNotification(`${type} ${number} added successfully!`);
+                    showNotification(`${selectedTableType} ${number} added successfully!`);
                 }
             }
 
@@ -1634,6 +1877,8 @@
 
         function closeTableModal() {
             document.getElementById('tableModal').classList.remove('show');
+            selectedTableType = null;
+            editingTableId = null;
         }
 
         function deleteTable(id, event) {
@@ -1653,7 +1898,7 @@
             }
         }
 
-        // Enhanced Table Loading with Sliding Details
+        // Enhanced Table Loading with Different Colors for Table/Room and Status
         function loadTables() {
             const tables = RestaurantDB.tables.getAll();
             const container = document.getElementById('tilesGrid');
@@ -1676,9 +1921,11 @@
                 const isExpanded = expandedTileId === table.id;
                 const orderItems = table.order.items || [];
                 const customerName = table.order.customerName || 'No customer';
+                const typeClass = table.type.toLowerCase();
+                const statusClass = table.status;
                 
                 return `
-                    <div class="table-tile ${table.status} ${isExpanded ? 'expanded' : ''}" onclick="toggleTileDetails(${table.id})" id="tile-${table.id}">
+                    <div class="table-tile ${typeClass} ${statusClass} ${isExpanded ? 'expanded' : ''}" onclick="toggleTileDetails(${table.id})" id="tile-${table.id}">
                         <button class="tile-remove-btn" onclick="deleteTable(${table.id}, event)" title="Remove ${table.type} ${table.number}">
                             <span class="material-icons-outlined" style="font-size: 14px;">close</span>
                         </button>
@@ -1686,14 +1933,19 @@
                         <!-- Always Visible Header -->
                         <div class="tile-header">
                             <div class="tile-number">${table.type === 'Room' ? 'R' : 'T'}${table.number}</div>
-                            <div class="tile-info">${table.type}</div>
+                            <div class="tile-info">${table.type} ${table.status === 'available' ? '(Available)' : '(Occupied)'}</div>
                             <div class="tile-price">
                                 ${table.type === 'Room' ? 
                                     `₹${table.price}/night` : 
                                     `${table.chairs} ${table.chairs === 1 ? 'Chair' : 'Chairs'}`
                                 }
                             </div>
-                            ${orderItems.length > 0 ? `<div class="tile-price" style="color: var(--success); font-weight: 800;">₹${table.order.total.toFixed(2)}</div>` : ''}
+                            ${table.type === 'Room' ? `
+                                <div class="checkin-status">
+                                    ${table.checkedIn ? '✅ Checked In' : '🔒 Not Checked In'}
+                                </div>
+                            ` : ''}
+                            ${orderItems.length > 0 ? `<div class="tile-price" style="font-weight: 800;">₹${table.order.total.toFixed(2)}</div>` : ''}
                         </div>
 
                         <!-- Sliding Details Section -->
@@ -1701,6 +1953,7 @@
                             <div class="details-content">
                                 <div class="customer-info">
                                     <strong>Customer:</strong> ${customerName}
+                                    ${table.type === 'Room' && table.checkedIn ? `<br><small>Checked in: ${new Date(table.checkInDate).toLocaleString()}</small>` : ''}
                                 </div>
                                 
                                 ${orderItems.length > 0 ? `
@@ -1712,21 +1965,41 @@
                                             </div>
                                         `).join('')}
                                     </div>
-                                ` : '<div style="text-align: center; color: var(--text-light); margin: 1rem 0;">No items added yet</div>'}
+                                ` : '<div style="text-align: center; color: inherit; opacity: 0.8; margin: 1rem 0;">No items added yet</div>'}
                                 
                                 <div class="tile-actions">
-                                    <button class="btn btn-sm btn-primary" onclick="addItemToTable(${table.id}, event)">
-                                        <span class="material-icons-outlined">add</span>
-                                        Add Item
-                                    </button>
+                                    ${table.type === 'Room' && !table.checkedIn ? `
+                                        <button class="btn btn-sm btn-info" onclick="performRoomCheckinFromTile(${table.id}, event)">
+                                            <span class="material-icons-outlined">login</span>
+                                            Check-in
+                                        </button>
+                                    ` : `
+                                        <button class="btn btn-sm btn-primary" onclick="addItemToTable(${table.id}, event)">
+                                            <span class="material-icons-outlined">add</span>
+                                            Add Item
+                                        </button>
+                                    `}
+                                    
+                                    ${table.type === 'Room' && table.checkedIn ? `
+                                        <button class="btn btn-sm btn-warning" onclick="performRoomCheckout(${table.id}, event)">
+                                            <span class="material-icons-outlined">logout</span>
+                                            Check-out
+                                        </button>
+                                    ` : ''}
+                                    
                                     <button class="btn btn-sm btn-warning" onclick="editTableInTile(${table.id})" ${!isExpanded ? 'style="display: none;"' : ''}>
                                         <span class="material-icons-outlined">edit</span>
                                         Edit
                                     </button>
+                                    
                                     ${orderItems.length > 0 ? `
                                         <button class="btn btn-sm btn-success" onclick="generateBillForTable(${table.id}, event)">
                                             <span class="material-icons-outlined">receipt</span>
                                             Generate Bill
+                                        </button>
+                                        <button class="btn btn-sm btn-danger" onclick="cancelOrderFromTile(${table.id}, event)">
+                                            <span class="material-icons-outlined">cancel</span>
+                                            Cancel Order
                                         </button>
                                     ` : ''}
                                 </div>
@@ -1744,6 +2017,92 @@
                 expandedTileId = tableId;
             }
             loadTables();
+        }
+
+        // Room Check-in/Check-out Functions
+        function performRoomCheckinFromTile(tableId, event) {
+            event.stopPropagation();
+            selectedTableForCheckin = tableId;
+            switchTab('billing');
+            setTimeout(() => {
+                showNewBillForm();
+                document.getElementById('billTableSelect').value = tableId;
+                loadCustomerForTable();
+            }, 300);
+        }
+
+        function performRoomCheckin() {
+            const tableId = document.getElementById('billTableSelect').value;
+            const customerSelect = document.getElementById('billCustomerSelect').value;
+            const customerName = customerSelect === 'new' ? document.getElementById('billCustomerName').value.trim() : '';
+
+            if (!customerSelect) {
+                showNotification('Please select a customer for check-in', 'error');
+                return;
+            }
+
+            if (customerSelect === 'new' && !customerName) {
+                showNotification('Please enter customer name for check-in', 'error');
+                return;
+            }
+
+            let finalCustomerName = customerName;
+            let finalCustomerId = customerSelect;
+
+            // Add new customer if needed
+            if (customerSelect === 'new') {
+                RestaurantDB.customers.save({ name: customerName, phone: '', email: '', address: '' });
+                const customers = RestaurantDB.customers.getAll();
+                const newCustomer = customers[customers.length - 1];
+                finalCustomerId = newCustomer.id;
+                finalCustomerName = customerName;
+            } else {
+                const customers = RestaurantDB.customers.getAll();
+                const customer = customers.find(c => c.id == customerSelect);
+                finalCustomerName = customer ? customer.name : 'Unknown';
+            }
+
+            // Perform check-in
+            const success = RestaurantDB.tables.checkIn(tableId, {
+                customerId: finalCustomerId,
+                customerName: finalCustomerName
+            });
+
+            if (success) {
+                showNotification(`Room checked-in successfully for ${finalCustomerName}!`);
+                document.getElementById('checkinAlert').style.display = 'none';
+                loadTables();
+                loadActiveOrders();
+                updateStats();
+            } else {
+                showNotification('Failed to check-in room', 'error');
+            }
+        }
+
+        function performRoomCheckout(tableId, event) {
+            event.stopPropagation();
+            
+            const tables = RestaurantDB.tables.getAll();
+            const table = tables.find(t => t.id === tableId);
+            
+            if (!table) return;
+
+            if (table.order.items.length > 0) {
+                if (!confirm('This room has pending orders. Checking out will clear all orders. Continue?')) {
+                    return;
+                }
+            }
+
+            const success = RestaurantDB.tables.checkOut(tableId);
+            
+            if (success) {
+                showNotification(`Room ${table.number} checked-out successfully!`);
+                loadTables();
+                loadActiveOrders();
+                updateStats();
+            } else {
+                showNotification('Failed to check-out room', 'error');
+            }
         }
 
         function addItemToTable(tableId, event) {
@@ -1769,14 +2128,33 @@
             generateBillFromTableData(table);
         }
 
+        function cancelOrderFromTile(tableId, event) {
+            event.stopPropagation();
+            
+            const tables = RestaurantDB.tables.getAll();
+            const table = tables.find(t => t.id === tableId);
+            
+            if (!table) return;
+
+            if (confirm(`Cancel order for ${table.type} ${table.number}? All items will be removed.`)) {
+                RestaurantDB.tables.clearOrder(tableId);
+                showNotification('Order cancelled successfully!');
+                loadTables();
+                loadActiveOrders();
+                updateStats();
+            }
+        }
+
         // Enhanced Billing Software Functions
         function showNewBillForm() {
             document.getElementById('billForm').style.display = 'block';
+            document.getElementById('checkinAlert').style.display = 'none';
             loadBillingDropdowns();
         }
 
         function hideBillForm() {
             document.getElementById('billForm').style.display = 'none';
+            document.getElementById('checkinAlert').style.display = 'none';
             clearBillForm();
         }
 
@@ -1801,17 +2179,20 @@
             select.innerHTML = '<option value="">Select Table/Room FIRST</option>';
             tables.forEach(table => {
                 const statusText = table.status === 'occupied' ? ' (OCCUPIED)' : ' (AVAILABLE)';
+                const checkinText = table.type === 'Room' ? (table.checkedIn ? ' - CHECKED IN' : ' - NOT CHECKED IN') : '';
                 const itemCount = table.order.items.length > 0 ? ` - ${table.order.items.length} items` : '';
-                select.innerHTML += `<option value="${table.id}">${table.type} ${table.number}${statusText}${itemCount}</option>`;
+                select.innerHTML += `<option value="${table.id}">${table.type} ${table.number}${statusText}${checkinText}${itemCount}</option>`;
             });
         }
 
         function loadCustomerForTable() {
             const tableId = document.getElementById('billTableSelect').value;
             const customerSelect = document.getElementById('billCustomerSelect');
+            const checkinAlert = document.getElementById('checkinAlert');
             
             if (!tableId) {
                 customerSelect.innerHTML = '<option value="">Customer will load automatically</option>';
+                checkinAlert.style.display = 'none';
                 return;
             }
 
@@ -1819,6 +2200,21 @@
             const table = tables.find(t => t.id == tableId);
             const customers = RestaurantDB.customers.getAll();
             
+            // Check if room needs check-in
+            if (table && table.type === 'Room' && !table.checkedIn) {
+                checkinAlert.style.display = 'block';
+                customerSelect.innerHTML = '<option value="">Select Customer for Check-in</option><option value="new">+ Add New Customer for Check-in</option>';
+                
+                customers.forEach(customer => {
+                    customerSelect.innerHTML += `<option value="${customer.id}">${customer.name} (${customer.totalOrders} orders)</option>`;
+                });
+                
+                selectedTableForCheckin = tableId;
+                return;
+            } else {
+                checkinAlert.style.display = 'none';
+            }
+
             customerSelect.innerHTML = '<option value="">Select Customer</option><option value="new">+ Add New Customer</option>';
             
             customers.forEach(customer => {
@@ -1862,6 +2258,14 @@
 
             if (!tableId) {
                 showNotification('Please select a table/room first', 'error');
+                return;
+            }
+
+            // Check if room needs check-in first
+            const tables = RestaurantDB.tables.getAll();
+            const table = tables.find(t => t.id == tableId);
+            if (table && table.type === 'Room' && !table.checkedIn) {
+                showNotification('Please check-in to the room first before adding items', 'error');
                 return;
             }
 
@@ -1910,11 +2314,15 @@
             });
 
             if (success) {
-                showNotification(`${quantity}x ${selectedMenuItem.textContent.split(' - ')[0]} added to table order!`);
-                clearBillForm();
+                showNotification(`${quantity}x ${selectedMenuItem.textContent.split(' - ')[0]} added to order!`);
+                // Don't clear form - allow adding more items
+                document.getElementById('billMenuSelect').value = '';
+                document.getElementById('billQuantity').value = '1';
                 loadTables();
                 loadActiveOrders();
                 updateStats();
+            } else {
+                showNotification('Failed to add item. Room may need check-in first.', 'error');
             }
         }
 
@@ -1937,6 +2345,33 @@
             generateBillFromTableData(table);
         }
 
+        // Delete Order Without Generating Bill
+        function deleteOrderWithoutBill() {
+            const tableId = document.getElementById('billTableSelect').value;
+            
+            if (!tableId) {
+                showNotification('Please select a table first', 'error');
+                return;
+            }
+
+            const tables = RestaurantDB.tables.getAll();
+            const table = tables.find(t => t.id == tableId);
+            
+            if (!table || table.order.items.length === 0) {
+                showNotification('No order to cancel', 'error');
+                return;
+            }
+
+            if (confirm(`Cancel order for ${table.type} ${table.number}? This will remove all items without generating a bill.`)) {
+                RestaurantDB.tables.clearOrder(tableId);
+                showNotification('Order cancelled successfully without generating bill!');
+                hideBillForm();
+                loadTables();
+                loadActiveOrders();
+                updateStats();
+            }
+        }
+
         function generateBillFromTableData(table) {
             // Calculate total including room price if it's a room
             let finalTotal = table.order.total;
@@ -1953,6 +2388,8 @@
                 tableNumber: `${table.type} ${table.number}`,
                 customerId: table.order.customerId,
                 customerName: table.order.customerName,
+                customerPhone: getCustomerPhone(table.order.customerId),
+                customerEmail: getCustomerEmail(table.order.customerId),
                 items: table.order.items,
                 roomCharge: roomCharge,
                 itemsTotal: table.order.total,
@@ -1964,24 +2401,31 @@
                 RestaurantDB.customers.updateSpent(table.order.customerId, finalTotal);
             }
 
-            // Clear table order
-            RestaurantDB.tables.update(table.id, {
-                status: 'available',
-                order: {
-                    customerId: null,
-                    customerName: '',
-                    items: [],
-                    total: 0
-                }
-            });
+            // Clear order but don't check out room automatically
+            RestaurantDB.tables.clearOrder(table.id);
 
-            showNotification('Bill generated successfully with room charges!');
+            showNotification('Bill generated successfully!');
             displayBill(bill, table);
             loadTables();
             loadActiveOrders();
             updateStats();
         }
 
+        function getCustomerPhone(customerId) {
+            if (!customerId) return '';
+            const customers = RestaurantDB.customers.getAll();
+            const customer = customers.find(c => c.id == customerId);
+            return customer ? customer.phone : '';
+        }
+
+        function getCustomerEmail(customerId) {
+            if (!customerId) return '';
+            const customers = RestaurantDB.customers.getAll();
+            const customer = customers.find(c => c.id == customerId);
+            return customer ? customer.email : '';
+        }
+
+        // Enhanced Bill Display with WhatsApp & Email Sharing
         function displayBill(bill, table) {
             const billDisplay = document.getElementById('billDisplay');
             
@@ -1995,6 +2439,7 @@
                 <div>
                     <p><strong>Customer:</strong> ${bill.customerName}</p>
                     <p><strong>Table:</strong> ${bill.tableNumber}</p>
+                    ${bill.customerPhone ? `<p><strong>Phone:</strong> ${bill.customerPhone}</p>` : ''}
                 </div>
                 
                 <div class="bill-items">
@@ -2030,23 +2475,41 @@
                 </div>
                 
                 <div class="bill-actions">
-                    <button class="btn btn-primary" onclick="printBill(${bill.id})">
+                    <button class="btn btn-sm btn-primary" onclick="printBill(${bill.id})">
                         <span class="material-icons-outlined">print</span>
-                        Print Bill
+                        Print
                     </button>
-                    <button class="btn btn-success" onclick="shareBill(${bill.id})">
+                    
+                    ${bill.customerPhone ? `
+                        <button class="btn btn-sm whatsapp-btn" onclick="shareOnWhatsApp(${bill.id})">
+                            <span class="material-icons-outlined">chat</span>
+                            WhatsApp
+                        </button>
+                    ` : ''}
+                    
+                    ${bill.customerEmail ? `
+                        <button class="btn btn-sm email-btn" onclick="shareViaEmail(${bill.id})">
+                            <span class="material-icons-outlined">email</span>
+                            Email
+                        </button>
+                    ` : ''}
+                    
+                    <button class="btn btn-sm btn-success" onclick="shareBill(${bill.id})">
                         <span class="material-icons-outlined">share</span>
-                        Share Bill
+                        Share
                     </button>
-                    <button class="btn btn-info" onclick="downloadBillImage(${bill.id})">
+                    
+                    <button class="btn btn-sm btn-info" onclick="downloadBillImage(${bill.id})">
                         <span class="material-icons-outlined">download</span>
                         Download
                     </button>
-                    <button class="btn btn-danger" onclick="deleteBill(${bill.id})">
+                    
+                    <button class="btn btn-sm btn-danger" onclick="deleteBill(${bill.id})">
                         <span class="material-icons-outlined">delete</span>
-                        Delete Bill
+                        Delete
                     </button>
-                    <button class="btn btn-warning" onclick="closeBillModal()">
+                    
+                    <button class="btn btn-sm btn-warning" onclick="closeBillModal()">
                         <span class="material-icons-outlined">close</span>
                         Close
                     </button>
@@ -2054,6 +2517,72 @@
             `;
             
             document.getElementById('billModal').classList.add('show');
+        }
+
+        // WhatsApp Sharing Function
+        function shareOnWhatsApp(billId) {
+            const bills = RestaurantDB.bills.getAll();
+            const bill = bills.find(b => b.id === billId);
+            if (!bill) return;
+
+            const billText = `
+*THYNK POS - Bill #${bill.id.toString().slice(-6)}*
+
+📅 Date: ${new Date(bill.date).toLocaleString()}
+👤 Customer: ${bill.customerName}
+🏠 Table: ${bill.tableNumber}
+
+*Items:*
+${bill.items.map(item => `• ${item.name} x${item.quantity} = ₹${item.total.toFixed(2)}`).join('\n')}
+${bill.roomCharge > 0 ? `\n🏨 Room Charge: ₹${bill.roomCharge.toFixed(2)}` : ''}
+
+*Total: ₹${bill.total.toFixed(2)}*
+
+Thank you for your business! 🙏
+_Powered by Thynk POS v1.5 - Created by Anas Lila_
+            `;
+
+            const phoneNumber = bill.customerPhone.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+            const whatsappUrl = `https://wa.me/${phoneNumber.startsWith('91') ? phoneNumber : '91' + phoneNumber}?text=${encodeURIComponent(billText)}`;
+            
+            window.open(whatsappUrl, '_blank');
+            showNotification('Opening WhatsApp to send bill...');
+        }
+
+        // Email Sharing Function
+        function shareViaEmail(billId) {
+            const bills = RestaurantDB.bills.getAll();
+            const bill = bills.find(b => b.id === billId);
+            if (!bill) return;
+
+            const subject = `Bill #${bill.id.toString().slice(-6)} - Thynk POS`;
+            const body = `
+Dear ${bill.customerName},
+
+Thank you for your business! Here's your bill:
+
+Bill #: ${bill.id.toString().slice(-6)}
+Date: ${new Date(bill.date).toLocaleString()}
+Customer: ${bill.customerName}
+Table: ${bill.tableNumber}
+
+Items:
+${bill.items.map(item => `${item.name} x${item.quantity} = ₹${item.total.toFixed(2)}`).join('\n')}
+${bill.roomCharge > 0 ? `\nRoom Charge: ₹${bill.roomCharge.toFixed(2)}` : ''}
+
+Total: ₹${bill.total.toFixed(2)}
+
+Thank you for choosing us!
+
+Best regards,
+Your Restaurant Team
+
+Powered by Thynk POS v1.5 - Created by Anas Lila
+            `;
+
+            const mailtoUrl = `mailto:${bill.customerEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.open(mailtoUrl);
+            showNotification('Opening email client to send bill...');
         }
 
         function deleteBill(billId) {
@@ -2083,6 +2612,7 @@
                     <p><strong>Date:</strong> ${new Date(bill.date).toLocaleString()}</p>
                     <p><strong>Customer:</strong> ${bill.customerName}</p>
                     <p><strong>Table:</strong> ${bill.tableNumber}</p>
+                    ${bill.customerPhone ? `<p><strong>Phone:</strong> ${bill.customerPhone}</p>` : ''}
                     <hr>
                     ${bill.items.map(item => `
                         <p>${item.name} x${item.quantity} = ₹${item.total.toFixed(2)}</p>
@@ -2147,6 +2677,7 @@ THYNK POS - Bill #${bill.id.toString().slice(-6)}
 Date: ${new Date(bill.date).toLocaleString()}
 Customer: ${bill.customerName}
 Table: ${bill.tableNumber}
+${bill.customerPhone ? `Phone: ${bill.customerPhone}` : ''}
 
 Items:
 ${bill.items.map(item => `${item.name} x${item.quantity} = ₹${item.total.toFixed(2)}`).join('\n')}
@@ -2187,6 +2718,7 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
             container.innerHTML = tables.map(table => `
                 <div class="card">
                     <h3>${table.type} ${table.number} - ${table.order.customerName}</h3>
+                    ${table.type === 'Room' ? `<p><small>${table.checkedIn ? '✅ Checked In' : '🔒 Not Checked In'}</small></p>` : ''}
                     <div style="max-height: 150px; overflow-y: auto; margin: 1rem 0;">
                         ${table.order.items.map(item => `
                             <div style="display: flex; justify-content: space-between; padding: 0.25rem 0; border-bottom: 1px solid var(--light);">
@@ -2209,9 +2741,28 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
                             <span class="material-icons-outlined">receipt</span>
                             Generate Bill
                         </button>
+                        <button class="btn btn-sm btn-danger" onclick="cancelOrderFromActive(${table.id})">
+                            <span class="material-icons-outlined">cancel</span>
+                            Cancel Order
+                        </button>
                     </div>
                 </div>
             `).join('');
+        }
+
+        function cancelOrderFromActive(tableId) {
+            const tables = RestaurantDB.tables.getAll();
+            const table = tables.find(t => t.id === tableId);
+            
+            if (!table) return;
+
+            if (confirm(`Cancel order for ${table.type} ${table.number}? All items will be removed without generating a bill.`)) {
+                RestaurantDB.tables.clearOrder(tableId);
+                showNotification('Order cancelled successfully without generating bill!');
+                loadTables();
+                loadActiveOrders();
+                updateStats();
+            }
         }
 
         // Menu Management Functions
@@ -2476,7 +3027,6 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
 
         function redirectToGooglePay() {
             const amount = discountApplied ? 499 : 999;
-            // Corrected Google Pay URL format
             const gpayUrl = `https://pay.google.com/pay?pa=anaslila@icici&pn=Thynk%20POS%20Subscription&am=${amount}&cu=INR&tn=Thynk%20POS%20Lifetime%20Access`;
             window.open(gpayUrl, '_blank');
             showNotification('Redirecting to Google Pay...');
@@ -2484,7 +3034,6 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
 
         function redirectToUPI() {
             const amount = discountApplied ? 499 : 999;
-            // Standard UPI URL format
             const upiUrl = `upi://pay?pa=anaslila@icici&pn=Thynk%20POS%20Subscription&am=${amount}&cu=INR&tn=Thynk%20POS%20Lifetime%20Access`;
             window.open(upiUrl, '_blank');
             showNotification('Opening UPI apps...');
@@ -2498,7 +3047,6 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
             
             qrAmountElement.textContent = `₹${amount}`;
             
-            // Using QR Server API for UPI QR generation
             const upiString = `upi://pay?pa=anaslila@icici&pn=Thynk%20POS%20Subscription&am=${amount}&cu=INR&tn=Thynk%20POS%20Lifetime%20Access`;
             const qrURL = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiString)}`;
             
@@ -2546,7 +3094,7 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
         // Service Worker Registration for Offline Support
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register(URL.createObjectURL(new Blob([`
-                const CACHE = 'thynk-pos-v1.5';
+                const CACHE = 'thynk-pos-v1.5-complete';
                 self.addEventListener('install', e => {
                     e.waitUntil(caches.open(CACHE).then(cache => cache.addAll(['/'])));
                 });
