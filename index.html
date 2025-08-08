@@ -55,13 +55,13 @@
 
         /* Header with Fixed Logo */
         .header {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.25);
             backdrop-filter: blur(20px);
             box-shadow: var(--shadow);
             position: sticky;
             top: 0;
             z-index: 1000;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .nav {
@@ -105,15 +105,17 @@
         .app { padding: 2rem 0; min-height: calc(100vh - 80px); }
 
         .app-container {
-            background: var(--white);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(25px);
             border-radius: 24px;
             box-shadow: var(--shadow-lg);
             overflow: hidden;
-            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .app-header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(139, 92, 246, 0.9));
+            backdrop-filter: blur(20px);
             color: var(--white);
             padding: 2rem;
             text-align: center;
@@ -134,14 +136,16 @@
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            background: var(--light);
+            background: rgba(248, 250, 252, 0.3);
+            backdrop-filter: blur(15px);
         }
 
         .stat-card {
-            background: var(--white);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
             padding: 2rem;
             text-align: center;
-            border-right: 1px solid var(--border);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
             transition: var(--transition);
             position: relative;
             overflow: hidden;
@@ -149,7 +153,7 @@
 
         .stat-card:last-child { border-right: none; }
         .stat-card:hover {
-            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            background: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
         }
 
@@ -196,10 +200,11 @@
         /* Tabs */
         .tabs {
             display: flex;
-            background: var(--light);
+            background: rgba(248, 250, 252, 0.4);
+            backdrop-filter: blur(15px);
             padding: 0.5rem;
             gap: 0.5rem;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid rgba(229, 231, 235, 0.3);
         }
 
         .tab {
@@ -218,7 +223,10 @@
             font-size: 1rem;
         }
 
-        .tab:hover { background: rgba(59, 130, 246, 0.1); }
+        .tab:hover { 
+            background: rgba(59, 130, 246, 0.2); 
+            backdrop-filter: blur(10px);
+        }
         .tab.active {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: var(--white);
@@ -287,7 +295,7 @@
 
         .btn-sm { padding: 0.5rem 1rem; font-size: 0.875rem; }
 
-        /* Gradient Blur Effect Tiles for Tables/Rooms */
+        /* Enhanced Gradient Transparent Blur Effect Tiles for Tables/Rooms */
         .tiles-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -299,13 +307,13 @@
 
         .table-tile {
             position: relative;
-            height: 150px;
-            border-radius: 16px;
+            height: 180px;
+            border-radius: 20px;
             cursor: pointer;
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -315,37 +323,49 @@
             font-weight: 600;
         }
 
-        /* Gradient Blur Backgrounds for Different States */
+        /* Enhanced Gradient Transparent Blur Backgrounds - Reflecting Light and Color */
         .table-tile.available {
             background: linear-gradient(135deg, 
-                rgba(16, 185, 129, 0.8), 
-                rgba(5, 150, 105, 0.6)), 
-                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><filter id="blur"><feGaussianBlur stdDeviation="3"/></filter></defs><rect width="100" height="100" fill="%23059669" filter="url(%23blur)"/></svg>');
-            background-size: cover;
+                rgba(255, 255, 255, 0.4),
+                rgba(16, 185, 129, 0.3),
+                rgba(255, 255, 255, 0.2)
+            );
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                0 8px 32px rgba(16, 185, 129, 0.2);
         }
 
         .table-tile.occupied {
             background: linear-gradient(135deg, 
-                rgba(239, 68, 68, 0.8), 
-                rgba(220, 38, 38, 0.6)), 
-                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><filter id="blur"><feGaussianBlur stdDeviation="3"/></filter></defs><rect width="100" height="100" fill="%23dc2626" filter="url(%23blur)"/></svg>');
-            background-size: cover;
+                rgba(255, 255, 255, 0.4),
+                rgba(239, 68, 68, 0.3),
+                rgba(255, 255, 255, 0.2)
+            );
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                0 8px 32px rgba(239, 68, 68, 0.2);
         }
 
         .table-tile.reserved {
             background: linear-gradient(135deg, 
-                rgba(245, 158, 11, 0.8), 
-                rgba(217, 119, 6, 0.6)), 
-                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><filter id="blur"><feGaussianBlur stdDeviation="3"/></filter></defs><rect width="100" height="100" fill="%23d97706" filter="url(%23blur)"/></svg>');
-            background-size: cover;
+                rgba(255, 255, 255, 0.4),
+                rgba(245, 158, 11, 0.3),
+                rgba(255, 255, 255, 0.2)
+            );
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                0 8px 32px rgba(245, 158, 11, 0.2);
         }
 
         .table-tile:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            filter: brightness(1.2);
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                0 20px 60px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(30px);
         }
 
+        /* Light Reflection Effect */
         .table-tile::before {
             content: '';
             position: absolute;
@@ -353,35 +373,95 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, 
-                rgba(255,255,255,0.1) 0%, 
-                transparent 50%, 
-                rgba(255,255,255,0.1) 100%);
-            transform: translateX(-100%);
-            transition: transform 0.6s;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.6) 0%, 
+                transparent 30%, 
+                transparent 70%,
+                rgba(255, 255, 255, 0.3) 100%
+            );
+            transform: translateX(-100%) rotate(45deg);
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 20px;
         }
 
         .table-tile:hover::before {
-            transform: translateX(100%);
+            transform: translateX(100%) rotate(45deg);
+        }
+
+        /* Glass-like inner glow */
+        .table-tile::after {
+            content: '';
+            position: absolute;
+            inset: 1px;
+            border-radius: 19px;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.2) 0%,
+                transparent 50%,
+                rgba(255, 255, 255, 0.1) 100%
+            );
+            pointer-events: none;
         }
 
         .tile-number {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 800;
             margin-bottom: 0.5rem;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            text-shadow: 
+                0 2px 8px rgba(0,0,0,0.3),
+                0 0 20px rgba(255,255,255,0.5);
+            position: relative;
+            z-index: 2;
         }
 
         .tile-info {
-            font-size: 0.9rem;
+            font-size: 1rem;
             opacity: 0.9;
             text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 2;
         }
 
         .tile-chairs {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             opacity: 0.8;
             margin-top: 0.25rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Specific Remove Button for Each Tile */
+        .tile-remove-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 28px;
+            height: 28px;
+            background: rgba(239, 68, 68, 0.9);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+        }
+
+        .table-tile:hover .tile-remove-btn {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .tile-remove-btn:hover {
+            background: rgba(220, 38, 38, 0.9);
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
         }
 
         /* Add/Edit Tile Modal */
@@ -392,7 +472,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
             display: none;
             justify-content: center;
             align-items: center;
@@ -402,13 +482,15 @@
         .modal.show { display: flex; }
 
         .modal-content {
-            background: var(--white);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(25px);
             border-radius: 20px;
             padding: 2rem;
             max-width: 500px;
             width: 90%;
             box-shadow: var(--shadow-lg);
             animation: modalSlideIn 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .modal-header {
@@ -422,11 +504,13 @@
         }
 
         .form-section {
-            background: var(--light);
+            background: rgba(248, 250, 252, 0.5);
+            backdrop-filter: blur(10px);
             padding: 2rem;
             border-radius: var(--border-radius);
             margin-bottom: 2rem;
             display: block;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .form-grid {
@@ -447,17 +531,19 @@
 
         .form-input {
             padding: 0.875rem 1rem;
-            border: 2px solid var(--border);
+            border: 2px solid rgba(229, 231, 235, 0.5);
             border-radius: 8px;
             font-size: 1rem;
             transition: var(--transition);
-            background: var(--white);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
         }
 
         .form-input:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            background: rgba(255, 255, 255, 0.95);
         }
 
         /* Add Dish Modal */
@@ -468,7 +554,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
             display: none;
             justify-content: center;
             align-items: center;
@@ -478,7 +564,8 @@
         .dish-modal.show { display: flex; }
 
         .dish-modal-content {
-            background: var(--white);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(25px);
             border-radius: 20px;
             padding: 2rem;
             max-width: 600px;
@@ -486,6 +573,7 @@
             max-height: 80vh;
             overflow-y: auto;
             box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .dish-grid {
@@ -496,22 +584,25 @@
         }
 
         .dish-card {
-            background: var(--light);
+            background: rgba(248, 250, 252, 0.6);
+            backdrop-filter: blur(10px);
             padding: 1rem;
             border-radius: var(--border-radius);
-            border: 2px solid transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
             transition: var(--transition);
             cursor: pointer;
         }
 
         .dish-card:hover {
             border-color: var(--primary);
-            background: rgba(59, 130, 246, 0.05);
+            background: rgba(59, 130, 246, 0.1);
+            backdrop-filter: blur(15px);
         }
 
         .dish-card.selected {
             border-color: var(--success);
-            background: rgba(16, 185, 129, 0.1);
+            background: rgba(16, 185, 129, 0.2);
+            backdrop-filter: blur(15px);
         }
 
         /* Controls */
@@ -525,11 +616,13 @@
         }
 
         .tile-counter {
-            background: var(--white);
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(15px);
             padding: 1rem;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         /* Empty State */
@@ -537,6 +630,10 @@
             text-align: center;
             padding: 4rem 2rem;
             color: var(--text-light);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .empty-icon {
@@ -618,7 +715,7 @@
                 <!-- App Header -->
                 <div class="app-header">
                     <div class="app-title">Thynk POS - Complete Hotel Management</div>
-                    <div class="app-subtitle">Interactive Table & Room Management with Menu Integration</div>
+                    <div class="app-subtitle">Interactive Table & Room Management with Gradient Blur Effects</div>
                 </div>
 
                 <!-- Statistics -->
@@ -690,12 +787,12 @@
                             </div>
                         </div>
 
-                        <!-- Gradient Blur Effect Tiles Grid -->
+                        <!-- Enhanced Gradient Transparent Blur Effect Tiles Grid -->
                         <div id="tilesGrid" class="tiles-grid">
                             <div class="empty-state">
                                 <div class="empty-icon">🏨</div>
                                 <h3>No Tables/Rooms Added Yet</h3>
-                                <p>Click "Add Table/Room" to create your first interactive tile</p>
+                                <p>Click "Add Table/Room" to create interactive tiles with gradient blur effects</p>
                                 <button class="btn btn-primary" onclick="addNewTable()" style="margin-top: 1rem;">
                                     🏨 Add Your First Table/Room
                                 </button>
@@ -781,11 +878,11 @@
 
                     <!-- Premium Subscription Tab -->
                     <div class="tab-pane" id="subscription-tab">
-                        <div style="max-width: 600px; margin: 0 auto; background: var(--white); border-radius: var(--border-radius); padding: 2rem; box-shadow: var(--shadow-lg);">
+                        <div style="max-width: 600px; margin: 0 auto; background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(25px); border-radius: var(--border-radius); padding: 2rem; box-shadow: var(--shadow-lg); border: 1px solid rgba(255, 255, 255, 0.3);">
                             <h2 style="text-align: center; margin-bottom: 2rem;">Premium Subscription</h2>
                             
                             <!-- Price Display -->
-                            <div style="text-align: center; padding: 2rem; background: var(--light); border-radius: var(--border-radius); margin-bottom: 2rem;">
+                            <div style="text-align: center; padding: 2rem; background: rgba(248, 250, 252, 0.5); backdrop-filter: blur(15px); border-radius: var(--border-radius); margin-bottom: 2rem; border: 1px solid rgba(255, 255, 255, 0.3);">
                                 <div style="font-size: 3rem; font-weight: 800; color: var(--success); margin-bottom: 0.5rem;">₹999</div>
                                 <p style="margin-top: 1rem; color: var(--text-light);">Lifetime Access • No Monthly Fees • 500 Tables/Rooms</p>
                             </div>
@@ -796,19 +893,19 @@
                                 <ul style="list-style: none; padding: 0;">
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        500 Interactive Table/Room Tiles with Blur Effects
+                                        500 Interactive Table/Room Tiles with Gradient Blur Effects
+                                    </li>
+                                    <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                        <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
+                                        Gradient Transparent Blur Effects with Light Reflection
+                                    </li>
+                                    <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                        <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
+                                        Individual Remove Buttons for Each Table/Room
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
                                         Complete Menu Management System
-                                    </li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                        <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Integrated Billing Software
-                                    </li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                        <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Real-time Status Updates
                                     </li>
                                 </ul>
                             </div>
@@ -1016,7 +1113,13 @@
             document.getElementById('tableModal').classList.remove('show');
         }
 
-        function deleteTable(id) {
+        // Specific Remove Button Function
+        function deleteTable(id, event) {
+            // Prevent tile click when clicking remove button
+            if (event) {
+                event.stopPropagation();
+            }
+            
             const tables = RestaurantDB.tables.getAll();
             const table = tables.find(t => t.id === id);
             if (!table) return;
@@ -1121,7 +1224,7 @@
                     <div class="empty-state">
                         <div class="empty-icon">🏨</div>
                         <h3>No Tables/Rooms Added Yet</h3>
-                        <p>Click "Add Table/Room" to create your first interactive tile</p>
+                        <p>Click "Add Table/Room" to create interactive tiles with gradient blur effects</p>
                         <button class="btn btn-primary" onclick="addNewTable()" style="margin-top: 1rem;">
                             🏨 Add Your First Table/Room
                         </button>
@@ -1132,6 +1235,11 @@
 
             container.innerHTML = tables.map(table => `
                 <div class="table-tile ${table.status}" onclick="handleTileClick(${table.id})" oncontextmenu="showTileMenu(event, ${table.id})">
+                    <!-- Specific Remove Button for Each Table/Room -->
+                    <button class="tile-remove-btn" onclick="deleteTable(${table.id}, event)" title="Remove ${table.type} ${table.number}">
+                        <span class="material-icons-outlined" style="font-size: 14px;">close</span>
+                    </button>
+                    
                     <div class="tile-number">${table.type === 'Room' ? 'R' : 'T'}${table.number}</div>
                     <div class="tile-info">${table.type}</div>
                     <div class="tile-chairs">${table.chairs} ${table.chairs === 1 ? 'Chair' : 'Chairs'}</div>
@@ -1317,13 +1425,13 @@
         document.addEventListener('DOMContentLoaded', () => {
             updateStats();
             loadTables();
-            showNotification('🎉 Thynk POS loaded! Interactive table management ready.');
+            showNotification('🎉 Thynk POS loaded! Interactive gradient blur tiles ready.');
         });
 
         // Service Worker Registration
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register(URL.createObjectURL(new Blob([`
-                const CACHE = 'thynk-pos-v5.0';
+                const CACHE = 'thynk-pos-v6.0';
                 self.addEventListener('install', e => {
                     e.waitUntil(caches.open(CACHE).then(cache => cache.addAll(['/'])));
                 });
