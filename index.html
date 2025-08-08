@@ -1644,9 +1644,15 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Menu Item *</label>
-                                    <select class="form-input" id="billMenuSelect">
-                                        <option value="">Select Menu Item</option>
-                                    </select>
+<div class="menu-search-container" style="position: relative;">
+    <input type="text" class="form-input" id="billMenuInput" placeholder="Type or search dish name..." autocomplete="off">
+    <div id="menuSuggestions" style="display:none; position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #ddd; max-height:200px; overflow-y:auto; z-index:1000;"></div>
+    <input type="hidden" id="selectedMenuId">
+</div>
+<div class="form-group">
+    <label class="form-label">Price (₹) *</label>
+    <input type="number" class="form-input" id="menuPriceInput" placeholder="Price" readonly>
+</div>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Quantity *</label>
