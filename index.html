@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thynk POS - Complete Hotel Management System</title>
     
-    <!-- Working Logo & Favicon from your Google Drive -->
+    <!-- Working Logo & Favicon - Fixed URLs -->
     <link rel="icon" href="https://drive.google.com/uc?export=view&id=1uYONXoHMt3RYgLi6HxtI41Zk0X3lIIGG" type="image/png">
     <link rel="apple-touch-icon" href="https://drive.google.com/uc?export=view&id=1uYONXoHMt3RYgLi6HxtI41Zk0X3lIIGG">
     
@@ -53,7 +53,7 @@
 
         .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
 
-        /* Header with Your Logo */
+        /* Header with Fixed Logo */
         .header {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
@@ -333,6 +333,27 @@
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
+        /* Payment Status Badge */
+        .payment-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .payment-status.paid {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .payment-status.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
         /* Cards */
         .card-grid {
             display: grid;
@@ -381,6 +402,31 @@
             font-size: 4rem;
             margin-bottom: 1rem;
             opacity: 0.5;
+        }
+
+        /* Table Status Badges */
+        .table-status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .table-status.available {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .table-status.occupied {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .table-status.reserved {
+            background: #fef3c7;
+            color: #92400e;
         }
 
         /* Payment Section */
@@ -663,13 +709,21 @@
                                     <input type="text" class="form-input" id="billCustomerName" placeholder="Enter customer name">
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Table/Room Number</label>
-                                    <input type="number" class="form-input" id="billTableNumber" placeholder="Table/Room number">
+                                    <label class="form-label">Table/Room *</label>
+                                    <select class="form-input" id="billTableSelect">
+                                        <option value="">Select Table/Room</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Menu Item *</label>
-                                    <select class="form-input" id="billMenuSelect">
-                                        <option value="">Select Menu Item</option>
+                                    <label class="form-label">Menu Category *</label>
+                                    <select class="form-input" id="billCategorySelect" onchange="loadDishesForCategory()">
+                                        <option value="">Select Category</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Dish *</label>
+                                    <select class="form-input" id="billDishSelect">
+                                        <option value="">Select Dish</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -832,7 +886,7 @@
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Advanced Billing Software
+                                        Advanced Billing Software with Table Integration
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
@@ -840,11 +894,11 @@
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Table/Room Management
+                                        Table/Room Management with Status Tracking
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Print & Export Bills
+                                        Automatic Table Availability Updates
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
@@ -860,7 +914,7 @@
     </main>
 
     <script>
-        // Complete Restaurant Management System Database
+        // Complete Restaurant Management System Database[1][2][3][4][5][6][7][8][9][10]
         const RestaurantDB = {
             menu: {
                 save: (item) => {
@@ -878,6 +932,10 @@
                     return menu.length;
                 },
                 getAll: () => JSON.parse(localStorage.getItem('thynk_menu') || '[]'),
+                getByCategory: (category) => {
+                    const menu = RestaurantDB.menu.getAll();
+                    return menu.filter(item => item.category === category);
+                },
                 delete: (id) => {
                     const menu = RestaurantDB.menu.getAll().filter(item => item.id !== parseInt(id));
                     localStorage.setItem('thynk_menu', JSON.stringify(menu));
@@ -890,13 +948,27 @@
                         id: Date.now(),
                         ...bill,
                         date: new Date().toISOString(),
-                        total: parseFloat(bill.total)
+                        total: parseFloat(bill.total),
+                        paymentStatus: 'pending' // Default payment status
                     };
                     bills.push(newBill);
                     localStorage.setItem('thynk_bills', JSON.stringify(bills));
                     return bills.length;
                 },
-                getAll: () => JSON.parse(localStorage.getItem('thynk_bills') || '[]')
+                getAll: () => JSON.parse(localStorage.getItem('thynk_bills') || '[]'),
+                updatePaymentStatus: (billId, status) => {
+                    const bills = RestaurantDB.bills.getAll();
+                    const billIndex = bills.findIndex(b => b.id === billId);
+                    if (billIndex !== -1) {
+                        bills[billIndex].paymentStatus = status;
+                        localStorage.setItem('thynk_bills', JSON.stringify(bills));
+                        
+                        // If bill is marked as paid, free up the table
+                        if (status === 'paid' && bills[billIndex].tableId) {
+                            RestaurantDB.tables.updateStatus(bills[billIndex].tableId, 'available');
+                        }
+                    }
+                }
             },
             customers: {
                 save: (customer) => {
@@ -932,6 +1004,10 @@
                     return tables.length;
                 },
                 getAll: () => JSON.parse(localStorage.getItem('thynk_tables') || '[]'),
+                getAvailable: () => {
+                    const tables = RestaurantDB.tables.getAll();
+                    return tables.filter(table => table.status === 'available');
+                },
                 updateStatus: (id, status) => {
                     const tables = RestaurantDB.tables.getAll();
                     const table = tables.find(t => t.id === id);
@@ -958,7 +1034,7 @@
             currentTab = tabName;
             
             if (tabName === 'menu') loadMenuItems();
-            if (tabName === 'billing') { loadBills(); loadMenuSelectOptions(); loadCustomerSelectOptions(); }
+            if (tabName === 'billing') { loadBills(); loadBillingDropdowns(); }
             if (tabName === 'customers') loadCustomers();
             if (tabName === 'tables') loadTables();
             
@@ -1004,7 +1080,7 @@
             
             hideMenuForm();
             loadMenuItems();
-            loadMenuSelectOptions(); // Refresh menu options in billing
+            loadBillingDropdowns(); // Refresh billing dropdowns
             updateStats();
         }
 
@@ -1048,23 +1124,18 @@
                 RestaurantDB.menu.delete(id);
                 showNotification(`"${name}" deleted successfully`);
                 loadMenuItems();
-                loadMenuSelectOptions(); // Refresh menu options
+                loadBillingDropdowns(); // Refresh billing dropdowns
                 updateStats();
             }
         }
 
-        // Load Menu Options for Billing
-        function loadMenuSelectOptions() {
-            const menuItems = RestaurantDB.menu.getAll();
-            const select = document.getElementById('billMenuSelect');
-            
-            select.innerHTML = '<option value="">Select Menu Item</option>';
-            menuItems.forEach(item => {
-                select.innerHTML += `<option value="${item.id}" data-price="${item.price}">${item.name} - ₹${item.price}</option>`;
-            });
+        // Load Billing Dropdowns
+        function loadBillingDropdowns() {
+            loadCustomerSelectOptions();
+            loadTableSelectOptions();
+            loadCategorySelectOptions();
         }
 
-        // Load Customer Options for Billing with Purchase History
         function loadCustomerSelectOptions() {
             const customers = RestaurantDB.customers.getAll();
             const select = document.getElementById('billCustomerSelect');
@@ -1078,6 +1149,46 @@
                 const historyText = customer.totalOrders > 0 ? ` (${customer.totalOrders} orders, ₹${customer.totalSpent})` : ' (New)';
                 select.innerHTML += `<option value="${customer.id}">${customer.name}${historyText}</option>`;
             });
+        }
+
+        function loadTableSelectOptions() {
+            const availableTables = RestaurantDB.tables.getAvailable();
+            const select = document.getElementById('billTableSelect');
+            
+            select.innerHTML = '<option value="">Select Available Table/Room</option>';
+            
+            availableTables.forEach(table => {
+                select.innerHTML += `<option value="${table.id}">${table.type} ${table.number} (${table.capacity} seats)</option>`;
+            });
+
+            if (availableTables.length === 0) {
+                select.innerHTML = '<option value="">No tables available</option>';
+            }
+        }
+
+        function loadCategorySelectOptions() {
+            const menuItems = RestaurantDB.menu.getAll();
+            const categories = [...new Set(menuItems.map(item => item.category))];
+            const select = document.getElementById('billCategorySelect');
+            
+            select.innerHTML = '<option value="">Select Category</option>';
+            categories.forEach(category => {
+                select.innerHTML += `<option value="${category}">${category}</option>`;
+            });
+        }
+
+        function loadDishesForCategory() {
+            const selectedCategory = document.getElementById('billCategorySelect').value;
+            const dishSelect = document.getElementById('billDishSelect');
+            
+            dishSelect.innerHTML = '<option value="">Select Dish</option>';
+            
+            if (selectedCategory) {
+                const dishes = RestaurantDB.menu.getByCategory(selectedCategory);
+                dishes.forEach(dish => {
+                    dishSelect.innerHTML += `<option value="${dish.id}" data-price="${dish.price}">${dish.name} - ₹${dish.price}</option>`;
+                });
+            }
         }
 
         // Customer Selection Handler
@@ -1098,8 +1209,7 @@
         // Billing Functions
         function showNewBillForm() {
             document.getElementById('billForm').classList.add('show');
-            loadMenuSelectOptions();
-            loadCustomerSelectOptions();
+            loadBillingDropdowns();
         }
 
         function hideBillForm() {
@@ -1110,8 +1220,9 @@
         function clearBillForm() {
             document.getElementById('billCustomerSelect').value = '';
             document.getElementById('billCustomerName').value = '';
-            document.getElementById('billTableNumber').value = '';
-            document.getElementById('billMenuSelect').value = '';
+            document.getElementById('billTableSelect').value = '';
+            document.getElementById('billCategorySelect').value = '';
+            document.getElementById('billDishSelect').value = '';
             document.getElementById('billQuantity').value = '1';
             document.getElementById('billTax').value = '18';
             document.getElementById('newCustomerName').style.display = 'none';
@@ -1120,9 +1231,10 @@
         function generateBill() {
             const customerSelect = document.getElementById('billCustomerSelect').value;
             const customerName = customerSelect === 'new' ? document.getElementById('billCustomerName').value.trim() : '';
-            const tableNumber = document.getElementById('billTableNumber').value || 'N/A';
-            const menuSelect = document.getElementById('billMenuSelect');
-            const selectedOption = menuSelect.options[menuSelect.selectedIndex];
+            const tableSelect = document.getElementById('billTableSelect').value;
+            const categorySelect = document.getElementById('billCategorySelect').value;
+            const dishSelect = document.getElementById('billDishSelect');
+            const selectedDish = dishSelect.options[dishSelect.selectedIndex];
             const quantity = parseInt(document.getElementById('billQuantity').value);
             const tax = parseFloat(document.getElementById('billTax').value) || 0;
 
@@ -1136,14 +1248,19 @@
                 return;
             }
 
-            if (!selectedOption || !selectedOption.value) {
-                showNotification('Please select a menu item', 'error');
+            if (!tableSelect) {
+                showNotification('Please select a table/room', 'error');
                 return;
             }
 
-            const menuItemId = selectedOption.value;
-            const menuItemName = selectedOption.textContent.split(' - ')[0];
-            const price = parseFloat(selectedOption.dataset.price);
+            if (!categorySelect || !selectedDish || !selectedDish.value) {
+                showNotification('Please select category and dish', 'error');
+                return;
+            }
+
+            const dishId = selectedDish.value;
+            const dishName = selectedDish.textContent.split(' - ')[0];
+            const price = parseFloat(selectedDish.dataset.price);
 
             // Add new customer if needed
             let finalCustomerName = customerName;
@@ -1170,12 +1287,16 @@
             const taxAmount = (subtotal * tax) / 100;
             const total = subtotal + taxAmount;
 
+            // Mark table as occupied
+            RestaurantDB.tables.updateStatus(parseInt(tableSelect), 'occupied');
+
             const count = RestaurantDB.bills.save({
                 customerId,
                 customerName: finalCustomerName,
-                tableNumber,
-                menuItemId,
-                menuItemName,
+                tableId: parseInt(tableSelect),
+                category: categorySelect,
+                dishId,
+                dishName,
                 quantity,
                 price,
                 tax,
@@ -1189,10 +1310,11 @@
                 RestaurantDB.customers.updatePurchaseHistory(parseInt(customerId), total);
             }
 
-            showNotification(`Bill generated successfully! Bill #${count}`);
+            showNotification(`Bill generated successfully! Table marked as occupied.`);
             hideBillForm();
             loadBills();
-            loadCustomerSelectOptions(); // Refresh to show updated history
+            loadBillingDropdowns(); // Refresh to show updated table availability
+            loadTables(); // Refresh table status
             updateStats();
         }
 
@@ -1211,34 +1333,63 @@
                 return;
             }
 
-            container.innerHTML = bills.map(bill => `
+            container.innerHTML = bills.map(bill => {
+                const tables = RestaurantDB.tables.getAll();
+                const table = tables.find(t => t.id === bill.tableId);
+                const tableDisplay = table ? `${table.type} ${table.number}` : 'N/A';
+                
+                return `
                 <div class="card">
                     <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 1rem;">
                         <h3>Bill #${bill.id.toString().slice(-6)}</h3>
                         <span style="color: var(--success); font-weight: 600;">₹${bill.total.toFixed(2)}</span>
                     </div>
                     <p><strong>Customer:</strong> ${bill.customerName}</p>
-                    <p><strong>Table/Room:</strong> ${bill.tableNumber}</p>
-                    <p><strong>Item:</strong> ${bill.menuItemName} (${bill.quantity}x)</p>
+                    <p><strong>Table:</strong> ${tableDisplay}</p>
+                    <p><strong>Dish:</strong> ${bill.dishName} (${bill.quantity}x)</p>
+                    <p><strong>Category:</strong> ${bill.category}</p>
                     <p><strong>Date:</strong> ${new Date(bill.date).toLocaleDateString()}</p>
-                    <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+                    <div style="margin: 1rem 0;">
+                        <span class="payment-status ${bill.paymentStatus === 'paid' ? 'paid' : 'pending'}">
+                            <span class="material-icons-outlined">${bill.paymentStatus === 'paid' ? 'check_circle' : 'schedule'}</span>
+                            ${bill.paymentStatus === 'paid' ? 'Paid' : 'Payment Pending'}
+                        </span>
+                    </div>
+                    <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
                         <button class="btn btn-sm btn-primary" onclick="printBill(${bill.id})">
                             <span class="material-icons-outlined">print</span>
                             Print
                         </button>
-                        <button class="btn btn-sm btn-success" onclick="shareBill(${bill.id})">
-                            <span class="material-icons-outlined">share</span>
-                            Share
-                        </button>
+                        ${bill.paymentStatus === 'pending' ? `
+                            <button class="btn btn-sm btn-success" onclick="markAsPaid(${bill.id})">
+                                <span class="material-icons-outlined">payment</span>
+                                Mark as Paid
+                            </button>
+                        ` : ''}
                     </div>
                 </div>
-            `).join('');
+            `;
+            }).join('');
+        }
+
+        function markAsPaid(billId) {
+            if (confirm('Mark this bill as paid? This will make the table available.')) {
+                RestaurantDB.bills.updatePaymentStatus(billId, 'paid');
+                showNotification('Bill marked as paid! Table is now available.');
+                loadBills();
+                loadBillingDropdowns(); // Refresh table availability
+                loadTables(); // Refresh table status
+            }
         }
 
         function printBill(billId) {
             const bills = RestaurantDB.bills.getAll();
             const bill = bills.find(b => b.id === billId);
             if (!bill) return;
+
+            const tables = RestaurantDB.tables.getAll();
+            const table = tables.find(t => t.id === bill.tableId);
+            const tableDisplay = table ? `${table.type} ${table.number}` : 'N/A';
 
             const printContent = `
                 <div style="max-width: 400px; margin: 0 auto; font-family: monospace;">
@@ -1248,15 +1399,17 @@
                     <p><strong>Bill #:</strong> ${bill.id}</p>
                     <p><strong>Date:</strong> ${new Date(bill.date).toLocaleString()}</p>
                     <p><strong>Customer:</strong> ${bill.customerName}</p>
-                    <p><strong>Table/Room:</strong> ${bill.tableNumber}</p>
+                    <p><strong>Table:</strong> ${tableDisplay}</p>
                     <hr>
-                    <p><strong>Item:</strong> ${bill.menuItemName}</p>
+                    <p><strong>Category:</strong> ${bill.category}</p>
+                    <p><strong>Dish:</strong> ${bill.dishName}</p>
                     <p><strong>Quantity:</strong> ${bill.quantity}</p>
                     <p><strong>Price:</strong> ₹${bill.price.toFixed(2)}</p>
                     <p><strong>Subtotal:</strong> ₹${bill.subtotal.toFixed(2)}</p>
                     <p><strong>Tax (${bill.tax}%):</strong> ₹${bill.taxAmount.toFixed(2)}</p>
                     <hr>
                     <p style="font-size: 18px;"><strong>Total: ₹${bill.total.toFixed(2)}</strong></p>
+                    <p style="text-align: center;">Payment Status: ${bill.paymentStatus.toUpperCase()}</p>
                     <hr>
                     <p style="text-align: center;">Thank you for your business!</p>
                 </div>
@@ -1266,10 +1419,6 @@
             printWindow.document.write(printContent);
             printWindow.print();
             showNotification('Bill sent to printer!');
-        }
-
-        function shareBill(billId) {
-            showNotification('Bill shared successfully!');
         }
 
         // Customer Management Functions
@@ -1374,7 +1523,7 @@
                 <div class="card">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
                         <h3>${table.type} ${table.number}</h3>
-                        <span class="btn btn-sm ${table.status === 'available' ? 'btn-success' : table.status === 'occupied' ? 'btn-danger' : 'btn-warning'}" style="cursor: default;">
+                        <span class="table-status ${table.status}">
                             ${table.status.toUpperCase()}
                         </span>
                     </div>
@@ -1386,13 +1535,17 @@
                                 <span class="material-icons-outlined">event_seat</span>
                                 Mark Occupied
                             </button>
+                            <button class="btn btn-sm btn-warning" onclick="changeTableStatus(${table.id}, 'reserved')">
+                                <span class="material-icons-outlined">schedule</span>
+                                Reserve
+                            </button>
                         ` : `
                             <button class="btn btn-sm btn-success" onclick="changeTableStatus(${table.id}, 'available')">
                                 <span class="material-icons-outlined">check_circle</span>
                                 Mark Available
                             </button>
                         `}
-                        <button class="btn btn-sm btn-primary" onclick="createBillForTable(${table.number})">
+                        <button class="btn btn-sm btn-primary" onclick="createBillForTable(${table.id})">
                             <span class="material-icons-outlined">receipt</span>
                             New Bill
                         </button>
@@ -1404,15 +1557,16 @@
         function changeTableStatus(tableId, newStatus) {
             RestaurantDB.tables.updateStatus(tableId, newStatus);
             loadTables();
+            loadBillingDropdowns(); // Refresh table availability in billing
             updateStats();
             showNotification(`Table status updated to ${newStatus}!`);
         }
 
-        function createBillForTable(tableNumber) {
+        function createBillForTable(tableId) {
             switchTab('billing');
             setTimeout(() => {
                 showNewBillForm();
-                document.getElementById('billTableNumber').value = tableNumber;
+                document.getElementById('billTableSelect').value = tableId;
             }, 300);
         }
 
@@ -1426,6 +1580,7 @@
                 capacity: Math.floor(Math.random() * 6) + 2
             });
             loadTables();
+            loadBillingDropdowns(); // Refresh table availability
             updateStats();
             showNotification(`New table/room added!`);
         }
@@ -1462,7 +1617,7 @@
             
             qrAmountElement.textContent = `₹${amount}`;
             
-            // Using upi.me for QR generation (as requested)
+            // Using QR Server API for UPI QR generation
             const upiString = `upi://pay?pa=anaslila@icici&pn=Thynk%20POS%20Subscription&am=${amount}&cu=INR&tn=Thynk%20POS%20Lifetime%20Subscription%20Payment`;
             const qrURL = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiString)}`;
             
@@ -1486,7 +1641,7 @@
             document.getElementById('revenue').textContent = `₹${totalRevenue.toFixed(0)}`;
         }
 
-        // Notification System (reduced frequency as requested)
+        // Notification System
         function showNotification(message, type = 'success') {
             document.querySelectorAll('.notification').forEach(n => n.remove());
             
@@ -1498,7 +1653,7 @@
             setTimeout(() => {
                 notification.style.animation = 'slideInRight 0.3s ease reverse';
                 setTimeout(() => notification.remove(), 300);
-            }, 2000); // Reduced duration
+            }, 2000);
         }
 
         // Initialize App
@@ -1512,7 +1667,7 @@
         // Service Worker Registration
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register(URL.createObjectURL(new Blob([`
-                const CACHE = 'thynk-pos-v3.0';
+                const CACHE = 'thynk-pos-v4.0';
                 self.addEventListener('install', e => {
                     e.waitUntil(caches.open(CACHE).then(cache => cache.addAll(['/'])));
                 });
