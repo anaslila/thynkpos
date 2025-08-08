@@ -371,7 +371,7 @@
         }
 
         .table-tile.expanded {
-            min-height: 400px;
+            min-height: 450px;
         }
 
         /* Tile Header (Always Visible) */
@@ -423,7 +423,7 @@
         }
 
         .tile-details.expanded {
-            max-height: 500px;
+            max-height: 600px;
         }
 
         .details-content {
@@ -493,6 +493,69 @@
             transform: scale(1.1);
         }
 
+        /* Searchable Customer Input */
+        .customer-search-container {
+            position: relative;
+        }
+
+        .customer-search {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--white);
+            color: var(--dark);
+        }
+
+        .customer-search:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .customer-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            box-shadow: var(--shadow-lg);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .customer-suggestion {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--light);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .customer-suggestion:hover {
+            background: var(--light);
+        }
+
+        .customer-suggestion:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .suggestion-contact {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
+        }
+
         /* Modal Styles */
         .modal {
             position: fixed;
@@ -513,7 +576,7 @@
             background: var(--white);
             border-radius: 20px;
             padding: 2rem;
-            max-width: 600px;
+            max-width: 700px;
             width: 90%;
             max-height: 80vh;
             overflow-y: auto;
@@ -726,6 +789,70 @@
         .email-btn:hover {
             background: #d33b2c;
             transform: translateY(-2px);
+        }
+
+        /* History Timeline */
+        .history-timeline {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 1rem 0;
+        }
+
+        .history-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: var(--border-radius);
+            position: relative;
+        }
+
+        .history-item::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 60%;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .history-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .history-content {
+            flex: 1;
+        }
+
+        .history-title {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .history-details {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .history-time {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            opacity: 0.8;
         }
 
         /* QR Code Container */
@@ -1066,6 +1193,10 @@
                         <span class="material-icons-outlined">people</span>
                         Customer Management
                     </button>
+                    <button class="tab" onclick="switchTab('history')">
+                        <span class="material-icons-outlined">history</span>
+                        History & Reports
+                    </button>
                     <button class="tab" onclick="switchTab('subscription')">
                         <span class="material-icons-outlined">star</span>
                         Premium Subscription
@@ -1164,7 +1295,7 @@
                         </div>
                     </div>
 
-                    <!-- Enhanced Billing Software Tab -->
+                    <!-- Enhanced Billing Software Tab with Searchable Customer -->
                     <div class="tab-pane" id="billing-tab">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                             <h2>Enhanced Billing Software</h2>
@@ -1184,7 +1315,7 @@
                             </button>
                         </div>
 
-                        <!-- Enhanced Billing Form -->
+                        <!-- Enhanced Billing Form with Searchable Customer -->
                         <div class="form-section" id="billForm" style="display: none;">
                             <h3 style="margin-bottom: 1.5rem;">Add Items to Order</h3>
                             <div class="form-grid">
@@ -1196,13 +1327,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Customer Name</label>
-                                    <select class="form-input" id="billCustomerSelect">
-                                        <option value="">Customer will load automatically</option>
-                                    </select>
-                                </div>
-                                <div class="form-group" id="newCustomerInput" style="display: none;">
-                                    <label class="form-label">New Customer Name *</label>
-                                    <input type="text" class="form-input" id="billCustomerName" placeholder="Enter customer name">
+                                    <div class="customer-search-container">
+                                        <input type="text" class="customer-search" id="customerSearchInput" placeholder="Type customer name to search..." autocomplete="off">
+                                        <div class="customer-suggestions" id="customerSuggestions"></div>
+                                    </div>
+                                    <input type="hidden" id="selectedCustomerId">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Menu Item *</label>
@@ -1298,6 +1427,26 @@
                         </div>
                     </div>
 
+                    <!-- History & Reports Tab -->
+                    <div class="tab-pane" id="history-tab">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                            <h2>History & Reports</h2>
+                            <button class="btn btn-primary" onclick="clearAllHistory()">
+                                <span class="material-icons-outlined">clear_all</span>
+                                Clear History
+                            </button>
+                        </div>
+
+                        <!-- History Timeline -->
+                        <div class="history-timeline" id="historyTimeline">
+                            <div class="empty-state">
+                                <div class="empty-icon">📊</div>
+                                <h3>No History Yet</h3>
+                                <p>Activity history will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Premium Subscription Tab -->
                     <div class="tab-pane" id="subscription-tab">
                         <div class="payment-container">
@@ -1362,19 +1511,19 @@
                                 <ul style="list-style: none; padding: 0;">
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Room Check-in/Check-out Management
+                                        Searchable Customer Management
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        WhatsApp & Email Bill Sharing
+                                        Complete History & Reports Tracking
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Order Cancellation Without Billing
+                                        Advanced Check-in/Check-out with Bill Sharing
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Complete Offline Support with Advanced Controls
+                                        Complete Offline Support with Smart Controls
                                     </li>
                                 </ul>
                             </div>
@@ -1457,8 +1606,20 @@
         </div>
     </div>
 
+    <!-- Checkout Bill Sharing Modal -->
+    <div class="modal" id="checkoutBillModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Room Check-out Complete</h3>
+            </div>
+            <div id="checkoutBillContent">
+                <!-- Checkout bill content will be populated here -->
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Enhanced Restaurant Database System with Check-in/Check-out
+        // Enhanced Restaurant Database System with History Tracking
         const RestaurantDB = {
             tables: {
                 save: (table) => {
@@ -1487,6 +1648,15 @@
                     };
                     tables.push(newTable);
                     localStorage.setItem('thynk_tables', JSON.stringify(tables));
+                    
+                    // Add to history
+                    RestaurantDB.history.add({
+                        type: 'table_created',
+                        title: `${table.type} ${table.number} Created`,
+                        details: `New ${table.type.toLowerCase()} added with ${table.type === 'Room' ? `₹${table.price}/night` : `${table.chairs} chairs`}`,
+                        icon: table.type === 'Room' ? 'hotel' : 'table_restaurant'
+                    });
+                    
                     return tables.length;
                 },
                 getAll: () => JSON.parse(localStorage.getItem('thynk_tables') || '[]'),
@@ -1505,8 +1675,20 @@
                     return false;
                 },
                 delete: (id) => {
-                    const tables = RestaurantDB.tables.getAll().filter(table => table.id !== parseInt(id));
-                    localStorage.setItem('thynk_tables', JSON.stringify(tables));
+                    const tables = RestaurantDB.tables.getAll();
+                    const table = tables.find(t => t.id === parseInt(id));
+                    const remainingTables = tables.filter(table => table.id !== parseInt(id));
+                    localStorage.setItem('thynk_tables', JSON.stringify(remainingTables));
+                    
+                    // Add to history
+                    if (table) {
+                        RestaurantDB.history.add({
+                            type: 'table_deleted',
+                            title: `${table.type} ${table.number} Deleted`,
+                            details: `${table.type} removed from system`,
+                            icon: 'delete'
+                        });
+                    }
                 },
                 checkIn: (id, customerInfo) => {
                     const tables = RestaurantDB.tables.getAll();
@@ -1518,14 +1700,57 @@
                         tables[index].order.customerId = customerInfo.customerId;
                         tables[index].order.customerName = customerInfo.customerName;
                         localStorage.setItem('thynk_tables', JSON.stringify(tables));
+                        
+                        // Add to history
+                        RestaurantDB.history.add({
+                            type: 'room_checkin',
+                            title: `Room ${tables[index].number} Check-in`,
+                            details: `${customerInfo.customerName} checked into room ${tables[index].number}`,
+                            icon: 'login',
+                            customerName: customerInfo.customerName
+                        });
+                        
                         return true;
                     }
                     return false;
                 },
-                checkOut: (id) => {
+                checkOut: (id, generateBill = false) => {
                     const tables = RestaurantDB.tables.getAll();
                     const index = tables.findIndex(table => table.id === parseInt(id));
                     if (index !== -1 && tables[index].type === 'Room') {
+                        const table = tables[index];
+                        const customerName = table.order.customerName;
+                        let bill = null;
+                        
+                        // Generate bill if items exist or requested
+                        if (generateBill || table.order.items.length > 0) {
+                            let finalTotal = table.order.total;
+                            let roomCharge = 0;
+                            
+                            if (table.type === 'Room' && table.price > 0) {
+                                roomCharge = table.price;
+                                finalTotal += roomCharge;
+                            }
+                            
+                            bill = RestaurantDB.bills.save({
+                                tableId: table.id,
+                                tableNumber: `${table.type} ${table.number}`,
+                                customerId: table.order.customerId,
+                                customerName: table.order.customerName,
+                                customerPhone: getCustomerPhone(table.order.customerId),
+                                customerEmail: getCustomerEmail(table.order.customerId),
+                                items: table.order.items,
+                                roomCharge: roomCharge,
+                                itemsTotal: table.order.total,
+                                total: finalTotal
+                            });
+                            
+                            // Update customer spending
+                            if (table.order.customerId) {
+                                RestaurantDB.customers.updateSpent(table.order.customerId, finalTotal);
+                            }
+                        }
+                        
                         tables[index].checkedIn = false;
                         tables[index].status = 'available';
                         tables[index].checkOutDate = new Date().toISOString();
@@ -1536,6 +1761,47 @@
                             total: 0
                         };
                         localStorage.setItem('thynk_tables', JSON.stringify(tables));
+                        
+                        // Add to history
+                        RestaurantDB.history.add({
+                            type: 'room_checkout',
+                            title: `Room ${table.number} Check-out`,
+                            details: `${customerName} checked out from room ${table.number}${bill ? ' with bill generated' : ''}`,
+                            icon: 'logout',
+                            customerName: customerName
+                        });
+                        
+                        return { success: true, bill: bill, table: table };
+                    }
+                    return { success: false };
+                },
+                cancelCheckin: (id) => {
+                    const tables = RestaurantDB.tables.getAll();
+                    const index = tables.findIndex(table => table.id === parseInt(id));
+                    if (index !== -1 && tables[index].type === 'Room' && tables[index].checkedIn) {
+                        const table = tables[index];
+                        const customerName = table.order.customerName;
+                        
+                        tables[index].checkedIn = false;
+                        tables[index].status = 'available';
+                        tables[index].checkOutDate = new Date().toISOString();
+                        tables[index].order = {
+                            customerId: null,
+                            customerName: '',
+                            items: [],
+                            total: 0
+                        };
+                        localStorage.setItem('thynk_tables', JSON.stringify(tables));
+                        
+                        // Add to history
+                        RestaurantDB.history.add({
+                            type: 'checkin_cancelled',
+                            title: `Room ${table.number} Check-in Cancelled`,
+                            details: `${customerName} cancelled check-in for room ${table.number}`,
+                            icon: 'cancel',
+                            customerName: customerName
+                        });
+                        
                         return true;
                     }
                     return false;
@@ -1548,7 +1814,7 @@
                         
                         // For rooms, check if checked in
                         if (table.type === 'Room' && !table.checkedIn) {
-                            return false; // Cannot add items to room without check-in
+                            return false;
                         }
                         
                         const existingItemIndex = table.order.items.findIndex(i => i.menuId === item.menuId);
@@ -1574,25 +1840,47 @@
                         table.order.total = table.order.items.reduce((sum, i) => sum + i.total, 0);
                         
                         localStorage.setItem('thynk_tables', JSON.stringify(tables));
+                        
+                        // Add to history
+                        RestaurantDB.history.add({
+                            type: 'item_added',
+                            title: `${item.quantity}x ${item.name} Added`,
+                            details: `Added to ${table.type} ${table.number} for ${customerInfo.customerName}`,
+                            icon: 'restaurant_menu',
+                            customerName: customerInfo.customerName
+                        });
+                        
                         return true;
                     }
                     return false;
                 },
-                clearOrder: (tableId) => {
+                clearOrder: (tableId, isCancellation = false) => {
                     const tables = RestaurantDB.tables.getAll();
                     const tableIndex = tables.findIndex(t => t.id === parseInt(tableId));
                     if (tableIndex !== -1) {
                         const table = tables[tableIndex];
+                        const customerName = table.order.customerName;
+                        const itemCount = table.order.items.length;
+                        
+                        // Don't add cancelled orders to history
+                        if (!isCancellation && itemCount > 0) {
+                            RestaurantDB.history.add({
+                                type: 'order_cleared',
+                                title: `Order Cleared - ${table.type} ${table.number}`,
+                                details: `${itemCount} items cleared for ${customerName}`,
+                                icon: 'clear',
+                                customerName: customerName
+                            });
+                        }
                         
                         // For rooms, only clear order if checked out
                         if (table.type === 'Room') {
                             table.order = {
-                                customerId: table.order.customerId, // Keep customer info for rooms
+                                customerId: table.order.customerId,
                                 customerName: table.order.customerName,
                                 items: [],
                                 total: 0
                             };
-                            // Don't change status for rooms - they remain occupied until checkout
                         } else {
                             // For tables, clear everything
                             table.status = 'available';
@@ -1623,6 +1911,15 @@
                     };
                     menu.push(newItem);
                     localStorage.setItem('thynk_menu', JSON.stringify(menu));
+                    
+                    // Add to history
+                    RestaurantDB.history.add({
+                        type: 'menu_added',
+                        title: `Menu Item "${item.name}" Added`,
+                        details: `${item.category} - ₹${item.price}`,
+                        icon: 'restaurant_menu'
+                    });
+                    
                     return menu.length;
                 },
                 getAll: () => JSON.parse(localStorage.getItem('thynk_menu') || '[]'),
@@ -1630,15 +1927,37 @@
                     const menu = RestaurantDB.menu.getAll();
                     const index = menu.findIndex(item => item.id === parseInt(id));
                     if (index !== -1) {
+                        const oldName = menu[index].name;
                         menu[index] = {...menu[index], ...updates};
                         localStorage.setItem('thynk_menu', JSON.stringify(menu));
+                        
+                        // Add to history
+                        RestaurantDB.history.add({
+                            type: 'menu_updated',
+                            title: `Menu Item "${updates.name || oldName}" Updated`,
+                            details: `${updates.category || menu[index].category} - ₹${updates.price || menu[index].price}`,
+                            icon: 'edit'
+                        });
+                        
                         return true;
                     }
                     return false;
                 },
                 delete: (id) => {
-                    const menu = RestaurantDB.menu.getAll().filter(item => item.id !== parseInt(id));
-                    localStorage.setItem('thynk_menu', JSON.stringify(menu));
+                    const menu = RestaurantDB.menu.getAll();
+                    const item = menu.find(m => m.id === parseInt(id));
+                    const remainingMenu = menu.filter(item => item.id !== parseInt(id));
+                    localStorage.setItem('thynk_menu', JSON.stringify(remainingMenu));
+                    
+                    // Add to history
+                    if (item) {
+                        RestaurantDB.history.add({
+                            type: 'menu_deleted',
+                            title: `Menu Item "${item.name}" Deleted`,
+                            details: `Removed from ${item.category}`,
+                            icon: 'delete'
+                        });
+                    }
                 }
             },
             customers: {
@@ -1656,9 +1975,30 @@
                     };
                     customers.push(newCustomer);
                     localStorage.setItem('thynk_customers', JSON.stringify(customers));
+                    
+                    // Add to history
+                    RestaurantDB.history.add({
+                        type: 'customer_added',
+                        title: `Customer "${customer.name}" Added`,
+                        details: `Phone: ${customer.phone}${customer.email ? `, Email: ${customer.email}` : ''}`,
+                        icon: 'person_add',
+                        customerName: customer.name
+                    });
+                    
                     return customers.length;
                 },
                 getAll: () => JSON.parse(localStorage.getItem('thynk_customers') || '[]'),
+                search: (query) => {
+                    const customers = RestaurantDB.customers.getAll();
+                    if (!query.trim()) return [];
+                    
+                    const lowerQuery = query.toLowerCase();
+                    return customers.filter(customer => 
+                        customer.name.toLowerCase().includes(lowerQuery) ||
+                        customer.phone.includes(query) ||
+                        customer.email.toLowerCase().includes(lowerQuery)
+                    ).slice(0, 5); // Limit to 5 suggestions
+                },
                 update: (id, updates) => {
                     const customers = RestaurantDB.customers.getAll();
                     const index = customers.findIndex(customer => customer.id === parseInt(id));
@@ -1689,6 +2029,16 @@
                     };
                     bills.push(newBill);
                     localStorage.setItem('thynk_bills', JSON.stringify(bills));
+                    
+                    // Add to history
+                    RestaurantDB.history.add({
+                        type: 'bill_generated',
+                        title: `Bill Generated - ₹${bill.total.toFixed(2)}`,
+                        details: `${bill.tableNumber} for ${bill.customerName} (${bill.items.length} items)`,
+                        icon: 'receipt',
+                        customerName: bill.customerName
+                    });
+                    
                     return newBill;
                 },
                 getAll: () => JSON.parse(localStorage.getItem('thynk_bills') || '[]'),
@@ -1696,6 +2046,28 @@
                     const bills = RestaurantDB.bills.getAll().filter(bill => bill.id !== parseInt(id));
                     localStorage.setItem('thynk_bills', JSON.stringify(bills));
                     return true;
+                }
+            },
+            history: {
+                add: (entry) => {
+                    const history = JSON.parse(localStorage.getItem('thynk_history') || '[]');
+                    const newEntry = {
+                        id: Date.now(),
+                        ...entry,
+                        timestamp: new Date().toISOString()
+                    };
+                    history.unshift(newEntry); // Add to beginning
+                    
+                    // Keep only last 100 entries
+                    if (history.length > 100) {
+                        history.splice(100);
+                    }
+                    
+                    localStorage.setItem('thynk_history', JSON.stringify(history));
+                },
+                getAll: () => JSON.parse(localStorage.getItem('thynk_history') || '[]'),
+                clear: () => {
+                    localStorage.setItem('thynk_history', '[]');
                 }
             }
         };
@@ -1709,6 +2081,7 @@
         let selectedTableForCheckin = null;
         let discountApplied = false;
         let expandedTileId = null;
+        let selectedCustomerData = null;
 
         // Tab switching
         function switchTab(tabName) {
@@ -1724,11 +2097,12 @@
             if (tabName === 'menu') loadMenuItems();
             if (tabName === 'billing') { loadActiveOrders(); loadBillingDropdowns(); }
             if (tabName === 'customers') loadCustomers();
+            if (tabName === 'history') loadHistory();
             
             updateStats();
         }
 
-        // Enhanced Table Management Functions with Type-First Selection
+        // Enhanced Table Management Functions
         function addNewTable() {
             editingTableId = null;
             selectedTableType = null;
@@ -1898,7 +2272,7 @@
             }
         }
 
-        // Enhanced Table Loading with Different Colors for Table/Room and Status
+        // Enhanced Table Loading with Different Colors and Expanded Details
         function loadTables() {
             const tables = RestaurantDB.tables.getAll();
             const container = document.getElementById('tilesGrid');
@@ -1985,6 +2359,10 @@
                                             <span class="material-icons-outlined">logout</span>
                                             Check-out
                                         </button>
+                                        <button class="btn btn-sm btn-danger" onclick="cancelRoomCheckin(${table.id}, event)">
+                                            <span class="material-icons-outlined">cancel</span>
+                                            Cancel Check-in
+                                        </button>
                                     ` : ''}
                                     
                                     <button class="btn btn-sm btn-warning" onclick="editTableInTile(${table.id})" ${!isExpanded ? 'style="display: none;"' : ''}>
@@ -2033,33 +2411,24 @@
 
         function performRoomCheckin() {
             const tableId = document.getElementById('billTableSelect').value;
-            const customerSelect = document.getElementById('billCustomerSelect').value;
-            const customerName = customerSelect === 'new' ? document.getElementById('billCustomerName').value.trim() : '';
+            let customerId = document.getElementById('selectedCustomerId').value;
+            let customerName = document.getElementById('customerSearchInput').value.trim();
 
-            if (!customerSelect) {
-                showNotification('Please select a customer for check-in', 'error');
-                return;
-            }
-
-            if (customerSelect === 'new' && !customerName) {
+            if (!customerName) {
                 showNotification('Please enter customer name for check-in', 'error');
                 return;
             }
 
             let finalCustomerName = customerName;
-            let finalCustomerId = customerSelect;
+            let finalCustomerId = customerId;
 
-            // Add new customer if needed
-            if (customerSelect === 'new') {
+            // Add new customer if not found in search
+            if (!customerId || customerId === 'new') {
                 RestaurantDB.customers.save({ name: customerName, phone: '', email: '', address: '' });
                 const customers = RestaurantDB.customers.getAll();
                 const newCustomer = customers[customers.length - 1];
                 finalCustomerId = newCustomer.id;
                 finalCustomerName = customerName;
-            } else {
-                const customers = RestaurantDB.customers.getAll();
-                const customer = customers.find(c => c.id == customerSelect);
-                finalCustomerName = customer ? customer.name : 'Unknown';
             }
 
             // Perform check-in
@@ -2087,21 +2456,52 @@
             
             if (!table) return;
 
+            let generateBill = false;
             if (table.order.items.length > 0) {
-                if (!confirm('This room has pending orders. Checking out will clear all orders. Continue?')) {
-                    return;
-                }
+                generateBill = confirm(`Room ${table.number} has ${table.order.items.length} pending items. Generate bill before checkout?`);
             }
 
-            const success = RestaurantDB.tables.checkOut(tableId);
+            const result = RestaurantDB.tables.checkOut(tableId, generateBill);
             
-            if (success) {
+            if (result.success) {
                 showNotification(`Room ${table.number} checked-out successfully!`);
+                
+                // Show checkout bill sharing if bill was generated
+                if (result.bill) {
+                    displayCheckoutBill(result.bill, result.table);
+                }
+                
                 loadTables();
                 loadActiveOrders();
                 updateStats();
             } else {
                 showNotification('Failed to check-out room', 'error');
+            }
+        }
+
+        function cancelRoomCheckin(tableId, event) {
+            event.stopPropagation();
+            
+            const tables = RestaurantDB.tables.getAll();
+            const table = tables.find(t => t.id === tableId);
+            
+            if (!table) return;
+
+            if (table.order.items.length > 0) {
+                if (!confirm(`Room ${table.number} has pending orders. Cancelling check-in will remove all items. Continue?`)) {
+                    return;
+                }
+            }
+
+            const success = RestaurantDB.tables.cancelCheckin(tableId);
+            
+            if (success) {
+                showNotification(`Room ${table.number} check-in cancelled successfully!`);
+                loadTables();
+                loadActiveOrders();
+                updateStats();
+            } else {
+                showNotification('Failed to cancel check-in', 'error');
             }
         }
 
@@ -2137,7 +2537,7 @@
             if (!table) return;
 
             if (confirm(`Cancel order for ${table.type} ${table.number}? All items will be removed.`)) {
-                RestaurantDB.tables.clearOrder(tableId);
+                RestaurantDB.tables.clearOrder(tableId, true); // true = is cancellation
                 showNotification('Order cancelled successfully!');
                 loadTables();
                 loadActiveOrders();
@@ -2145,11 +2545,12 @@
             }
         }
 
-        // Enhanced Billing Software Functions
+        // Enhanced Billing Software Functions with Searchable Customer
         function showNewBillForm() {
             document.getElementById('billForm').style.display = 'block';
             document.getElementById('checkinAlert').style.display = 'none';
             loadBillingDropdowns();
+            setupCustomerSearch();
         }
 
         function hideBillForm() {
@@ -2160,11 +2561,12 @@
 
         function clearBillForm() {
             document.getElementById('billTableSelect').value = '';
-            document.getElementById('billCustomerSelect').innerHTML = '<option value="">Customer will load automatically</option>';
-            document.getElementById('billCustomerName').value = '';
+            document.getElementById('customerSearchInput').value = '';
+            document.getElementById('selectedCustomerId').value = '';
             document.getElementById('billMenuSelect').value = '';
             document.getElementById('billQuantity').value = '1';
-            document.getElementById('newCustomerInput').style.display = 'none';
+            document.getElementById('customerSuggestions').style.display = 'none';
+            selectedCustomerData = null;
         }
 
         function loadBillingDropdowns() {
@@ -2185,57 +2587,122 @@
             });
         }
 
+        // Enhanced Customer Search System
+        function setupCustomerSearch() {
+            const searchInput = document.getElementById('customerSearchInput');
+            const suggestionsDiv = document.getElementById('customerSuggestions');
+            const selectedCustomerIdInput = document.getElementById('selectedCustomerId');
+
+            searchInput.addEventListener('input', function() {
+                const query = this.value.trim();
+                
+                if (query.length < 2) {
+                    suggestionsDiv.style.display = 'none';
+                    selectedCustomerIdInput.value = '';
+                    selectedCustomerData = null;
+                    return;
+                }
+
+                const customers = RestaurantDB.customers.search(query);
+                
+                if (customers.length > 0) {
+                    suggestionsDiv.innerHTML = customers.map(customer => {
+                        let contactInfo = '';
+                        if (customer.phone) {
+                            contactInfo = customer.phone;
+                        } else if (customer.email) {
+                            contactInfo = customer.email;
+                        } else if (customer.address) {
+                            contactInfo = customer.address;
+                        }
+
+                        return `
+                            <div class="customer-suggestion" onclick="selectCustomer(${customer.id}, '${customer.name.replace(/'/g, "\\'")}', '${contactInfo}')">
+                                <div class="suggestion-name">${customer.name}</div>
+                                ${contactInfo ? `<div class="suggestion-contact">${contactInfo}</div>` : ''}
+                            </div>
+                        `;
+                    }).join('');
+                    suggestionsDiv.style.display = 'block';
+                } else {
+                    suggestionsDiv.innerHTML = `
+                        <div class="customer-suggestion" onclick="selectNewCustomer('${query}')">
+                            <div class="suggestion-name">+ Add "${query}" as new customer</div>
+                            <div class="suggestion-contact">Click to add to customer database</div>
+                        </div>
+                    `;
+                    suggestionsDiv.style.display = 'block';
+                }
+            });
+
+            // Hide suggestions when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && !suggestionsDiv.contains(e.target)) {
+                    suggestionsDiv.style.display = 'none';
+                }
+            });
+        }
+
+        function selectCustomer(customerId, customerName, contactInfo) {
+            document.getElementById('customerSearchInput').value = customerName;
+            document.getElementById('selectedCustomerId').value = customerId;
+            document.getElementById('customerSuggestions').style.display = 'none';
+            
+            selectedCustomerData = {
+                id: customerId,
+                name: customerName,
+                contact: contactInfo
+            };
+        }
+
+        function selectNewCustomer(customerName) {
+            document.getElementById('customerSearchInput').value = customerName;
+            document.getElementById('selectedCustomerId').value = 'new';
+            document.getElementById('customerSuggestions').style.display = 'none';
+            
+            selectedCustomerData = {
+                id: 'new',
+                name: customerName,
+                contact: ''
+            };
+        }
+
         function loadCustomerForTable() {
             const tableId = document.getElementById('billTableSelect').value;
-            const customerSelect = document.getElementById('billCustomerSelect');
+            const searchInput = document.getElementById('customerSearchInput');
             const checkinAlert = document.getElementById('checkinAlert');
             
             if (!tableId) {
-                customerSelect.innerHTML = '<option value="">Customer will load automatically</option>';
+                searchInput.value = '';
+                document.getElementById('selectedCustomerId').value = '';
                 checkinAlert.style.display = 'none';
                 return;
             }
 
             const tables = RestaurantDB.tables.getAll();
             const table = tables.find(t => t.id == tableId);
-            const customers = RestaurantDB.customers.getAll();
             
             // Check if room needs check-in
             if (table && table.type === 'Room' && !table.checkedIn) {
                 checkinAlert.style.display = 'block';
-                customerSelect.innerHTML = '<option value="">Select Customer for Check-in</option><option value="new">+ Add New Customer for Check-in</option>';
-                
-                customers.forEach(customer => {
-                    customerSelect.innerHTML += `<option value="${customer.id}">${customer.name} (${customer.totalOrders} orders)</option>`;
-                });
-                
+                searchInput.placeholder = 'Enter customer name for check-in...';
                 selectedTableForCheckin = tableId;
                 return;
             } else {
                 checkinAlert.style.display = 'none';
+                searchInput.placeholder = 'Type customer name to search...';
             }
-
-            customerSelect.innerHTML = '<option value="">Select Customer</option><option value="new">+ Add New Customer</option>';
-            
-            customers.forEach(customer => {
-                customerSelect.innerHTML += `<option value="${customer.id}">${customer.name} (${customer.totalOrders} orders)</option>`;
-            });
 
             // If table is occupied, load the existing customer
-            if (table && table.status === 'occupied' && table.order.customerId) {
-                customerSelect.value = table.order.customerId;
+            if (table && table.status === 'occupied' && table.order.customerName) {
+                searchInput.value = table.order.customerName;
+                document.getElementById('selectedCustomerId').value = table.order.customerId;
+                selectedCustomerData = {
+                    id: table.order.customerId,
+                    name: table.order.customerName,
+                    contact: ''
+                };
             }
-
-            // Handle new customer input
-            customerSelect.addEventListener('change', function() {
-                const newCustomerInput = document.getElementById('newCustomerInput');
-                if (this.value === 'new') {
-                    newCustomerInput.style.display = 'block';
-                    document.getElementById('billCustomerName').focus();
-                } else {
-                    newCustomerInput.style.display = 'none';
-                }
-            });
         }
 
         function loadMenuDropdown() {
@@ -2250,8 +2717,8 @@
 
         function addItemToTableOrder() {
             const tableId = document.getElementById('billTableSelect').value;
-            const customerSelect = document.getElementById('billCustomerSelect').value;
-            const customerName = customerSelect === 'new' ? document.getElementById('billCustomerName').value.trim() : '';
+            const customerName = document.getElementById('customerSearchInput').value.trim();
+            const customerId = document.getElementById('selectedCustomerId').value;
             const menuSelect = document.getElementById('billMenuSelect');
             const selectedMenuItem = menuSelect.options[menuSelect.selectedIndex];
             const quantity = parseInt(document.getElementById('billQuantity').value);
@@ -2269,12 +2736,7 @@
                 return;
             }
 
-            if (!customerSelect) {
-                showNotification('Please select a customer', 'error');
-                return;
-            }
-
-            if (customerSelect === 'new' && !customerName) {
+            if (!customerName) {
                 showNotification('Please enter customer name', 'error');
                 return;
             }
@@ -2285,19 +2747,15 @@
             }
 
             let finalCustomerName = customerName;
-            let finalCustomerId = customerSelect;
+            let finalCustomerId = customerId;
 
             // Add new customer if needed
-            if (customerSelect === 'new') {
+            if (!customerId || customerId === 'new') {
                 RestaurantDB.customers.save({ name: customerName, phone: '', email: '', address: '' });
                 const customers = RestaurantDB.customers.getAll();
                 const newCustomer = customers[customers.length - 1];
                 finalCustomerId = newCustomer.id;
                 finalCustomerName = customerName;
-            } else {
-                const customers = RestaurantDB.customers.getAll();
-                const customer = customers.find(c => c.id == customerSelect);
-                finalCustomerName = customer ? customer.name : 'Unknown';
             }
 
             const price = parseFloat(selectedMenuItem.dataset.price);
@@ -2363,7 +2821,7 @@
             }
 
             if (confirm(`Cancel order for ${table.type} ${table.number}? This will remove all items without generating a bill.`)) {
-                RestaurantDB.tables.clearOrder(tableId);
+                RestaurantDB.tables.clearOrder(tableId, true); // true = is cancellation
                 showNotification('Order cancelled successfully without generating bill!');
                 hideBillForm();
                 loadTables();
@@ -2402,7 +2860,7 @@
             }
 
             // Clear order but don't check out room automatically
-            RestaurantDB.tables.clearOrder(table.id);
+            RestaurantDB.tables.clearOrder(table.id, false); // false = not cancellation
 
             showNotification('Bill generated successfully!');
             displayBill(bill, table);
@@ -2519,6 +2977,84 @@
             document.getElementById('billModal').classList.add('show');
         }
 
+        // Checkout Bill Display with Sharing Options
+        function displayCheckoutBill(bill, table) {
+            const checkoutBillContent = document.getElementById('checkoutBillContent');
+            
+            checkoutBillContent.innerHTML = `
+                <div class="bill-display">
+                    <div class="bill-header">
+                        <h2>THYNK POS - CHECKOUT BILL</h2>
+                        <p>Bill #${bill.id.toString().slice(-6)}</p>
+                        <p>${new Date(bill.date).toLocaleString()}</p>
+                    </div>
+                    
+                    <div>
+                        <p><strong>Customer:</strong> ${bill.customerName}</p>
+                        <p><strong>Room:</strong> ${bill.tableNumber}</p>
+                        <p><strong>Check-out:</strong> ${new Date().toLocaleString()}</p>
+                        ${bill.customerPhone ? `<p><strong>Phone:</strong> ${bill.customerPhone}</p>` : ''}
+                    </div>
+                    
+                    <div class="bill-items">
+                        ${bill.items.length > 0 ? bill.items.map(item => `
+                            <div class="bill-item">
+                                <span>${item.name} x${item.quantity}</span>
+                                <span>₹${item.total.toFixed(2)}</span>
+                            </div>
+                        `).join('') : '<p style="text-align: center; color: var(--text-light);">No items ordered</p>'}
+                        ${bill.roomCharge > 0 ? `
+                            <div class="bill-room-charge">
+                                <span>Room Charge (₹${bill.roomCharge}/night)</span>
+                                <span>₹${bill.roomCharge.toFixed(2)}</span>
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="bill-total">
+                        Total: ₹${bill.total.toFixed(2)}
+                    </div>
+                    
+                    <div class="bill-actions">
+                        <button class="btn btn-sm btn-primary" onclick="printBill(${bill.id})">
+                            <span class="material-icons-outlined">print</span>
+                            Print
+                        </button>
+                        
+                        ${bill.customerPhone ? `
+                            <button class="btn btn-sm whatsapp-btn" onclick="shareOnWhatsApp(${bill.id})">
+                                <span class="material-icons-outlined">chat</span>
+                                WhatsApp
+                            </button>
+                        ` : ''}
+                        
+                        ${bill.customerEmail ? `
+                            <button class="btn btn-sm email-btn" onclick="shareViaEmail(${bill.id})">
+                                <span class="material-icons-outlined">email</span>
+                                Email
+                            </button>
+                        ` : ''}
+                        
+                        <button class="btn btn-sm btn-success" onclick="shareBill(${bill.id})">
+                            <span class="material-icons-outlined">share</span>
+                            Share
+                        </button>
+                        
+                        <button class="btn btn-sm btn-warning" onclick="closeCheckoutBillModal()">
+                            <span class="material-icons-outlined">close</span>
+                            Close
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('checkoutBillModal').classList.add('show');
+        }
+
+        function closeCheckoutBillModal() {
+            document.getElementById('checkoutBillModal').classList.remove('show');
+        }
+
         // WhatsApp Sharing Function
         function shareOnWhatsApp(billId) {
             const bills = RestaurantDB.bills.getAll();
@@ -2542,7 +3078,7 @@ Thank you for your business! 🙏
 _Powered by Thynk POS v1.5 - Created by Anas Lila_
             `;
 
-            const phoneNumber = bill.customerPhone.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+            const phoneNumber = bill.customerPhone.replace(/[^0-9]/g, '');
             const whatsappUrl = `https://wa.me/${phoneNumber.startsWith('91') ? phoneNumber : '91' + phoneNumber}?text=${encodeURIComponent(billText)}`;
             
             window.open(whatsappUrl, '_blank');
@@ -2591,6 +3127,7 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
                 if (success) {
                     showNotification('Bill deleted successfully! Order cancelled.');
                     closeBillModal();
+                    closeCheckoutBillModal();
                     updateStats();
                 } else {
                     showNotification('Error deleting bill', 'error');
@@ -2757,7 +3294,7 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
             if (!table) return;
 
             if (confirm(`Cancel order for ${table.type} ${table.number}? All items will be removed without generating a bill.`)) {
-                RestaurantDB.tables.clearOrder(tableId);
+                RestaurantDB.tables.clearOrder(tableId, true); // true = is cancellation
                 showNotification('Order cancelled successfully without generating bill!');
                 loadTables();
                 loadActiveOrders();
@@ -2991,14 +3528,60 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
         }
 
         function createBillForCustomer(customerId) {
+            const customers = RestaurantDB.customers.getAll();
+            const customer = customers.find(c => c.id === customerId);
+            
             switchTab('billing');
             setTimeout(() => {
                 showNewBillForm();
-                loadCustomerForTable();
                 setTimeout(() => {
-                    document.getElementById('billCustomerSelect').value = customerId;
+                    document.getElementById('customerSearchInput').value = customer.name;
+                    document.getElementById('selectedCustomerId').value = customerId;
+                    selectedCustomerData = {
+                        id: customerId,
+                        name: customer.name,
+                        contact: customer.phone || customer.email || customer.address || ''
+                    };
                 }, 100);
             }, 300);
+        }
+
+        // History & Reports Functions
+        function loadHistory() {
+            const history = RestaurantDB.history.getAll();
+            const container = document.getElementById('historyTimeline');
+            
+            if (history.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📊</div>
+                        <h3>No History Yet</h3>
+                        <p>Activity history will appear here</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = history.map(entry => `
+                <div class="history-item">
+                    <div class="history-icon">
+                        <span class="material-icons-outlined">${entry.icon}</span>
+                    </div>
+                    <div class="history-content">
+                        <div class="history-title">${entry.title}</div>
+                        <div class="history-details">${entry.details}</div>
+                        <div class="history-time">${new Date(entry.timestamp).toLocaleString()}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function clearAllHistory() {
+            if (confirm('Clear all history? This cannot be undone.')) {
+                RestaurantDB.history.clear();
+                loadHistory();
+                showNotification('History cleared successfully!');
+            }
         }
 
         // Subscription Functions
@@ -3089,12 +3672,19 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
         document.addEventListener('DOMContentLoaded', () => {
             updateStats();
             loadTables();
+            
+            // Initialize customer search on first load
+            setTimeout(() => {
+                if (document.getElementById('customerSearchInput')) {
+                    setupCustomerSearch();
+                }
+            }, 100);
         });
 
         // Service Worker Registration for Offline Support
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register(URL.createObjectURL(new Blob([`
-                const CACHE = 'thynk-pos-v1.5-complete';
+                const CACHE = 'thynk-pos-v1.5-complete-advanced';
                 self.addEventListener('install', e => {
                     e.waitUntil(caches.open(CACHE).then(cache => cache.addAll(['/'])));
                 });
