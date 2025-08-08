@@ -566,7 +566,7 @@
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
-        /* Bill Display Modal */
+        /* Enhanced Bill Display Modal */
         .bill-display {
             max-width: 400px;
             margin: 0 auto;
@@ -592,6 +592,20 @@
             justify-content: space-between;
             padding: 0.5rem 0;
             border-bottom: 1px solid var(--light);
+        }
+
+        .bill-room-charge {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+            background: rgba(245, 158, 11, 0.1);
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            font-weight: 600;
+            color: var(--warning);
         }
 
         .bill-total {
@@ -783,6 +797,37 @@
             transform: translateY(-2px);
         }
 
+        /* Footer */
+        .footer {
+            background: var(--light);
+            padding: 1rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .version-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .version-badge {
+            background: var(--primary);
+            color: var(--white);
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .creator-text {
+            font-weight: 500;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .tabs {
@@ -796,6 +841,7 @@
             .controls { flex-direction: column; align-items: stretch; }
             .payment-buttons { grid-template-columns: 1fr; }
             .bill-actions { grid-template-columns: 1fr; }
+            .version-info { flex-direction: column; gap: 0.5rem; }
         }
 
         /* Animations */
@@ -1202,15 +1248,15 @@
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Enhanced Billing with Table-First Selection
+                                        Enhanced Billing with Room Price Integration
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Sliding Table Details with Menu Integration
+                                        Bill Cancellation & Management Features
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Complete Offline Support with Bill Sharing
+                                        Complete Offline Support with Advanced Controls
                                     </li>
                                 </ul>
                             </div>
@@ -1220,6 +1266,14 @@
             </div>
         </div>
     </main>
+
+    <!-- Footer with Version Info -->
+    <footer class="footer">
+        <div class="version-info">
+            <span class="version-badge">v1.5</span>
+            <span class="creator-text">Created by Anas Lila</span>
+        </div>
+    </footer>
 
     <!-- Add/Edit Table Modal (Big Inputs for New, Small for Edit) -->
     <div class="modal" id="tableModal">
@@ -1263,7 +1317,7 @@
         </div>
     </div>
 
-    <!-- Bill Display Modal -->
+    <!-- Enhanced Bill Display Modal with Delete Option -->
     <div class="modal" id="billModal">
         <div class="modal-content">
             <div class="bill-display" id="billDisplay">
@@ -1433,7 +1487,12 @@
                     localStorage.setItem('thynk_bills', JSON.stringify(bills));
                     return newBill;
                 },
-                getAll: () => JSON.parse(localStorage.getItem('thynk_bills') || '[]')
+                getAll: () => JSON.parse(localStorage.getItem('thynk_bills') || '[]'),
+                delete: (id) => {
+                    const bills = RestaurantDB.bills.getAll().filter(bill => bill.id !== parseInt(id));
+                    localStorage.setItem('thynk_bills', JSON.stringify(bills));
+                    return true;
+                }
             }
         };
 
@@ -1656,9 +1715,9 @@
                                 ` : '<div style="text-align: center; color: var(--text-light); margin: 1rem 0;">No items added yet</div>'}
                                 
                                 <div class="tile-actions">
-                                    <button class="btn btn-sm btn-primary" onclick="addMenuToTable(${table.id}, event)">
+                                    <button class="btn btn-sm btn-primary" onclick="addItemToTable(${table.id}, event)">
                                         <span class="material-icons-outlined">add</span>
-                                        Add Menu
+                                        Add Item
                                     </button>
                                     <button class="btn btn-sm btn-warning" onclick="editTableInTile(${table.id})" ${!isExpanded ? 'style="display: none;"' : ''}>
                                         <span class="material-icons-outlined">edit</span>
@@ -1687,7 +1746,7 @@
             loadTables();
         }
 
-        function addMenuToTable(tableId, event) {
+        function addItemToTable(tableId, event) {
             event.stopPropagation();
             switchTab('billing');
             setTimeout(() => {
@@ -1879,19 +1938,30 @@
         }
 
         function generateBillFromTableData(table) {
-            // Generate bill
+            // Calculate total including room price if it's a room
+            let finalTotal = table.order.total;
+            let roomCharge = 0;
+            
+            if (table.type === 'Room' && table.price > 0) {
+                roomCharge = table.price;
+                finalTotal += roomCharge;
+            }
+
+            // Generate bill with room charge included
             const bill = RestaurantDB.bills.save({
                 tableId: table.id,
                 tableNumber: `${table.type} ${table.number}`,
                 customerId: table.order.customerId,
                 customerName: table.order.customerName,
                 items: table.order.items,
-                total: table.order.total
+                roomCharge: roomCharge,
+                itemsTotal: table.order.total,
+                total: finalTotal
             });
 
-            // Update customer spending
+            // Update customer spending with final total
             if (table.order.customerId) {
-                RestaurantDB.customers.updateSpent(table.order.customerId, table.order.total);
+                RestaurantDB.customers.updateSpent(table.order.customerId, finalTotal);
             }
 
             // Clear table order
@@ -1905,14 +1975,14 @@
                 }
             });
 
-            showNotification('Bill generated successfully!');
-            displayBill(bill);
+            showNotification('Bill generated successfully with room charges!');
+            displayBill(bill, table);
             loadTables();
             loadActiveOrders();
             updateStats();
         }
 
-        function displayBill(bill) {
+        function displayBill(bill, table) {
             const billDisplay = document.getElementById('billDisplay');
             
             billDisplay.innerHTML = `
@@ -1934,7 +2004,26 @@
                             <span>₹${item.total.toFixed(2)}</span>
                         </div>
                     `).join('')}
+                    ${bill.roomCharge > 0 ? `
+                        <div class="bill-room-charge">
+                            <span>${table.type} Charge (₹${bill.roomCharge}/night)</span>
+                            <span>₹${bill.roomCharge.toFixed(2)}</span>
+                        </div>
+                    ` : ''}
                 </div>
+                
+                ${bill.roomCharge > 0 ? `
+                    <div style="margin: 1rem 0; padding: 0.75rem; background: var(--light); border-radius: 8px; border-left: 4px solid var(--info);">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span>Items Subtotal:</span>
+                            <span>₹${bill.itemsTotal.toFixed(2)}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-weight: 600; color: var(--warning);">
+                            <span>${table.type} Charge:</span>
+                            <span>₹${bill.roomCharge.toFixed(2)}</span>
+                        </div>
+                    </div>
+                ` : ''}
                 
                 <div class="bill-total">
                     Total: ₹${bill.total.toFixed(2)}
@@ -1953,7 +2042,11 @@
                         <span class="material-icons-outlined">download</span>
                         Download
                     </button>
-                    <button class="btn btn-danger" onclick="closeBillModal()">
+                    <button class="btn btn-danger" onclick="deleteBill(${bill.id})">
+                        <span class="material-icons-outlined">delete</span>
+                        Delete Bill
+                    </button>
+                    <button class="btn btn-warning" onclick="closeBillModal()">
                         <span class="material-icons-outlined">close</span>
                         Close
                     </button>
@@ -1961,6 +2054,19 @@
             `;
             
             document.getElementById('billModal').classList.add('show');
+        }
+
+        function deleteBill(billId) {
+            if (confirm('Delete this bill? This action cannot be undone and is useful if customer cancels the order.')) {
+                const success = RestaurantDB.bills.delete(billId);
+                if (success) {
+                    showNotification('Bill deleted successfully! Order cancelled.');
+                    closeBillModal();
+                    updateStats();
+                } else {
+                    showNotification('Error deleting bill', 'error');
+                }
+            }
         }
 
         function printBill(billId) {
@@ -1981,10 +2087,15 @@
                     ${bill.items.map(item => `
                         <p>${item.name} x${item.quantity} = ₹${item.total.toFixed(2)}</p>
                     `).join('')}
+                    ${bill.roomCharge > 0 ? `
+                        <hr>
+                        <p>Room Charge = ₹${bill.roomCharge.toFixed(2)}</p>
+                    ` : ''}
                     <hr>
                     <p style="font-size: 18px;"><strong>Total: ₹${bill.total.toFixed(2)}</strong></p>
                     <hr>
                     <p style="text-align: center;">Thank you for your business!</p>
+                    <p style="text-align: center; font-size: 12px; margin-top: 20px;">Powered by Thynk POS v1.5 - Created by Anas Lila</p>
                 </div>
             `;
 
@@ -2007,10 +2118,12 @@ Table: ${bill.tableNumber}
 
 Items:
 ${bill.items.map(item => `${item.name} x${item.quantity} = ₹${item.total.toFixed(2)}`).join('\n')}
+${bill.roomCharge > 0 ? `\nRoom Charge: ₹${bill.roomCharge.toFixed(2)}` : ''}
 
 Total: ₹${bill.total.toFixed(2)}
 
 Thank you for your business!
+Powered by Thynk POS v1.5 - Created by Anas Lila
             `;
 
             if (navigator.share) {
@@ -2025,7 +2138,6 @@ Thank you for your business!
         }
 
         function downloadBillImage(billId) {
-            // Create a simple text-based image download
             const bills = RestaurantDB.bills.getAll();
             const bill = bills.find(b => b.id === billId);
             if (!bill) return;
@@ -2038,10 +2150,12 @@ Table: ${bill.tableNumber}
 
 Items:
 ${bill.items.map(item => `${item.name} x${item.quantity} = ₹${item.total.toFixed(2)}`).join('\n')}
+${bill.roomCharge > 0 ? `\nRoom Charge: ₹${bill.roomCharge.toFixed(2)}` : ''}
 
 Total: ₹${bill.total.toFixed(2)}
 
 Thank you for your business!
+Powered by Thynk POS v1.5 - Created by Anas Lila
             `)}`;
 
             const downloadLink = document.createElement('a');
@@ -2080,9 +2194,15 @@ Thank you for your business!
                                 <span>₹${item.total.toFixed(2)}</span>
                             </div>
                         `).join('')}
+                        ${table.type === 'Room' && table.price > 0 ? `
+                            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--border); background: rgba(245, 158, 11, 0.1); border-radius: 4px; margin: 0.25rem 0; padding-left: 0.5rem; padding-right: 0.5rem; font-weight: 600; color: var(--warning);">
+                                <span>Room Charge</span>
+                                <span>₹${table.price.toFixed(2)}</span>
+                            </div>
+                        ` : ''}
                     </div>
                     <div style="margin-top: 1rem; padding: 1rem; background: var(--success); color: white; border-radius: 8px; text-align: center; font-weight: 600;">
-                        Order Total: ₹${table.order.total.toFixed(2)}
+                        Total (${table.type === 'Room' && table.price > 0 ? 'with room charge' : 'items only'}): ₹${(table.order.total + (table.type === 'Room' ? table.price : 0)).toFixed(2)}
                     </div>
                     <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
                         <button class="btn btn-sm btn-success" onclick="generateBillFromTableData(${JSON.stringify(table).replace(/"/g, '&quot;')})">
@@ -2426,7 +2546,7 @@ Thank you for your business!
         // Service Worker Registration for Offline Support
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register(URL.createObjectURL(new Blob([`
-                const CACHE = 'thynk-pos-v9.0';
+                const CACHE = 'thynk-pos-v1.5';
                 self.addEventListener('install', e => {
                     e.waitUntil(caches.open(CACHE).then(cache => cache.addAll(['/'])));
                 });
