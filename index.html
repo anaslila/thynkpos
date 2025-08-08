@@ -1594,7 +1594,7 @@
                             </button>
                         </div>
 
-                        <!-- Simplified Billing Form -->
+                        <!-- Fixed Billing Form -->
                         <div class="form-section" id="billForm" style="display: none;">
                             <h3 style="margin-bottom: 1.5rem;">Add Items to Order</h3>
                             <div class="form-grid">
@@ -1623,6 +1623,8 @@
                                     <input type="number" class="form-input" id="billQuantity" placeholder="Quantity" min="1" value="1">
                                 </div>
                             </div>
+                            
+                            <!-- Always visible Add Item buttons -->
                             <div style="display: flex; gap: 1rem;" id="simplifiedActions">
                                 <button class="btn btn-success" onclick="addItemToTableOrder()">
                                     <span class="material-icons-outlined">add_shopping_cart</span>
@@ -1633,6 +1635,8 @@
                                     Close
                                 </button>
                             </div>
+                            
+                            <!-- Conditional Generate Bill buttons -->
                             <div style="display: none; gap: 1rem; margin-top: 1rem;" id="expandedActions">
                                 <button class="btn btn-primary" onclick="generateBillFromForm()">
                                     <span class="material-icons-outlined">receipt</span>
@@ -1833,7 +1837,7 @@
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Complete Offline Support with Smart Analytics
+                                        Fixed Multi-Item Billing System
                                     </li>
                                 </ul>
                             </div>
@@ -1847,7 +1851,7 @@
     <!-- Footer with Version Info -->
     <footer class="footer">
         <div class="version-info">
-            <span class="version-badge">v1.5</span>
+            <span class="version-badge">v1.5 - Fixed</span>
             <span class="creator-text">Created by Anas Lila</span>
         </div>
     </footer>
@@ -2572,7 +2576,6 @@
         let discountApplied = false;
         let expandedTileId = null;
         let selectedCustomerData = null;
-        let hasItemsInOrder = false;
         let currentCustomerHistoryTab = 'visits';
 
         // Tab switching
@@ -3393,14 +3396,16 @@
             }
         }
 
-        // Enhanced Billing Software Functions - Simplified Form
+        // FIXED Enhanced Billing Software Functions - Simplified Form
         function showNewBillForm() {
             document.getElementById('billForm').style.display = 'block';
             document.getElementById('checkinAlert').style.display = 'none';
-            hasItemsInOrder = false;
-            toggleBillFormActions();
             loadBillingDropdowns();
             setupCustomerSearch();
+            
+            // Reset form state to show simplified actions initially
+            document.getElementById('simplifiedActions').style.display = 'flex';
+            document.getElementById('expandedActions').style.display = 'none';
         }
 
         function hideBillForm() {
@@ -3417,19 +3422,33 @@
             document.getElementById('billQuantity').value = '1';
             document.getElementById('customerSuggestions').style.display = 'none';
             selectedCustomerData = null;
-            hasItemsInOrder = false;
-            toggleBillFormActions();
+            
+            // Reset button visibility to initial state
+            document.getElementById('simplifiedActions').style.display = 'flex';
+            document.getElementById('expandedActions').style.display = 'none';
         }
 
+        // FIXED - Updated toggle function to show both button sets when items exist
         function toggleBillFormActions() {
             const simplifiedActions = document.getElementById('simplifiedActions');
             const expandedActions = document.getElementById('expandedActions');
             
-            if (hasItemsInOrder) {
-                simplifiedActions.style.display = 'none';
-                expandedActions.style.display = 'flex';
+            // Always show "Add Item" and "Close" buttons
+            simplifiedActions.style.display = 'flex';
+            
+            // Show "Generate Bill" and "Cancel Order" only when there are items
+            const tableId = document.getElementById('billTableSelect').value;
+            if (tableId) {
+                const tables = RestaurantDB.tables.getAll();
+                const table = tables.find(t => t.id == tableId);
+                
+                if (table && table.order.items.length > 0) {
+                    expandedActions.style.display = 'flex';
+                    expandedActions.style.marginTop = '1rem';
+                } else {
+                    expandedActions.style.display = 'none';
+                }
             } else {
-                simplifiedActions.style.display = 'flex';
                 expandedActions.style.display = 'none';
             }
         }
@@ -3532,6 +3551,7 @@
             };
         }
 
+        // FIXED - Update loadCustomerForTable to handle button states correctly
         function loadCustomerForTable() {
             const tableId = document.getElementById('billTableSelect').value;
             const searchInput = document.getElementById('customerSearchInput');
@@ -3541,6 +3561,7 @@
                 searchInput.value = '';
                 document.getElementById('selectedCustomerId').value = '';
                 checkinAlert.style.display = 'none';
+                toggleBillFormActions(); // Update button visibility
                 return;
             }
 
@@ -3567,11 +3588,10 @@
                     name: table.order.customerName,
                     contact: ''
                 };
-                
-                // Check if table has items and toggle actions
-                hasItemsInOrder = table.order.items.length > 0;
-                toggleBillFormActions();
             }
+            
+            // Update button visibility based on items in order
+            toggleBillFormActions();
         }
 
         function loadMenuDropdown() {
@@ -3584,6 +3604,7 @@
             });
         }
 
+        // FIXED - Main billing function - allows multiple items
         function addItemToTableOrder() {
             const tableId = document.getElementById('billTableSelect').value;
             const customerName = document.getElementById('customerSearchInput').value.trim();
@@ -3642,13 +3663,15 @@
 
             if (success) {
                 showNotification(`${quantity}x ${selectedMenuItem.textContent.split(' - ')[0]} added to order!`);
-                // Clear form selections but keep table and customer
+                
+                // Clear only menu selection and quantity, keep table and customer
                 document.getElementById('billMenuSelect').value = '';
                 document.getElementById('billQuantity').value = '1';
                 
-                // Update form state
-                hasItemsInOrder = true;
-                toggleBillFormActions();
+                // Show both sets of buttons now
+                document.getElementById('simplifiedActions').style.display = 'flex';
+                document.getElementById('expandedActions').style.display = 'flex';
+                document.getElementById('expandedActions').style.marginTop = '1rem';
                 
                 loadTables();
                 loadActiveOrders();
@@ -3948,7 +3971,7 @@ ${bill.roomCharge > 0 ? `\n🏨 Room Charge: ₹${bill.roomCharge.toFixed(2)}` :
 *Total: ₹${bill.total.toFixed(2)}*
 
 Thank you for your business! 🙏
-_Powered by Thynk POS v1.5 - Created by Anas Lila_
+_Powered by Thynk POS v1.5 - Fixed Billing_
             `;
 
             const phoneNumber = bill.customerPhone.replace(/[^0-9]/g, '');
@@ -3986,7 +4009,7 @@ Thank you for choosing us!
 Best regards,
 Your Restaurant Team
 
-Powered by Thynk POS v1.5 - Created by Anas Lila
+Powered by Thynk POS v1.5 - Fixed Billing
             `;
 
             const mailtoUrl = `mailto:${bill.customerEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -4035,7 +4058,7 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
                     <p style="font-size: 18px;"><strong>Total: ₹${bill.total.toFixed(2)}</strong></p>
                     <hr>
                     <p style="text-align: center;">Thank you for your business!</p>
-                    <p style="text-align: center; font-size: 12px; margin-top: 20px;">Powered by Thynk POS v1.5 - Created by Anas Lila</p>
+                    <p style="text-align: center; font-size: 12px; margin-top: 20px;">Powered by Thynk POS v1.5 - Fixed Billing</p>
                 </div>
             `;
 
@@ -4063,7 +4086,7 @@ ${bill.roomCharge > 0 ? `\nRoom Charge: ₹${bill.roomCharge.toFixed(2)}` : ''}
 Total: ₹${bill.total.toFixed(2)}
 
 Thank you for your business!
-Powered by Thynk POS v1.5 - Created by Anas Lila
+Powered by Thynk POS v1.5 - Fixed Billing
             `;
 
             if (navigator.share) {
@@ -4096,7 +4119,7 @@ ${bill.roomCharge > 0 ? `\nRoom Charge: ₹${bill.roomCharge.toFixed(2)}` : ''}
 Total: ₹${bill.total.toFixed(2)}
 
 Thank you for your business!
-Powered by Thynk POS v1.5 - Created by Anas Lila
+Powered by Thynk POS v1.5 - Fixed Billing
             `)}`;
 
             const downloadLink = document.createElement('a');
@@ -4714,7 +4737,7 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
         // Service Worker Registration for Offline Support
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register(URL.createObjectURL(new Blob([`
-                const CACHE = 'thynk-pos-v1.5-complete-enhanced';
+                const CACHE = 'thynk-pos-v1.5-complete-fixed-billing';
                 self.addEventListener('install', e => {
                     e.waitUntil(caches.open(CACHE).then(cache => cache.addAll(['/'])));
                 });
@@ -4722,9 +4745,8 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
                     e.respondWith(caches.match(e.request).then(response => response || fetch(e.request)));
                 });
             `], {type: 'application/javascript'})))
-            .then(() => console.log('PWA Service Worker registered for enhanced offline support'));
+            .then(() => console.log('PWA Service Worker registered for complete fixed billing support'));
         }
     </script>
 </body>
 </html>
-
