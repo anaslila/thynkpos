@@ -291,10 +291,10 @@
 
         .btn-sm { padding: 0.5rem 1rem; font-size: 0.875rem; }
 
-        /* Table/Room Search Filter */
+        /* Search Filter */
         .search-filter {
             background: var(--white);
-            padding: 1.5rem;
+            padding: 1rem;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             margin-bottom: 1.5rem;
@@ -303,7 +303,7 @@
 
         .search-input {
             width: 100%;
-            padding: 0.875rem 1rem;
+            padding: 0.75rem 1rem;
             border: 2px solid var(--border);
             border-radius: var(--border-radius);
             font-size: 1rem;
@@ -591,26 +591,32 @@
             margin-top: 0.25rem;
         }
 
-        /* Bulk Import Section */
+        /* Compact Bulk Import Section for Mobile */
         .bulk-import-section {
             background: var(--info);
             color: var(--white);
-            padding: 1.5rem;
+            padding: 1rem;
             border-radius: var(--border-radius);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .bulk-import-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .bulk-import-header h3 {
+            font-size: 1.1rem;
+            margin: 0;
         }
 
         .bulk-import-actions {
             display: flex;
-            gap: 1rem;
+            gap: 0.5rem;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .file-input {
@@ -621,18 +627,170 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
+            padding: 0.5rem 1rem;
             background: var(--white);
             color: var(--info);
             border-radius: var(--border-radius);
             cursor: pointer;
             font-weight: 600;
+            font-size: 0.85rem;
             transition: var(--transition);
         }
 
         .file-input-label:hover {
             background: var(--light);
             transform: translateY(-2px);
+        }
+
+        .bulk-import-section p {
+            opacity: 0.9;
+            font-size: 0.8rem;
+            margin: 0;
+        }
+
+        /* Customer Details Modal */
+        .customer-details-modal {
+            max-width: 900px;
+            width: 95%;
+        }
+
+        .customer-profile {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            align-items: center;
+        }
+
+        .customer-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 2rem;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .customer-basic-info {
+            flex: 1;
+        }
+
+        .customer-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .customer-contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-item {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .customer-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .customer-stat {
+            text-align: center;
+            background: var(--light);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+        }
+
+        .customer-stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .customer-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .customer-history-section {
+            margin-top: 2rem;
+        }
+
+        .history-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .history-tab {
+            padding: 0.5rem 1rem;
+            background: var(--light);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .history-tab.active {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .customer-history-content {
+            max-height: 300px;
+            overflow-y: auto;
+            background: var(--light);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+        }
+
+        .history-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: var(--white);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .history-entry:last-child {
+            margin-bottom: 0;
+        }
+
+        .history-entry-info {
+            flex: 1;
+        }
+
+        .history-entry-title {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .history-entry-details {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .history-entry-time {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            text-align: right;
         }
 
         /* Modal Styles */
@@ -887,6 +1045,10 @@
             position: relative;
         }
 
+        .history-item.hidden {
+            display: none;
+        }
+
         .history-item::before {
             content: '';
             position: absolute;
@@ -968,6 +1130,10 @@
             transition: var(--transition);
             position: relative;
             overflow: hidden;
+        }
+
+        .card.hidden {
+            display: none;
         }
 
         .card:hover {
@@ -1153,6 +1319,10 @@
             .version-info { flex-direction: column; gap: 0.5rem; }
             .type-buttons { grid-template-columns: 1fr; }
             .bulk-import-actions { flex-direction: column; align-items: stretch; }
+            .customer-profile { flex-direction: column; text-align: center; }
+            .customer-contact-info { grid-template-columns: 1fr; }
+            .customer-stats { grid-template-columns: repeat(2, 1fr); }
+            .history-tabs { flex-wrap: wrap; }
         }
 
         /* Animations */
@@ -1318,7 +1488,7 @@
                         </div>
                     </div>
 
-                    <!-- Menu Management Tab -->
+                    <!-- Menu Management Tab with Search -->
                     <div class="tab-pane" id="menu-tab">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                             <h2>Menu Management</h2>
@@ -1328,23 +1498,28 @@
                             </button>
                         </div>
 
-                        <!-- Bulk Import Section for Menu -->
+                        <!-- Compact Bulk Import Section for Menu -->
                         <div class="bulk-import-section">
                             <div class="bulk-import-header">
-                                <h3>📥 Bulk Import Menu Items</h3>
+                                <h3>📥 Bulk Import</h3>
                                 <div class="bulk-import-actions">
-                                    <button class="btn" onclick="downloadMenuTemplate()" style="background: var(--white); color: var(--info);">
-                                        <span class="material-icons-outlined">download</span>
-                                        Download Template
+                                    <button class="btn btn-sm" onclick="downloadMenuTemplate()" style="background: var(--white); color: var(--info); padding: 0.5rem 0.75rem; font-size: 0.8rem;">
+                                        <span class="material-icons-outlined" style="font-size: 16px;">download</span>
+                                        Template
                                     </button>
                                     <label for="menuFileInput" class="file-input-label">
-                                        <span class="material-icons-outlined">upload_file</span>
-                                        Import Excel File
+                                        <span class="material-icons-outlined" style="font-size: 16px;">upload_file</span>
+                                        Import
                                     </label>
                                     <input type="file" id="menuFileInput" class="file-input" accept=".xlsx,.xls,.csv" onchange="importMenuFromExcel(event)">
                                 </div>
                             </div>
-                            <p style="opacity: 0.9; font-size: 0.9rem;">Download the template, fill it with your menu items, and upload to add multiple items at once!</p>
+                            <p>Download template, fill with menu items, and import!</p>
+                        </div>
+
+                        <!-- Search Filter for Menu -->
+                        <div class="search-filter">
+                            <input type="text" class="search-input" id="menuSearchInput" placeholder="🔍 Search menu items by name, category, or price..." onkeyup="filterMenuItems()">
                         </div>
 
                         <!-- Add Menu Form -->
@@ -1394,7 +1569,7 @@
                             <div class="empty-state">
                                 <div class="empty-icon">🍽️</div>
                                 <h3>No Menu Items Yet</h3>
-                                <p>Add menu items for your restaurant or use bulk import</p>
+                                <p>Add menu items manually or use bulk import</p>
                             </div>
                         </div>
                     </div>
@@ -1480,7 +1655,7 @@
                         </div>
                     </div>
 
-                    <!-- Customer Management Tab -->
+                    <!-- Customer Management Tab with Enhanced Details -->
                     <div class="tab-pane" id="customers-tab">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                             <h2>Customer Management Software</h2>
@@ -1490,23 +1665,28 @@
                             </button>
                         </div>
 
-                        <!-- Bulk Import Section for Customers -->
+                        <!-- Compact Bulk Import Section for Customers -->
                         <div class="bulk-import-section">
                             <div class="bulk-import-header">
-                                <h3>📥 Bulk Import Customers</h3>
+                                <h3>📥 Bulk Import</h3>
                                 <div class="bulk-import-actions">
-                                    <button class="btn" onclick="downloadCustomerTemplate()" style="background: var(--white); color: var(--info);">
-                                        <span class="material-icons-outlined">download</span>
-                                        Download Template
+                                    <button class="btn btn-sm" onclick="downloadCustomerTemplate()" style="background: var(--white); color: var(--info); padding: 0.5rem 0.75rem; font-size: 0.8rem;">
+                                        <span class="material-icons-outlined" style="font-size: 16px;">download</span>
+                                        Template
                                     </button>
                                     <label for="customerFileInput" class="file-input-label">
-                                        <span class="material-icons-outlined">upload_file</span>
-                                        Import Excel File
+                                        <span class="material-icons-outlined" style="font-size: 16px;">upload_file</span>
+                                        Import
                                     </label>
                                     <input type="file" id="customerFileInput" class="file-input" accept=".xlsx,.xls,.csv" onchange="importCustomersFromExcel(event)">
                                 </div>
                             </div>
-                            <p style="opacity: 0.9; font-size: 0.9rem;">Download the template, fill it with customer details, and upload to add multiple customers at once!</p>
+                            <p>Download template, fill with customer details, and import!</p>
+                        </div>
+
+                        <!-- Search Filter for Customers -->
+                        <div class="search-filter">
+                            <input type="text" class="search-input" id="customerSearchFilter" placeholder="🔍 Search customers by name, phone, email, or address..." onkeyup="filterCustomers()">
                         </div>
 
                         <!-- Add/Edit Customer Form -->
@@ -1552,7 +1732,7 @@
                         </div>
                     </div>
 
-                    <!-- History & Reports Tab -->
+                    <!-- History & Reports Tab with Search -->
                     <div class="tab-pane" id="history-tab">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                             <h2>History & Reports</h2>
@@ -1560,6 +1740,11 @@
                                 <span class="material-icons-outlined">clear_all</span>
                                 Clear History
                             </button>
+                        </div>
+
+                        <!-- Search Filter for History -->
+                        <div class="search-filter">
+                            <input type="text" class="search-input" id="historySearchInput" placeholder="🔍 Search history by customer name, table/room, or activity type..." onkeyup="filterHistory()">
                         </div>
 
                         <!-- History Timeline -->
@@ -1636,19 +1821,19 @@
                                 <ul style="list-style: none; padding: 0;">
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Searchable Tables/Rooms with Instant Filtering
+                                        Detailed Customer History & Analytics
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Bulk Excel Import for Menu & Customers
+                                        Advanced Search in Menu & History
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Simplified Billing Flow with Smart Controls
+                                        Mobile-Optimized Bulk Import System
                                     </li>
                                     <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
                                         <span class="material-icons-outlined" style="color: var(--success);">check_circle</span>
-                                        Complete Offline Support with Advanced Features
+                                        Complete Offline Support with Smart Analytics
                                     </li>
                                 </ul>
                             </div>
@@ -1743,9 +1928,21 @@
         </div>
     </div>
 
+    <!-- Customer Details Modal -->
+    <div class="modal" id="customerDetailsModal">
+        <div class="modal-content customer-details-modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Customer Details</h3>
+            </div>
+            <div id="customerDetailsContent">
+                <!-- Customer details will be populated here -->
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
-        // Enhanced Restaurant Database System with History Tracking
+        // Enhanced Restaurant Database System with Customer History Tracking
         const RestaurantDB = {
             tables: {
                 save: (table) => {
@@ -1827,13 +2024,24 @@
                         tables[index].order.customerName = customerInfo.customerName;
                         localStorage.setItem('thynk_tables', JSON.stringify(tables));
                         
+                        // Add to customer history
+                        RestaurantDB.customerHistory.add({
+                            customerId: customerInfo.customerId,
+                            type: 'checkin',
+                            tableId: id,
+                            tableNumber: `Room ${tables[index].number}`,
+                            details: `Checked in to Room ${tables[index].number}`,
+                            timestamp: new Date().toISOString()
+                        });
+                        
                         // Add to history
                         RestaurantDB.history.add({
                             type: 'room_checkin',
                             title: `Room ${tables[index].number} Check-in`,
                             details: `${customerInfo.customerName} checked into room ${tables[index].number}`,
                             icon: 'login',
-                            customerName: customerInfo.customerName
+                            customerName: customerInfo.customerName,
+                            tableNumber: `Room ${tables[index].number}`
                         });
                         
                         return true;
@@ -1846,6 +2054,7 @@
                     if (index !== -1 && tables[index].type === 'Room') {
                         const table = tables[index];
                         const customerName = table.order.customerName;
+                        const customerId = table.order.customerId;
                         let bill = null;
                         
                         // Generate bill if items exist or requested
@@ -1877,6 +2086,19 @@
                             }
                         }
                         
+                        // Add to customer history
+                        if (customerId) {
+                            RestaurantDB.customerHistory.add({
+                                customerId: customerId,
+                                type: 'checkout',
+                                tableId: id,
+                                tableNumber: `Room ${table.number}`,
+                                details: `Checked out from Room ${table.number}${bill ? ` with bill ₹${bill.total.toFixed(2)}` : ''}`,
+                                billId: bill ? bill.id : null,
+                                timestamp: new Date().toISOString()
+                            });
+                        }
+                        
                         tables[index].checkedIn = false;
                         tables[index].status = 'available';
                         tables[index].checkOutDate = new Date().toISOString();
@@ -1894,7 +2116,8 @@
                             title: `Room ${table.number} Check-out`,
                             details: `${customerName} checked out from room ${table.number}${bill ? ' with bill generated' : ''}`,
                             icon: 'logout',
-                            customerName: customerName
+                            customerName: customerName,
+                            tableNumber: `Room ${table.number}`
                         });
                         
                         return { success: true, bill: bill, table: table };
@@ -1907,6 +2130,19 @@
                     if (index !== -1 && tables[index].type === 'Room' && tables[index].checkedIn) {
                         const table = tables[index];
                         const customerName = table.order.customerName;
+                        const customerId = table.order.customerId;
+                        
+                        // Add to customer history
+                        if (customerId) {
+                            RestaurantDB.customerHistory.add({
+                                customerId: customerId,
+                                type: 'checkin_cancelled',
+                                tableId: id,
+                                tableNumber: `Room ${table.number}`,
+                                details: `Check-in cancelled for Room ${table.number}`,
+                                timestamp: new Date().toISOString()
+                            });
+                        }
                         
                         tables[index].checkedIn = false;
                         tables[index].status = 'available';
@@ -1925,7 +2161,8 @@
                             title: `Room ${table.number} Check-in Cancelled`,
                             details: `${customerName} cancelled check-in for room ${table.number}`,
                             icon: 'cancel',
-                            customerName: customerName
+                            customerName: customerName,
+                            tableNumber: `Room ${table.number}`
                         });
                         
                         return true;
@@ -1967,13 +2204,27 @@
                         
                         localStorage.setItem('thynk_tables', JSON.stringify(tables));
                         
+                        // Add to customer history
+                        RestaurantDB.customerHistory.add({
+                            customerId: customerInfo.customerId,
+                            type: 'item_ordered',
+                            tableId: tableId,
+                            tableNumber: `${table.type} ${table.number}`,
+                            details: `Ordered ${item.quantity}x ${item.name}`,
+                            itemName: item.name,
+                            itemQuantity: item.quantity,
+                            itemPrice: item.price,
+                            timestamp: new Date().toISOString()
+                        });
+                        
                         // Add to history
                         RestaurantDB.history.add({
                             type: 'item_added',
                             title: `${item.quantity}x ${item.name} Added`,
                             details: `Added to ${table.type} ${table.number} for ${customerInfo.customerName}`,
                             icon: 'restaurant_menu',
-                            customerName: customerInfo.customerName
+                            customerName: customerInfo.customerName,
+                            tableNumber: `${table.type} ${table.number}`
                         });
                         
                         return true;
@@ -1995,7 +2246,8 @@
                                 title: `Order Cleared - ${table.type} ${table.number}`,
                                 details: `${itemCount} items cleared for ${customerName}`,
                                 icon: 'clear',
-                                customerName: customerName
+                                customerName: customerName,
+                                tableNumber: `${table.type} ${table.number}`
                             });
                         }
                         
@@ -2130,7 +2382,10 @@
                         address: customer.address || '',
                         created: new Date().toISOString(),
                         totalOrders: 0,
-                        totalSpent: 0
+                        totalSpent: 0,
+                        totalVisits: 0,
+                        lastVisit: null,
+                        favoriteItems: []
                     };
                     customers.push(newCustomer);
                     localStorage.setItem('thynk_customers', JSON.stringify(customers));
@@ -2160,7 +2415,10 @@
                                 address: customer.address || '',
                                 created: new Date().toISOString(),
                                 totalOrders: 0,
-                                totalSpent: 0
+                                totalSpent: 0,
+                                totalVisits: 0,
+                                lastVisit: null,
+                                favoriteItems: []
                             };
                             existingCustomers.push(newCustomer);
                             addedCount++;
@@ -2209,6 +2467,16 @@
                     if (customerIndex !== -1) {
                         customers[customerIndex].totalOrders += 1;
                         customers[customerIndex].totalSpent += amount;
+                        customers[customerIndex].lastVisit = new Date().toISOString();
+                        localStorage.setItem('thynk_customers', JSON.stringify(customers));
+                    }
+                },
+                updateVisits: (customerId) => {
+                    const customers = RestaurantDB.customers.getAll();
+                    const customerIndex = customers.findIndex(c => c.id === parseInt(customerId));
+                    if (customerIndex !== -1) {
+                        customers[customerIndex].totalVisits += 1;
+                        customers[customerIndex].lastVisit = new Date().toISOString();
                         localStorage.setItem('thynk_customers', JSON.stringify(customers));
                     }
                 }
@@ -2224,13 +2492,19 @@
                     bills.push(newBill);
                     localStorage.setItem('thynk_bills', JSON.stringify(bills));
                     
+                    // Update customer visit count
+                    if (bill.customerId) {
+                        RestaurantDB.customers.updateVisits(bill.customerId);
+                    }
+                    
                     // Add to history
                     RestaurantDB.history.add({
                         type: 'bill_generated',
                         title: `Bill Generated - ₹${bill.total.toFixed(2)}`,
                         details: `${bill.tableNumber} for ${bill.customerName} (${bill.items.length} items)`,
                         icon: 'receipt',
-                        customerName: bill.customerName
+                        customerName: bill.customerName,
+                        tableNumber: bill.tableNumber
                     });
                     
                     return newBill;
@@ -2241,6 +2515,28 @@
                     localStorage.setItem('thynk_bills', JSON.stringify(bills));
                     return true;
                 }
+            },
+            customerHistory: {
+                add: (entry) => {
+                    const history = JSON.parse(localStorage.getItem('thynk_customer_history') || '[]');
+                    const newEntry = {
+                        id: Date.now(),
+                        ...entry
+                    };
+                    history.unshift(newEntry); // Add to beginning
+                    
+                    // Keep only last 500 entries per customer
+                    if (history.length > 500) {
+                        history.splice(500);
+                    }
+                    
+                    localStorage.setItem('thynk_customer_history', JSON.stringify(history));
+                },
+                getByCustomer: (customerId) => {
+                    const history = JSON.parse(localStorage.getItem('thynk_customer_history') || '[]');
+                    return history.filter(entry => entry.customerId === parseInt(customerId));
+                },
+                getAll: () => JSON.parse(localStorage.getItem('thynk_customer_history') || '[]')
             },
             history: {
                 add: (entry) => {
@@ -2277,6 +2573,7 @@
         let expandedTileId = null;
         let selectedCustomerData = null;
         let hasItemsInOrder = false;
+        let currentCustomerHistoryTab = 'visits';
 
         // Tab switching
         function switchTab(tabName) {
@@ -2323,8 +2620,328 @@
             const visibleTiles = document.querySelectorAll('.table-tile:not(.hidden)');
             const emptyState = document.querySelector('#tilesGrid .empty-state');
             if (emptyState) {
-                emptyState.style.display = visibleTiles.length === 0 ? 'block' : 'none';
+                emptyState.style.display = visibleTiles.length === 0 && searchQuery ? 'block' : (tables.length === 0 ? 'block' : 'none');
             }
+        }
+
+        // Menu Search Filter Function
+        function filterMenuItems() {
+            const searchQuery = document.getElementById('menuSearchInput').value.toLowerCase();
+            const menuItems = RestaurantDB.menu.getAll();
+            
+            menuItems.forEach(item => {
+                const card = document.querySelector(`[data-menu-id="${item.id}"]`);
+                if (card) {
+                    const shouldShow = 
+                        item.name.toLowerCase().includes(searchQuery) ||
+                        item.category.toLowerCase().includes(searchQuery) ||
+                        item.price.toString().includes(searchQuery) ||
+                        (item.description && item.description.toLowerCase().includes(searchQuery));
+                    
+                    if (shouldShow) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                }
+            });
+
+            // Show/hide empty state
+            const visibleCards = document.querySelectorAll('#menuItems .card:not(.hidden)');
+            const emptyState = document.querySelector('#menuItems .empty-state');
+            if (emptyState) {
+                emptyState.style.display = visibleCards.length === 0 && searchQuery ? 'block' : (menuItems.length === 0 ? 'block' : 'none');
+            }
+        }
+
+        // Customer Search Filter Function
+        function filterCustomers() {
+            const searchQuery = document.getElementById('customerSearchFilter').value.toLowerCase();
+            const customers = RestaurantDB.customers.getAll();
+            
+            customers.forEach(customer => {
+                const card = document.querySelector(`[data-customer-id="${customer.id}"]`);
+                if (card) {
+                    const shouldShow = 
+                        customer.name.toLowerCase().includes(searchQuery) ||
+                        customer.phone.includes(searchQuery) ||
+                        customer.email.toLowerCase().includes(searchQuery) ||
+                        customer.address.toLowerCase().includes(searchQuery);
+                    
+                    if (shouldShow) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                }
+            });
+
+            // Show/hide empty state
+            const visibleCards = document.querySelectorAll('#customersList .card:not(.hidden)');
+            const emptyState = document.querySelector('#customersList .empty-state');
+            if (emptyState) {
+                emptyState.style.display = visibleCards.length === 0 && searchQuery ? 'block' : (customers.length === 0 ? 'block' : 'none');
+            }
+        }
+
+        // History Search Filter Function
+        function filterHistory() {
+            const searchQuery = document.getElementById('historySearchInput').value.toLowerCase();
+            const history = RestaurantDB.history.getAll();
+            
+            history.forEach(entry => {
+                const item = document.querySelector(`[data-history-id="${entry.id}"]`);
+                if (item) {
+                    const shouldShow = 
+                        entry.title.toLowerCase().includes(searchQuery) ||
+                        entry.details.toLowerCase().includes(searchQuery) ||
+                        entry.type.toLowerCase().includes(searchQuery) ||
+                        (entry.customerName && entry.customerName.toLowerCase().includes(searchQuery)) ||
+                        (entry.tableNumber && entry.tableNumber.toLowerCase().includes(searchQuery));
+                    
+                    if (shouldShow) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                }
+            });
+
+            // Show/hide empty state
+            const visibleItems = document.querySelectorAll('.history-item:not(.hidden)');
+            const emptyState = document.querySelector('#historyTimeline .empty-state');
+            if (emptyState) {
+                emptyState.style.display = visibleItems.length === 0 && searchQuery ? 'block' : (history.length === 0 ? 'block' : 'none');
+            }
+        }
+
+        // Enhanced Customer Details Function
+        function showCustomerDetails(customerId) {
+            const customers = RestaurantDB.customers.getAll();
+            const customer = customers.find(c => c.id === customerId);
+            if (!customer) return;
+
+            const customerHistory = RestaurantDB.customerHistory.getByCustomer(customerId);
+            const customerBills = RestaurantDB.bills.getAll().filter(b => b.customerId === customerId);
+            
+            // Calculate analytics
+            const totalVisits = customerHistory.filter(h => h.type === 'checkin' || (h.type === 'item_ordered' && !customerHistory.some(ch => ch.type === 'checkin' && ch.timestamp < h.timestamp && ch.tableId === h.tableId))).length + customerHistory.filter(h => h.type === 'item_ordered').length;
+            const favoriteTable = getMostFrequentTable(customerHistory);
+            const favoriteItem = getMostFrequentItem(customerHistory);
+            
+            const content = `
+                <div class="customer-profile">
+                    <div class="customer-avatar">
+                        ${customer.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div class="customer-basic-info">
+                        <div class="customer-name">${customer.name}</div>
+                        <div class="customer-contact-info">
+                            ${customer.phone ? `<div class="contact-item">📱 ${customer.phone}</div>` : ''}
+                            ${customer.email ? `<div class="contact-item">✉️ ${customer.email}</div>` : ''}
+                            ${customer.address ? `<div class="contact-item">📍 ${customer.address}</div>` : ''}
+                            <div class="contact-item">📅 Member since ${new Date(customer.created).toLocaleDateString()}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="customer-stats">
+                    <div class="customer-stat">
+                        <div class="customer-stat-value">${totalVisits}</div>
+                        <div class="customer-stat-label">Total Visits</div>
+                    </div>
+                    <div class="customer-stat">
+                        <div class="customer-stat-value">${customer.totalOrders}</div>
+                        <div class="customer-stat-label">Total Orders</div>
+                    </div>
+                    <div class="customer-stat">
+                        <div class="customer-stat-value">₹${customer.totalSpent.toFixed(0)}</div>
+                        <div class="customer-stat-label">Total Spent</div>
+                    </div>
+                    <div class="customer-stat">
+                        <div class="customer-stat-value">${favoriteTable || 'N/A'}</div>
+                        <div class="customer-stat-label">Favorite Table/Room</div>
+                    </div>
+                    <div class="customer-stat">
+                        <div class="customer-stat-value">${favoriteItem || 'N/A'}</div>
+                        <div class="customer-stat-label">Favorite Item</div>
+                    </div>
+                    <div class="customer-stat">
+                        <div class="customer-stat-value">${customer.lastVisit ? new Date(customer.lastVisit).toLocaleDateString() : 'Never'}</div>
+                        <div class="customer-stat-label">Last Visit</div>
+                    </div>
+                </div>
+
+                <div class="customer-history-section">
+                    <h3 style="margin-bottom: 1rem;">Customer Activity History</h3>
+                    <div class="history-tabs">
+                        <button class="history-tab active" onclick="switchCustomerHistoryTab('visits')">
+                            Check-ins & Visits
+                        </button>
+                        <button class="history-tab" onclick="switchCustomerHistoryTab('orders')">
+                            Items Ordered
+                        </button>
+                        <button class="history-tab" onclick="switchCustomerHistoryTab('bills')">
+                            Bills & Payments
+                        </button>
+                    </div>
+                    
+                    <div class="customer-history-content" id="customerHistoryContent">
+                        ${generateCustomerHistoryContent(customerHistory, customerBills, 'visits')}
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
+                    <button class="btn btn-primary" onclick="editCustomer(${customer.id}); closeCustomerDetailsModal();">
+                        <span class="material-icons-outlined">edit</span>
+                        Edit Customer
+                    </button>
+                    <button class="btn btn-success" onclick="createBillForCustomer(${customer.id}); closeCustomerDetailsModal();">
+                        <span class="material-icons-outlined">receipt</span>
+                        Create Bill
+                    </button>
+                    <button class="btn btn-warning" onclick="closeCustomerDetailsModal()">
+                        <span class="material-icons-outlined">close</span>
+                        Close
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('customerDetailsContent').innerHTML = content;
+            document.getElementById('customerDetailsModal').classList.add('show');
+        }
+
+        function closeCustomerDetailsModal() {
+            document.getElementById('customerDetailsModal').classList.remove('show');
+        }
+
+        function switchCustomerHistoryTab(tab) {
+            document.querySelectorAll('.history-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            currentCustomerHistoryTab = tab;
+            const customer = document.querySelector('.customer-name').textContent;
+            const customers = RestaurantDB.customers.getAll();
+            const customerData = customers.find(c => c.name === customer);
+            
+            if (customerData) {
+                const customerHistory = RestaurantDB.customerHistory.getByCustomer(customerData.id);
+                const customerBills = RestaurantDB.bills.getAll().filter(b => b.customerId === customerData.id);
+                document.getElementById('customerHistoryContent').innerHTML = generateCustomerHistoryContent(customerHistory, customerBills, tab);
+            }
+        }
+
+        function generateCustomerHistoryContent(customerHistory, customerBills, tab) {
+            let content = '';
+            
+            switch (tab) {
+                case 'visits':
+                    const visits = customerHistory.filter(h => h.type === 'checkin' || h.type === 'checkout' || h.type === 'checkin_cancelled');
+                    if (visits.length === 0) {
+                        content = '<div style="text-align: center; padding: 2rem; color: var(--text-light);">No check-in/visit history found</div>';
+                    } else {
+                        content = visits.map(visit => `
+                            <div class="history-entry">
+                                <div class="history-entry-info">
+                                    <div class="history-entry-title">
+                                        ${visit.type === 'checkin' ? '🏨 Check-in' : visit.type === 'checkout' ? '🚪 Check-out' : '❌ Check-in Cancelled'}
+                                    </div>
+                                    <div class="history-entry-details">${visit.details}</div>
+                                </div>
+                                <div class="history-entry-time">
+                                    ${new Date(visit.timestamp).toLocaleString()}
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                    break;
+                    
+                case 'orders':
+                    const orders = customerHistory.filter(h => h.type === 'item_ordered');
+                    if (orders.length === 0) {
+                        content = '<div style="text-align: center; padding: 2rem; color: var(--text-light);">No order history found</div>';
+                    } else {
+                        content = orders.map(order => `
+                            <div class="history-entry">
+                                <div class="history-entry-info">
+                                    <div class="history-entry-title">
+                                        🍽️ ${order.itemQuantity}x ${order.itemName}
+                                    </div>
+                                    <div class="history-entry-details">
+                                        ${order.tableNumber} • ₹${(order.itemPrice * order.itemQuantity).toFixed(2)}
+                                    </div>
+                                </div>
+                                <div class="history-entry-time">
+                                    ${new Date(order.timestamp).toLocaleString()}
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                    break;
+                    
+                case 'bills':
+                    if (customerBills.length === 0) {
+                        content = '<div style="text-align: center; padding: 2rem; color: var(--text-light);">No bill history found</div>';
+                    } else {
+                        content = customerBills.map(bill => `
+                            <div class="history-entry">
+                                <div class="history-entry-info">
+                                    <div class="history-entry-title">
+                                        💳 Bill #${bill.id.toString().slice(-6)} - ₹${bill.total.toFixed(2)}
+                                    </div>
+                                    <div class="history-entry-details">
+                                        ${bill.tableNumber} • ${bill.items.length} items
+                                        ${bill.roomCharge > 0 ? ` • Room charge: ₹${bill.roomCharge}` : ''}
+                                    </div>
+                                </div>
+                                <div class="history-entry-time">
+                                    ${new Date(bill.date).toLocaleString()}
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                    break;
+            }
+            
+            return content;
+        }
+
+        function getMostFrequentTable(customerHistory) {
+            const tableVisits = {};
+            customerHistory.forEach(entry => {
+                if (entry.tableNumber) {
+                    tableVisits[entry.tableNumber] = (tableVisits[entry.tableNumber] || 0) + 1;
+                }
+            });
+            
+            let maxVisits = 0;
+            let favoriteTable = null;
+            for (const table in tableVisits) {
+                if (tableVisits[table] > maxVisits) {
+                    maxVisits = tableVisits[table];
+                    favoriteTable = table;
+                }
+            }
+            
+            return favoriteTable;
+        }
+
+        function getMostFrequentItem(customerHistory) {
+            const itemOrders = {};
+            customerHistory.filter(h => h.type === 'item_ordered').forEach(order => {
+                itemOrders[order.itemName] = (itemOrders[order.itemName] || 0) + order.itemQuantity;
+            });
+            
+            let maxOrders = 0;
+            let favoriteItem = null;
+            for (const item in itemOrders) {
+                if (itemOrders[item] > maxOrders) {
+                    maxOrders = itemOrders[item];
+                    favoriteItem = item;
+                }
+            }
+            
+            return favoriteItem;
         }
 
         // Enhanced Table Management Functions
@@ -3752,7 +4369,7 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
             }
 
             container.innerHTML = menuItems.map(item => `
-                <div class="card">
+                <div class="card" data-menu-id="${item.id}">
                     <h3>${item.name}</h3>
                     <p><strong>₹${item.price.toFixed(2)}</strong></p>
                     <p><strong>Category:</strong> ${item.category}</p>
@@ -3769,6 +4386,12 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
                     </div>
                 </div>
             `).join('');
+
+            // Apply current search filter if any
+            const searchQuery = document.getElementById('menuSearchInput').value;
+            if (searchQuery) {
+                filterMenuItems();
+            }
         }
 
         function editMenuItem(id) {
@@ -3897,7 +4520,7 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
             }
 
             container.innerHTML = customers.map(customer => `
-                <div class="card">
+                <div class="card" data-customer-id="${customer.id}">
                     <h3>${customer.name}</h3>
                     <p><strong>Phone:</strong> ${customer.phone}</p>
                     <p><strong>Email:</strong> ${customer.email || 'N/A'}</p>
@@ -3905,6 +4528,10 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
                     <p><strong>Total Orders:</strong> ${customer.totalOrders}</p>
                     <p><strong>Total Spent:</strong> ₹${customer.totalSpent.toFixed(2)}</p>
                     <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+                        <button class="btn btn-sm btn-info" onclick="showCustomerDetails(${customer.id})">
+                            <span class="material-icons-outlined">person</span>
+                            Details
+                        </button>
                         <button class="btn btn-sm btn-primary" onclick="editCustomer(${customer.id})">
                             <span class="material-icons-outlined">edit</span>
                             Edit
@@ -3916,6 +4543,12 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
                     </div>
                 </div>
             `).join('');
+
+            // Apply current search filter if any
+            const searchQuery = document.getElementById('customerSearchFilter').value;
+            if (searchQuery) {
+                filterCustomers();
+            }
         }
 
         function createBillForCustomer(customerId) {
@@ -3954,7 +4587,7 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
             }
 
             container.innerHTML = history.map(entry => `
-                <div class="history-item">
+                <div class="history-item" data-history-id="${entry.id}">
                     <div class="history-icon">
                         <span class="material-icons-outlined">${entry.icon}</span>
                     </div>
@@ -3965,6 +4598,12 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
                     </div>
                 </div>
             `).join('');
+
+            // Apply current search filter if any
+            const searchQuery = document.getElementById('historySearchInput').value;
+            if (searchQuery) {
+                filterHistory();
+            }
         }
 
         function clearAllHistory() {
@@ -4075,7 +4714,7 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
         // Service Worker Registration for Offline Support
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register(URL.createObjectURL(new Blob([`
-                const CACHE = 'thynk-pos-v1.5-final-complete';
+                const CACHE = 'thynk-pos-v1.5-complete-enhanced';
                 self.addEventListener('install', e => {
                     e.waitUntil(caches.open(CACHE).then(cache => cache.addAll(['/'])));
                 });
@@ -4083,7 +4722,7 @@ Powered by Thynk POS v1.5 - Created by Anas Lila
                     e.respondWith(caches.match(e.request).then(response => response || fetch(e.request)));
                 });
             `], {type: 'application/javascript'})))
-            .then(() => console.log('PWA Service Worker registered for complete offline support'));
+            .then(() => console.log('PWA Service Worker registered for enhanced offline support'));
         }
     </script>
 </body>
